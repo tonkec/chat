@@ -1,10 +1,20 @@
 import "./App.css";
+import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
+import Chat from "./components/chat/Chat";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import NotFound from "./components/NotFound";
 
 function App() {
   return (
-    <div className="App">
-      <h1>Hello world</h1>
-    </div>
+    <Router>
+      <Routes>
+        <Route exact path="/" element={<Chat />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Router>
   );
 }
 
