@@ -1,11 +1,14 @@
 const express = require("express");
 const app = express();
 const config = require("./config/app");
-const port = config.appPort;
+const router = require("./router");
+const bodyParser = require("body-parser");
 
-app.get("/home", (req, res) => {
-  return res.send("Home");
-});
+const port = config.appPort;
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(router);
+
 app.listen(port, () => {
   console.log("Server listening");
 });
