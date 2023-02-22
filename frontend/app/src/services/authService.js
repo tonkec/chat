@@ -4,7 +4,8 @@ const AuthService = {
     return api
       .post("/login", data)
       .then((res) => {
-        api.defaults.headers["Authorization"] = `Bearer ${res.data.token}`;
+        console.log(res);
+        saveUserToLocalStorage(res.data);
         return res;
       })
       .catch((err) => {
@@ -15,7 +16,7 @@ const AuthService = {
     return api
       .post("/register", data)
       .then((res) => {
-        api.defaults.headers["Authorization"] = `Bearer ${res.data.token}`;
+        saveUserToLocalStorage(res.data);
         return res;
       })
       .catch((err) => {
@@ -24,7 +25,15 @@ const AuthService = {
   },
   logout: () => {
     api.defaults.headers["Authorization"] = "";
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
   },
+};
+
+const saveUserToLocalStorage = (data) => {
+  api.defaults.headers["Authorization"] = `Bearer ${data.token}`;
+  localStorage.setItem("user", JSON.stringify(data));
+  localStorage.setItem("token", data.token);
 };
 
 export default AuthService;
