@@ -22,7 +22,9 @@ const AuthService = {
         console.log("err", err);
       });
   },
-  logout: () => {},
+  logout: () => {
+    api.defaults.headers["Authorization"] = "";
+  },
 };
 
 export default AuthService;

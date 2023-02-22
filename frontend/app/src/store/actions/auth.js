@@ -1,6 +1,7 @@
 import AuthService from "../../services/authService";
 export const LOGIN = "LOGIN";
 export const REGISTER = "REGISTER";
+export const LOGOUT = "LOGOUT";
 
 export const login = (params, navigate) => (dispatch) => {
   return AuthService.login(params)
@@ -18,4 +19,9 @@ export const register = (params, navigate) => (dispatch) => {
       navigate("/");
     })
     .catch((e) => console.log(e));
+};
+
+export const logout = (navigate) => (dispatch) => {
+  AuthService.logout();
+  dispatch({ type: LOGOUT });
 };
