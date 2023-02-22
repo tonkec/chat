@@ -4,7 +4,6 @@ import Register from "./components/auth/Register";
 import Chat from "./components/chat/Chat";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import NotFound from "./components/NotFound";
-
 function App() {
   return (
     <Router>

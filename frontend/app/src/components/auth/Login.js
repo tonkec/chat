@@ -1,13 +1,17 @@
 import React, { useState } from "react";
-import axios from "axios";
-import AuthService from "../../services/authService";
+import { login } from "../../store/actions/auth";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const onSubmit = (e) => {
     e.preventDefault();
-    AuthService.login({ email, password });
+    dispatch(login({ email, password }, navigate));
   };
   return (
     <div id="auth-container">
