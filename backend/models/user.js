@@ -19,7 +19,15 @@ module.exports = (sequelize, DataTypes) => {
       email: DataTypes.STRING,
       password: DataTypes.STRING,
       gender: DataTypes.STRING,
-      avatar: DataTypes.STRING,
+      avatar: {
+        type: DataTypes.STRING,
+        get() {
+          const avatar = this.getDataValue("avatar");
+          if (!avatar) {
+            return "http://placekitten.com/200/300";
+          }
+        },
+      },
     },
     {
       sequelize,

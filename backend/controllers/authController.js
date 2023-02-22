@@ -14,14 +14,13 @@ exports.login = async (req, res) => {
       },
     });
 
-    console.log(secret);
-
     if (!user) return res.status(404).json({ message: "User not found" });
 
     if (!bcrypt.compareSync(password, user.password))
       return res.status(401).json({ message: "Wrong credentials" });
 
     const userWithToken = generateToken(user.get({ raw: true }));
+    userWithToken.avatar = user.avatar;
     return res.send(userWithToken);
   } catch (e) {
     return res.status(500).json({ message: e.message });

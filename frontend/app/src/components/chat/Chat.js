@@ -5,7 +5,7 @@ const Chat = () => {
   return (
     <>
       <h1>Chat</h1>
-      {user.email}
+      {user.email} <img src={user.avatar} alt="kitten" />
     </>
   );
 };
