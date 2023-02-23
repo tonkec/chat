@@ -33,7 +33,7 @@ exports.index = async (req, res) => {
     ],
   });
 
-  return res.send(user.Chats);
+  return res.json(user.Chats);
 };
 
 exports.create = async (req, res) => {
@@ -106,9 +106,36 @@ exports.create = async (req, res) => {
         },
       ],
     });
-    return res.send(chats);
+    return res.json(chats);
   } catch (e) {
     await t.rollback();
     return res.status(500).json({ status: "error", message: e.message });
   }
+};
+
+exports.messages = async (req, res) => {
+  const limit = 10;
+  const page = req.query.page || 1;
+  const offset = page > 1 ? page * limit : 0;
+  const messages = await Message.findAndCountAll({
+    where: {
+      chatId: req.query.id,
+    },
+    limit: limit,
+    offset,
+  });
+
+  const totalPages = Math.ceil(messages.count / limit);
+
+  if (page > totalPages) return res.json({ data: { messages: [] } });
+
+  const result = {
+    messages: messages.rows,
+    pagination: {
+      page,
+      totalPages,
+    },
+  };
+
+  return res.json(result);
 };
