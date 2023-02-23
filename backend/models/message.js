@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       fromUserId: DataTypes.INTEGER,
       type: DataTypes.STRING,
       message: {
-        type: DataTypes.type,
+        type: DataTypes.TEXT,
         get() {
           const type = this.getDataValue("type");
           const id = this.getDataValue("chatId");

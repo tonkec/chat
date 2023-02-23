@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsToMany(modesl.User, {
+      this.belongsToMany(models.User, {
         through: "ChatUser",
         foreignKey: "chatId",
       });
