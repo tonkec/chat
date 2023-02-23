@@ -139,3 +139,20 @@ exports.messages = async (req, res) => {
 
   return res.json(result);
 };
+
+exports.deleteChat = async (req, res) => {
+  try {
+    await Chat.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    return res.json({
+      status: "Success",
+      messages: "Chat deleted successfully",
+    });
+  } catch (e) {
+    return res.status(500).json({ status: "error", message: e.message });
+  }
+};
