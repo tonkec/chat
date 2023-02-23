@@ -1,8 +1,5 @@
 import AuthService from "../../services/authService";
-export const LOGIN = "LOGIN";
-export const REGISTER = "REGISTER";
-export const LOGOUT = "LOGOUT";
-
+import { LOGIN, REGISTER, LOGOUT } from "../types";
 export const login = (params, navigate) => (dispatch) => {
   return AuthService.login(params)
     .then((data) => {

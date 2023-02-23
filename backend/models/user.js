@@ -1,6 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 const bcrypt = require("bcrypt");
+const { config } = require("dotenv");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -23,9 +24,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         get() {
           const avatar = this.getDataValue("avatar");
+          const url = `${config.appUrl}:${config.appPort}`;
           if (!avatar) {
             return "http://placekitten.com/200/300";
           }
+
+          const id = this.getDataValue("id");
+          return `${url}/user/${avatar}`;
         },
       },
     },
