@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+const config = require("../config/app");
 module.exports = (sequelize, DataTypes) => {
   class Message extends Model {
     /**
@@ -17,7 +18,17 @@ module.exports = (sequelize, DataTypes) => {
       chatId: DataTypes.INTEGER,
       fromUserId: DataTypes.INTEGER,
       type: DataTypes.STRING,
-      message: DataTypes.TEXT,
+      message: {
+        type: DataTypes.type,
+        get() {
+          const type = this.getDataValue("type");
+          const id = this.getDataValue("chatId");
+          const content = this.getDataValue("message");
+          return type === "text"
+            ? content
+            : `${config.appUrl}:${config.appPort}/chat/${id}/${content}`;
+        },
+      },
     },
     {
       sequelize,
