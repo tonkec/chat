@@ -4,7 +4,6 @@ const AuthService = {
     return api
       .post("/login", data)
       .then((res) => {
-        console.log(res);
         saveUserToLocalStorage(res.data);
         return res;
       })
