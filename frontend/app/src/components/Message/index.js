@@ -16,6 +16,11 @@ const Message = ({ user, chat, index, message }) => {
       <div
         className={message.fromUserId === user.id ? "owner" : "other-person"}
       >
+        {message.fromUserId !== user.id ? (
+          <h6 className="m-0">
+            {message.User.firstName} {message.User.lastName}
+          </h6>
+        ) : null}
         {message.type === "text" ? (
           <p>{message.message}</p>
         ) : (
