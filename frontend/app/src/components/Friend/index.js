@@ -1,7 +1,11 @@
+import React from "react";
 import { useSelector } from "react-redux";
+import { userStatus } from "../../utlis/helpers";
+import "./index.scss";
 
-const Friend = ({ chat }) => {
+const Friend = ({ chat, click }) => {
   const currentChat = useSelector((state) => state.chatReducer.currentChat);
+
   const isChatOpened = () => {
     return currentChat.id === chat.id ? "opened" : "";
   };
@@ -10,12 +14,28 @@ const Friend = ({ chat }) => {
     if (chat.Messages.length === 0) return "";
 
     const message = chat.Messages[chat.Messages.length - 1];
-    return message.type === "image" ? "image" : message.message;
+    return message.type === "image" ? "image uploaded" : message.message;
   };
+
   return (
-    <div className={isChatOpened()}>
-      <img width="40" height={40} src={chat.Users[0].avatar} alt="avatar" />{" "}
-      {chat.Users[0].firstName} {chat.Users[0].lastName} <p>{lastMessage()}</p>
+    <div onClick={click} className={`friend-list ${isChatOpened()}`}>
+      <div>
+        <img
+          width="40"
+          height="40"
+          src={chat.Users[0].avatar}
+          alt="User avatar"
+        />
+        <div className="friend-info">
+          <h4 className="m-0">
+            {chat.Users[0].firstName} {chat.Users[0].lastName}
+          </h4>
+          <h5 className="m-0">{lastMessage()}</h5>
+        </div>
+      </div>
+      <div className="friend-status">
+        <span className={`online-status ${userStatus(chat.Users[0])}`}></span>
+      </div>
     </div>
   );
 };
