@@ -10,11 +10,11 @@ const Chat = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.authReducer.user);
   useSocket(dispatch, user);
-  useEffect(() => {
-    dispatch(fetchChats())
-      .then((res) => res)
-      .catch((e) => console.log(e));
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchChats())
+  //     .then((res) => res)
+  //     .catch((e) => console.log(e));
+  // }, [dispatch]);
 
   return (
     <div id="chat-container">
