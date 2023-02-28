@@ -7,6 +7,7 @@ import {
   fetchChats,
   setSocket,
   receivedMessage,
+  senderTyping,
 } from "../store/actions/chat";
 
 function useSocket(dispatch, user) {
@@ -16,8 +17,9 @@ function useSocket(dispatch, user) {
         const socket = socketIOClient.connect("http://127.0.0.1:4000");
         dispatch(setSocket(socket));
         socket.emit("join", user);
-        socket.on("typing", (user) => {
-          console.log("Event", user);
+        socket.on("typing", (sender) => {
+          console.log("Typing", sender);
+          dispatch(senderTyping(sender));
         });
 
         socket.on("friends", (friends) => {
