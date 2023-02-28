@@ -1,14 +1,17 @@
 import { useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import ChatService from "../../services/chatService";
-
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
 import "./MessageInput.scss";
 const MessageInput = ({ chat }) => {
   const user = useSelector((state) => state.authReducer.user);
   const socket = useSelector((state) => state.chatReducer.socket);
   const [message, setMessage] = useState("");
   const [image, setImage] = useState("");
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const fileUpload = useRef();
+  const msgInput = useRef();
   const handleMessage = (e) => {
     const value = e.target.value;
     setMessage(value);
@@ -48,6 +51,7 @@ const MessageInput = ({ chat }) => {
 
     setMessage("");
     setImage("");
+    setShowEmojiPicker(false);
     // send message with socket
     socket.emit("message", msg);
   };
@@ -60,6 +64,20 @@ const MessageInput = ({ chat }) => {
         sendMessage(image);
       })
       .catch((e) => console.log(e));
+  };
+
+  const selectEmoji = (emoji) => {
+    const startPosition = msgInput.current.selectionStart;
+    const endPosition = msgInput.current.selectionEnd;
+    const emojiLength = emoji.native.length;
+    const value = msgInput.current.value;
+    setMessage(
+      value.substring(0, startPosition) +
+        emoji.native +
+        value.substring(endPosition, value.length)
+    );
+    msgInput.current.focus();
+    msgInput.current.selectionEnd = endPosition + emojiLength;
   };
   return (
     <div id="input-container">
@@ -84,7 +102,11 @@ const MessageInput = ({ chat }) => {
           onChange={(e) => handleMessage(e)}
           onKeyDown={(e) => handleKeyDown(e, false)}
           value={message}
+          ref={msgInput}
         />
+        <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+          smile
+        </button>
       </div>
 
       <input
@@ -93,6 +115,16 @@ const MessageInput = ({ chat }) => {
         ref={fileUpload}
         onChange={(e) => setImage(e.target.files[0])}
       />
+
+      {showEmojiPicker ? (
+        <Picker
+          data={data}
+          title="Pick your emoji..."
+          emoji="point_up"
+          style={{ position: "absolute", bottom: "20px", right: "20px" }}
+          onEmojiSelect={selectEmoji}
+        />
+      ) : null}
     </div>
   );
 };
