@@ -2,41 +2,47 @@ const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
 
-exports.userFile = (req, res, next) => {
-  const getFileType = (file) => {
-    const mimeType = file.mimetype.split("/");
-    return mimeType[mimeType.length - 1];
-  };
+const getFileType = (file) => {
+  const mimeType = file.mimetype.split("/");
+  return mimeType[mimeType.length - 1];
+};
 
-  const generateFileName = (req, file, cb) => {
-    const extension = getFileType(file);
-    const fileName =
-      Date.now() + "-" + Math.round(Math.random() * 1e9) + "." + extension;
-    cb(null, file.fieldname + "-" + filename);
-  };
+const generateFileName = (req, file, cb) => {
+  const extension = getFileType(file);
 
-  const fileFilter = (req, file, cb) => {
-    const extension = getFileType(file);
-    const allowedType = /jpeg|jpg|png/;
-    const passed = allowedType.test(extension);
+  const filename =
+    Date.now() + "-" + Math.round(Math.random() * 1e9) + "." + extension;
+  cb(null, file.fieldname + "-" + filename);
+};
 
-    if (passed) {
-      return cb(null, true);
-    }
+const fileFilter = (req, file, cb) => {
+  const extension = getFileType(file);
 
-    return cb(null, false);
-  };
+  const allowedType = /jpeg|jpg|png/;
 
+  const passed = allowedType.test(extension);
+
+  if (passed) {
+    return cb(null, true);
+  }
+
+  return cb(null, false);
+};
+
+exports.userFile = ((req, res, next) => {
   const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
+    destination: function (req, file, cb) {
       const { id } = req.user;
-      const destination = `uploads/user/${id}`;
+      const dest = `uploads/user/${id}`;
+
       fs.access(dest, (error) => {
+        // if doens't exist
         if (error) {
           return fs.mkdir(dest, (error) => {
             cb(error, dest);
           });
         } else {
+          // it does exist
           fs.readdir(dest, (error, files) => {
             if (error) throw error;
 
@@ -55,4 +61,27 @@ exports.userFile = (req, res, next) => {
   });
 
   return multer({ storage, fileFilter }).single("avatar");
-};
+})();
+
+exports.chatFile = ((req, res, next) => {
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      const { id } = req.body;
+      const dest = `uploads/chat/${id}`;
+
+      fs.access(dest, (error) => {
+        // if doens't exist
+        if (error) {
+          return fs.mkdir(dest, (error) => {
+            cb(error, dest);
+          });
+        } else {
+          return cb(null, dest);
+        }
+      });
+    },
+    filename: generateFileName,
+  });
+
+  return multer({ storage, fileFilter }).single("image");
+})();
