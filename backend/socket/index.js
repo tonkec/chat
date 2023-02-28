@@ -58,8 +58,10 @@ const SocketServer = (server) => {
 
     socket.on("message", async (message) => {
       let sockets = [];
-      if (users.has(message.fromUser.id)) {
-        sockets = users.get(message.fromUser.id).sockets;
+      if (users.length > 0) {
+        if (users.has(message.fromUser.id)) {
+          sockets = users.get(message.fromUser.id).sockets;
+        }
       }
 
       message.toUserId.forEach((id) => {
@@ -67,6 +69,7 @@ const SocketServer = (server) => {
           sockets = [...sockets, ...users.get(id).sockets];
         }
       });
+
       try {
         const msg = {
           type: message.type,
@@ -74,16 +77,19 @@ const SocketServer = (server) => {
           chatId: message.chatId,
           message: message.message,
         };
-        await Message.create(msg);
-        message.User = message.romUser;
+
+        const savedMessage = await Message.create(msg);
+
+        message.User = message.fromUser;
         message.fromUserId = message.fromUser.id;
+        message.id = savedMessage.id;
+        message.message = savedMessage.message;
         delete message.fromUser;
+
         sockets.forEach((socket) => {
           io.to(socket).emit("received", message);
         });
-      } catch (e) {
-        console.log(e);
-      }
+      } catch (e) {}
     });
 
     socket.on("disconnect", async () => {

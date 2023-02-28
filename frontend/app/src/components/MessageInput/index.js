@@ -10,7 +10,7 @@ const MessageInput = ({ chat }) => {
     const value = e.target.value;
     setMessage(value);
 
-    // notify other user that this user is typing
+    // notify other users that this user is typing something
   };
 
   const handleKeyDown = (e, imageUpload) => {
@@ -20,23 +20,22 @@ const MessageInput = ({ chat }) => {
   };
 
   const sendMessage = (imageUpload) => {
-    if (message.length < 1 && !imageUpload) {
-      return;
-    }
+    if (message.length < 1 && !imageUpload) return;
 
     const msg = {
       type: imageUpload ? "image" : "text",
-      fromUserId: user,
+      fromUser: user,
       toUserId: chat.Users.map((user) => user.id),
       chatId: chat.id,
-      message: imageUpload ? image : message,
+      message: imageUpload ? imageUpload : message,
     };
 
     setMessage("");
     setImage("");
+    // send message with socket
     socket.emit("message", msg);
-    // send msg with sockets
   };
+
   return (
     <div id="input-container">
       <div id="message-input">
