@@ -34,6 +34,7 @@ function useSocket(dispatch, user) {
           console.log("Offline", user);
           dispatch(offlineFriend(user));
         });
+
         socket.on("received", (message) => {
           dispatch(receivedMessage(message, user.id));
         });
