@@ -46,6 +46,26 @@ const MessageBox = ({ chat }) => {
       scrollManual(Math.ceil(msgBox.current.scrollHeight * 0.1));
     }, 100);
   }, [scrollUp]);
+
+  useEffect(() => {
+    if (
+      senderTyping.typing &&
+      msgBox.current.scrollTop > msgBox.current.scrollHeight * 0.3
+    ) {
+      setTimeout(() => {
+        scrollManual(msgBox.current.scrollHeight);
+      }, 100);
+    }
+  }, [senderTyping]);
+
+  useEffect(() => {
+    if (!senderTyping.typing) {
+      setTimeout(() => {
+        scrollManual(msgBox.current.scrollHeight);
+      }, 100);
+    }
+  }, [scrollBottom, senderTyping.typing]);
+
   return (
     <div id="msg-box" ref={msgBox} onScroll={handeInfiniteScroll}>
       {loading ? <p>Loading</p> : null}
