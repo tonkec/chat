@@ -5,7 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { paginateMessages } from "../../store/actions/chat";
 const MessageBox = ({ chat }) => {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(false);
+  const [scrollUp, setScrollUp] = useState(0);
   const user = useSelector((state) => state.authReducer.user);
   const scrollBottom = useSelector((state) => state.chatReducer.scrollBottom);
   const senderTyping = useSelector((state) => state.chatReducer.senderTyping);
@@ -30,6 +31,7 @@ const MessageBox = ({ chat }) => {
       dispatch(paginateMessages(chat.id, parseInt(page) + 1))
         .then((res) => {
           if (res) {
+            setScrollUp(scrollUp + 1);
           }
           setLoading(false);
         })
@@ -38,6 +40,12 @@ const MessageBox = ({ chat }) => {
         });
     }
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      scrollManual(Math.ceil(msgBox.current.scrollHeight * 0.1));
+    }, 100);
+  }, [scrollUp]);
   return (
     <div id="msg-box" ref={msgBox} onScroll={handeInfiniteScroll}>
       {loading ? <p>Loading</p> : null}
