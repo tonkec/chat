@@ -18,6 +18,18 @@ const ChatService = {
         throw e;
       });
   },
+  paginateMessages: (id, page) => {
+    return API.get("/chats/messages", {
+      params: {
+        id,
+        page,
+      },
+    })
+      .then((res) => res.data)
+      .catch((e) => {
+        throw e;
+      });
+  },
 };
 
 export default ChatService;

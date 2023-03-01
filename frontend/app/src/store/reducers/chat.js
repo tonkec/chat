@@ -7,6 +7,7 @@ import {
   SET_SOCKET,
   RECEIVED_MESSAGE,
   SENDER_TYPING,
+  PAGINATE_MESSAGES,
 } from "../actions/chat";
 const initilState = {
   chats: [],
@@ -190,6 +191,38 @@ const chatReducer = (state = initilState, action) => {
       return {
         ...state,
         senderTyping: payload,
+      };
+    }
+
+    case PAGINATE_MESSAGES: {
+      const { messages, id, pagination } = payload;
+
+      let currentChatCopy = { ...state.currentChat };
+
+      const chatsCopy = state.chats.map((chat) => {
+        if (chat.id === id) {
+          const shifted = [...messages, ...chat.Messages];
+
+          currentChatCopy = {
+            ...currentChatCopy,
+            Messages: shifted,
+            Pagination: pagination,
+          };
+
+          return {
+            ...chat,
+            Messages: shifted,
+            Pagination: pagination,
+          };
+        }
+
+        return chat;
+      });
+
+      return {
+        ...state,
+        chats: chatsCopy,
+        currentChat: currentChatCopy,
       };
     }
 
