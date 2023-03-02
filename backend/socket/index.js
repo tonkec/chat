@@ -15,49 +15,36 @@ const SocketServer = (server) => {
 
   io.on("connection", (socket) => {
     socket.on("join", async (user) => {
-      let sockets = [];
-      if (users.has(user.id)) {
-        const existingUser = users.get(user.id);
-        existingUser.sockets = [...existingUser.sockets, ...[socket.id]];
-        users.set(user.id, existingUser);
-        sockets = [...existingUser.sockets, ...[socket.id]];
-        userSockets.set(socket.id, user.id);
-      } else {
-        users.set(user.id, { id: user.id, sockets: [socket.id] });
-        sockets.push(socket.id);
-        userSockets.set(socket.id, user.id);
-      }
+      let sockets = setUsers(user, socket);
 
       const onlineFriends = []; // ids
-      const chatters = await getChatters(user.id);
-      console.log(chatters);
-      // notify her friends that user is online now
+
+      const chatters = await getChatters(user.id); // query
+
+      // notify his friends that user is now online
       for (let i = 0; i < chatters.length; i++) {
         if (users.has(chatters[i])) {
           const chatter = users.get(chatters[i]);
           chatter.sockets.forEach((socket) => {
             try {
               io.to(socket).emit("online", user);
-            } catch (e) {
-              console.log(e);
-            }
+            } catch (e) {}
           });
           onlineFriends.push(chatter.id);
         }
       }
 
-      //send to current user sockets which of her friends are online
+      // send to user sockets which of his friends are online
       sockets.forEach((socket) => {
         try {
           io.to(socket).emit("friends", onlineFriends);
-        } catch (e) {
-          console.log(e);
-        }
+        } catch (e) {}
       });
     });
 
     socket.on("message", async (message) => {
-      let sockets = [];
+      let sockets = setUsers(message.fromUser, socket);
+
       if (users.length > 0) {
         if (users.has(message.fromUser.id)) {
           sockets = users.get(message.fromUser.id).sockets;
@@ -85,7 +72,6 @@ const SocketServer = (server) => {
         message.id = savedMessage.id;
         message.message = savedMessage.message;
         delete message.fromUser;
-
         sockets.forEach((socket) => {
           io.to(socket).emit("received", message);
         });
@@ -158,4 +144,22 @@ const getChatters = async (userId) => {
     return [];
   }
 };
+
+const setUsers = (user, socket) => {
+  let sockets = [];
+  if (users.has(user.id)) {
+    const existingUser = users.get(user.id);
+    existingUser.sockets = [...[socket.id]];
+    users.set(user.id, existingUser);
+    sockets = [...existingUser.sockets];
+    userSockets.set(socket.id, user.id);
+    return sockets;
+  } else {
+    users.set(user.id, { id: user.id, sockets: [socket.id] });
+    sockets.push(socket.id);
+    userSockets.set(socket.id, user.id);
+    return sockets;
+  }
+};
+
 module.exports = SocketServer;
