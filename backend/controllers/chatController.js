@@ -39,6 +39,8 @@ exports.index = async (req, res) => {
 exports.create = async (req, res) => {
   const { partnerId } = req.body;
 
+  const t = await sequelize.transaction();
+
   try {
     const user = await User.findOne({
       where: {
@@ -62,16 +64,15 @@ exports.create = async (req, res) => {
       ],
     });
 
-    const t = await sequelize.transaction();
+    if (user && user.Chats.length > 0)
+      return res
+        .status(403)
+        .json({
+          status: "Error",
+          message: "Chat with this user already exists!",
+        });
 
-    if (user && user.Chats.length > 0) {
-      return res.status(403).json({
-        status: "error",
-        message: "Chat with this user already exists",
-      });
-    }
-
-    const chat = Chat.create({ type: "dual" }, { transaction: t });
+    const chat = await Chat.create({ type: "dual" }, { transaction: t });
 
     await ChatUser.bulkCreate(
       [
@@ -88,28 +89,56 @@ exports.create = async (req, res) => {
     );
 
     await t.commit();
-    const chats = await Chat.findOne({
+
+    // const chatNew = await Chat.findOne({
+    //     where: {
+    //         id: chat.id
+    //     },
+    //     include: [
+    //         {
+    //             model: User,
+    //             where: {
+    //                 [Op.not]: {
+    //                     id: req.user.id
+    //                 }
+    //             }
+    //         },
+    //         {
+    //             model: Message
+    //         }
+    //     ]
+    // })
+
+    const creator = await User.findOne({
       where: {
-        id: chat.id,
+        id: req.user.id,
       },
-      include: [
-        {
-          model: User,
-          where: {
-            [Op.not]: {
-              id: req.user.id,
-            },
-          },
-        },
-        {
-          model: Message,
-        },
-      ],
     });
-    return res.json(chats);
+
+    const partner = await User.findOne({
+      where: {
+        id: partnerId,
+      },
+    });
+
+    const forCreator = {
+      id: chat.id,
+      type: "dual",
+      Users: [partner],
+      Messages: [],
+    };
+
+    const forReceiver = {
+      id: chat.id,
+      type: "dual",
+      Users: [creator],
+      Messages: [],
+    };
+
+    return res.json([forCreator, forReceiver]);
   } catch (e) {
     await t.rollback();
-    return res.status(500).json({ status: "error", message: e.message });
+    return res.status(500).json({ status: "Error", message: e.message });
   }
 };
 
