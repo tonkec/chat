@@ -1,15 +1,24 @@
-import { useState, useRef } from "react";
-import { useSelector } from "react-redux";
+import { useState, useRef, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import ChatService from "../../services/chatService";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
+import { incrementScroll } from "../../store/actions/chat";
+
 import "./MessageInput.scss";
 const MessageInput = ({ chat }) => {
+  const dispatch = useDispatch();
+
   const user = useSelector((state) => state.authReducer.user);
   const socket = useSelector((state) => state.chatReducer.socket);
+  const newMessage = useSelector((state) => state.chatReducer.newMessage);
+
   const [message, setMessage] = useState("");
   const [image, setImage] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [showNewMessageNotification, setShowNewMessageNotification] =
+    useState(false);
+
   const fileUpload = useRef();
   const msgInput = useRef();
   const handleMessage = (e) => {
@@ -39,7 +48,9 @@ const MessageInput = ({ chat }) => {
   };
 
   const sendMessage = (imageUpload) => {
-    if (message.length < 1 && !imageUpload) return;
+    if (message.length < 1 && !imageUpload) {
+      return;
+    }
 
     const msg = {
       type: imageUpload ? "image" : "text",
@@ -55,6 +66,7 @@ const MessageInput = ({ chat }) => {
     // send message with socket
     socket.emit("message", msg);
   };
+
   const handleImageUpload = () => {
     const formData = new FormData();
     formData.append("id", chat.id);
@@ -79,11 +91,42 @@ const MessageInput = ({ chat }) => {
     msgInput.current.focus();
     msgInput.current.selectionEnd = endPosition + emojiLength;
   };
+
+  useEffect(() => {
+    const msgBox = document.getElementById("msg-box");
+    const isSeen = newMessage.seen;
+    const isCurrentChat = newMessage.chatId === chat.id;
+    const messageBoxHeight = msgBox.scrollHeight !== msgBox.clientHeight;
+    const isScrolled = msgBox.scrollTop > msgBox.scrollHeight * 0.3;
+
+    if (!isSeen && isCurrentChat && messageBoxHeight) {
+      if (isScrolled) {
+        dispatch(incrementScroll());
+      } else {
+        setShowNewMessageNotification(true);
+      }
+    } else {
+      setShowNewMessageNotification(false);
+    }
+  }, [newMessage, dispatch, chat.id]);
+
+  const showNewMessage = () => {
+    dispatch(incrementScroll());
+    setShowNewMessageNotification(false);
+  };
+
   return (
     <div id="input-container">
       <div id="message-input">
         <div id="image-upload-container">
-          <div></div>
+          <div>
+            {showNewMessageNotification ? (
+              <div id="message-notification" onClick={showNewMessage}>
+                <p>Bell</p>
+                <p className="m-0">new message</p>
+              </div>
+            ) : null}
+          </div>
           <div id="image-upload">
             {image.name ? (
               <div id="image-details" className="m-0">
