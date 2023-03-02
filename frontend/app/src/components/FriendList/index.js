@@ -22,7 +22,14 @@ const FriendList = () => {
     ChatService.searchUsers(e.target.value).then((res) => setSuggestions(res));
   };
 
-  const addNewFriend = (id) => {};
+  const addNewFriend = (id) => {
+    ChatService.createChat(id)
+      .then((chats) => {
+        socket.emit("add-friend", chats);
+        setShowFriendsModal(false);
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div id="friends" className="shadow-light">
