@@ -42,7 +42,9 @@ const ChatHeader = ({ chat }) => {
 
       {showOptions && (
         <>
-          <button>Add new user</button>
+          <button onClick={() => setShowAddFriendModal(true)}>
+            Add user to chat
+          </button>
           {chat.type === "group" && <button>Leave chat</button>}
           <button>Delete chat</button>
         </>
