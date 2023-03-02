@@ -14,9 +14,9 @@ const ChatHeader = ({ chat }) => {
   };
 
   const addNewFriend = (id) => {
-    ChatService.createChat(id)
-      .then((chats) => {
-        socket.emit("add-friend", chats);
+    ChatService.addFriendToGroupChat(id, chat.id)
+      .then((data) => {
+        socket.emit("add-user-to-group", data);
         setShowAddFriendModal(false);
       })
       .catch((err) => console.log(err));
