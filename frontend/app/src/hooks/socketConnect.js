@@ -11,6 +11,7 @@ import {
   createChat,
   addUserToGroup,
   leaveCurrentChat,
+  deleteCurrentChat,
 } from '../store/actions/chat';
 
 function useSocket(dispatch, user) {
@@ -56,6 +57,11 @@ function useSocket(dispatch, user) {
           data.currentUserId = user.id;
           dispatch(leaveCurrentChat(data));
         });
+
+        socket.on('delete-chat', (chatId) => {
+          dispatch(deleteCurrentChat(chatId));
+        });
+
         console.log(res);
       })
       .catch((err) => err);

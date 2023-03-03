@@ -30,6 +30,12 @@ const ChatHeader = ({ chat }) => {
       .catch((err) => console.log(err));
   };
 
+  const deleteChat = () => {
+    ChatService.deleteCurrentChat(chat.id).then((data) => {
+      socket.emit('delete-chat', data);
+    });
+  };
+
   return (
     <>
       <div id="chatter">
@@ -57,6 +63,12 @@ const ChatHeader = ({ chat }) => {
           {chat.type === 'group' ? (
             <div onClick={() => leaveChat()}>
               <p>Leave chat</p>
+            </div>
+          ) : null}
+
+          {chat.type === 'dual' ? (
+            <div onClick={() => deleteChat()}>
+              <p>Delete chat</p>
             </div>
           ) : null}
         </div>
