@@ -1,10 +1,10 @@
-const models = require("../models");
+const models = require('../models');
 const User = models.User;
 const Chat = models.Chat;
 const ChatUser = models.ChatUser;
 const Message = models.Message;
-const { Op } = require("sequelize");
-const { sequelize } = require("../models");
+const { Op } = require('sequelize');
+const { sequelize } = require('../models');
 
 exports.index = async (req, res) => {
   const user = await User.findOne({
@@ -27,7 +27,7 @@ exports.index = async (req, res) => {
             model: Message,
             include: [{ model: User }],
             limit: 20,
-            order: [["id", "DESC"]],
+            order: [['id', 'DESC']],
           },
         ],
       },
@@ -50,7 +50,7 @@ exports.create = async (req, res) => {
         {
           model: Chat,
           where: {
-            type: "dual",
+            type: 'dual',
           },
           include: [
             {
@@ -66,11 +66,11 @@ exports.create = async (req, res) => {
 
     if (user && user.Chats.length > 0)
       return res.status(403).json({
-        status: "Error",
-        message: "Chat with this user already exists!",
+        status: 'Error',
+        message: 'Chat with this user already exists!',
       });
 
-    const chat = await Chat.create({ type: "dual" }, { transaction: t });
+    const chat = await Chat.create({ type: 'dual' }, { transaction: t });
 
     await ChatUser.bulkCreate(
       [
@@ -121,14 +121,14 @@ exports.create = async (req, res) => {
 
     const forCreator = {
       id: chat.id,
-      type: "dual",
+      type: 'dual',
       Users: [partner],
       Messages: [],
     };
 
     const forReceiver = {
       id: chat.id,
-      type: "dual",
+      type: 'dual',
       Users: [creator],
       Messages: [],
     };
@@ -136,7 +136,7 @@ exports.create = async (req, res) => {
     return res.json([forCreator, forReceiver]);
   } catch (e) {
     await t.rollback();
-    return res.status(500).json({ status: "Error", message: e.message });
+    return res.status(500).json({ status: 'Error', message: e.message });
   }
 };
 
@@ -151,7 +151,7 @@ exports.messages = async (req, res) => {
     include: [{ model: User }],
     limit: limit,
     offset,
-    order: [["id", "DESC"]],
+    order: [['id', 'DESC']],
   });
 
   const totalPages = Math.ceil(messages.count / limit);
@@ -174,7 +174,7 @@ exports.imageUpload = (req, res) => {
     return res.json({ url: req.file.filename });
   }
 
-  return res.status(500).json("No image uploaded");
+  return res.status(500).json('No image uploaded');
 };
 
 exports.deleteChat = async (req, res) => {
@@ -186,11 +186,11 @@ exports.deleteChat = async (req, res) => {
     });
 
     return res.json({
-      status: "Success",
-      messages: "Chat deleted successfully",
+      status: 'Success',
+      messages: 'Chat deleted successfully',
     });
   } catch (e) {
-    return res.status(500).json({ status: "error", message: e.message });
+    return res.status(500).json({ status: 'error', message: e.message });
   }
 };
 
@@ -214,7 +214,7 @@ exports.addUserToGroup = async (req, res) => {
             },
           ],
           limit: 20,
-          order: [["id", "DESC"]],
+          order: [['id', 'DESC']],
         },
       ],
     });
@@ -224,7 +224,7 @@ exports.addUserToGroup = async (req, res) => {
     // check if already in the group
     chat.Users.forEach((user) => {
       if (user.id === userId) {
-        return res.status(403).json({ message: "User already in the group!" });
+        return res.status(403).json({ message: 'User already in the group!' });
       }
     });
 
@@ -236,13 +236,65 @@ exports.addUserToGroup = async (req, res) => {
       },
     });
 
-    if (chat.type === "dual") {
-      chat.type = "group";
+    if (chat.type === 'dual') {
+      chat.type = 'group';
       chat.save();
     }
 
     return res.json({ chat, newChatter });
   } catch (e) {
-    return res.status(500).json({ status: "Error", message: e.message });
+    return res.status(500).json({ status: 'Error', message: e.message });
+  }
+};
+
+exports.leaveCurrentChat = async (req, res) => {
+  try {
+    const { chatId } = req.body;
+    const chat = await Chat.findOne({
+      where: {
+        id: chatId,
+      },
+      include: [
+        {
+          model: User,
+        },
+      ],
+    });
+
+    if (chat.Users.length === 2) {
+      return res
+        .status(403)
+        .json({ status: 'Error', message: 'You cannot leave this chat' });
+    }
+
+    if (chat.Users.length === 3) {
+      chat.type = 'dual';
+      chat.save();
+    }
+
+    await ChatUser.destroy({
+      where: {
+        chatId,
+        userId: req.user.id,
+      },
+    });
+
+    await Message.destroy({
+      where: {
+        chatId,
+        fromUserId: req.user.id,
+      },
+    });
+
+    const notifyUsers = chat.Users.map((user) => user.id);
+
+    return res.json({
+      chatId: chat.id,
+      userId: req.user.id,
+      currentUserId: req.user.id,
+      notifyUsers,
+    });
+  } catch (e) {
+    return res.status(500).json({ status: 'Error', message: e.message });
   }
 };

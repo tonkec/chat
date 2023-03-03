@@ -1,23 +1,24 @@
-import ChatService from "../../services/chatService";
-export const FETCH_CHATS = "FETCH_CHATS";
-export const SET_CURRENT_CHAT = "SET_CURRENT_CHAT";
-export const FRIENDS_ONLINE = "FRIENDS_ONLINE";
-export const FRIEND_ONLINE = "FRIEND_ONLINE";
-export const FRIEND_OFFLINE = "FRIEND_OFFLINE";
-export const SET_SOCKET = "SET_SOCKET";
-export const RECEIVED_MESSAGE = "RECEIVED_MESSAGE";
-export const SENDER_TYPING = "SENDER_TYPING";
-export const PAGINATE_MESSAGES = "PAGINATE_MESSAGES";
-export const INCREMENT_SCROLL = "INCREMENT_SCROLL";
-export const CREATE_CHAT = "CREATE_CHAT";
-export const ADD_USER_TO_GROUP = "ADD_USER_TO_GROUP";
+import ChatService from '../../services/chatService';
+export const FETCH_CHATS = 'FETCH_CHATS';
+export const SET_CURRENT_CHAT = 'SET_CURRENT_CHAT';
+export const FRIENDS_ONLINE = 'FRIENDS_ONLINE';
+export const FRIEND_ONLINE = 'FRIEND_ONLINE';
+export const FRIEND_OFFLINE = 'FRIEND_OFFLINE';
+export const SET_SOCKET = 'SET_SOCKET';
+export const RECEIVED_MESSAGE = 'RECEIVED_MESSAGE';
+export const SENDER_TYPING = 'SENDER_TYPING';
+export const PAGINATE_MESSAGES = 'PAGINATE_MESSAGES';
+export const INCREMENT_SCROLL = 'INCREMENT_SCROLL';
+export const CREATE_CHAT = 'CREATE_CHAT';
+export const ADD_USER_TO_GROUP = 'ADD_USER_TO_GROUP';
+export const LEAVE_CURRENT_CHAT = 'LEAVE_CURRENT_CHAT';
 
 export const fetchChats = () => (dispatch) => {
   return ChatService.fetchChats()
     .then((data) => {
       data.forEach((chat) => {
         chat.Users.forEach((user) => {
-          user.status = "offline";
+          user.status = 'offline';
         });
         chat.Messages.reverse();
       });
@@ -59,7 +60,7 @@ export const senderTyping = (sender) => (dispatch) => {
 export const paginateMessages = (id, page) => (dispatch) => {
   return ChatService.paginateMessages(id, page)
     .then(({ messages, pagination }) => {
-      if (typeof messages !== "undefined" && messages.length > 0) {
+      if (typeof messages !== 'undefined' && messages.length > 0) {
         messages.reverse();
         const payload = { messages, id, pagination };
         dispatch({ type: PAGINATE_MESSAGES, payload });
@@ -83,4 +84,8 @@ export const createChat = (chat) => (dispatch) => {
 
 export const addUserToGroup = (group) => (dispatch) => {
   dispatch({ type: ADD_USER_TO_GROUP, payload: group });
+};
+
+export const leaveCurrentChat = (data) => (dispatch) => {
+  dispatch({ type: LEAVE_CURRENT_CHAT, payload: data });
 };

@@ -1,8 +1,8 @@
-import { useState, Fragment } from "react";
-import { userStatus } from "../../utlis/helpers";
-import { useSelector } from "react-redux";
-import Modal from "../../components/Modal";
-import ChatService from "../../services/chatService";
+import { useState, Fragment } from 'react';
+import { userStatus } from '../../utlis/helpers';
+import { useSelector } from 'react-redux';
+import Modal from '../../components/Modal';
+import ChatService from '../../services/chatService';
 const ChatHeader = ({ chat }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
@@ -16,8 +16,16 @@ const ChatHeader = ({ chat }) => {
   const addNewFriend = (id) => {
     ChatService.addFriendToGroupChat(id, chat.id)
       .then((data) => {
-        socket.emit("add-user-to-group", data);
+        socket.emit('add-user-to-group', data);
         setShowAddFriendModal(false);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const leaveChat = () => {
+    ChatService.leaveCurrentChat(chat.id)
+      .then((data) => {
+        socket.emit('leave-current-chat', data);
       })
       .catch((err) => console.log(err));
   };
@@ -40,15 +48,19 @@ const ChatHeader = ({ chat }) => {
       </div>
       <div onClick={() => setShowOptions(!showOptions)}>options</div>
 
-      {showOptions && (
-        <>
-          <button onClick={() => setShowAddFriendModal(true)}>
-            Add user to chat
-          </button>
-          {chat.type === "group" && <button>Leave chat</button>}
-          <button>Delete chat</button>
-        </>
-      )}
+      {showOptions ? (
+        <div id="settings">
+          <div onClick={() => setShowAddFriendModal(true)}>
+            <p>Add user to chat</p>
+          </div>
+
+          {chat.type === 'group' ? (
+            <div onClick={() => leaveChat()}>
+              <p>Leave chat</p>
+            </div>
+          ) : null}
+        </div>
+      ) : null}
 
       {showAddFriendModal && (
         <Modal click={() => setShowAddFriendModal(false)}>

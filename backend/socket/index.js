@@ -1,20 +1,20 @@
-const socketIo = require("socket.io");
-const { sequelize } = require("../models");
-const Message = require("../models").Message;
+const socketIo = require('socket.io');
+const { sequelize } = require('../models');
+const Message = require('../models').Message;
 const users = new Map();
 const userSockets = new Map();
 const SocketServer = (server) => {
   const io = socketIo(server, {
     cors: {
-      origin: "*",
-      methods: "GET, HEAD, PUT, PATCH, POST, DELETE",
+      origin: '*',
+      methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
       preflightContinue: false,
       optionsSuccessStatus: 204,
     },
   });
 
-  io.on("connection", (socket) => {
-    socket.on("join", async (user) => {
+  io.on('connection', (socket) => {
+    socket.on('join', async (user) => {
       let sockets = setUsers(user, socket);
 
       const onlineFriends = []; // ids
@@ -27,7 +27,7 @@ const SocketServer = (server) => {
           const chatter = users.get(chatters[i]);
           chatter.sockets.forEach((socket) => {
             try {
-              io.to(socket).emit("online", user);
+              io.to(socket).emit('online', user);
             } catch (e) {}
           });
           onlineFriends.push(chatter.id);
@@ -37,12 +37,12 @@ const SocketServer = (server) => {
       // send to user sockets which of his friends are online
       sockets.forEach((socket) => {
         try {
-          io.to(socket).emit("friends", onlineFriends);
+          io.to(socket).emit('friends', onlineFriends);
         } catch (e) {}
       });
     });
 
-    socket.on("message", async (message) => {
+    socket.on('message', async (message) => {
       let sockets = setUsers(message.fromUser, socket);
 
       if (users.length > 0) {
@@ -73,53 +73,53 @@ const SocketServer = (server) => {
         message.message = savedMessage.message;
         delete message.fromUser;
         sockets.forEach((socket) => {
-          io.to(socket).emit("received", message);
+          io.to(socket).emit('received', message);
         });
       } catch (e) {}
     });
 
-    socket.on("typing", (message) => {
+    socket.on('typing', (message) => {
       message.toUserId.forEach((id) => {
         if (users.has(id)) {
           users.get(id).sockets.forEach((socket) => {
-            io.to(socket).emit("typing", message);
+            io.to(socket).emit('typing', message);
           });
         }
       });
     });
 
-    socket.on("add-friend", (chats) => {
+    socket.on('add-friend', (chats) => {
       try {
-        let online = "offline";
+        let online = 'offline';
         if (users.has(chats[1].Users[0].id)) {
-          online = "online";
-          chats[0].Users[0].status = "online";
+          online = 'online';
+          chats[0].Users[0].status = 'online';
           users.get(chats[1].Users[0].id).sockets.forEach((socket) => {
-            io.to(socket).emit("new-chat", chats[0]);
+            io.to(socket).emit('new-chat', chats[0]);
           });
         }
 
         if (users.has(chats[0].Users[0].id)) {
           chats[1].Users[0].status = online;
           users.get(chats[0].Users[0].id).sockets.forEach((socket) => {
-            io.to(socket).emit("new-chat", chats[1]);
+            io.to(socket).emit('new-chat', chats[1]);
           });
         }
       } catch (e) {}
     });
 
-    socket.on("add-user-to-group", ({ chat, newChatter }) => {
+    socket.on('add-user-to-group', ({ chat, newChatter }) => {
       if (users.has(newChatter.id)) {
-        newChatter.status = "online";
+        newChatter.status = 'online';
       }
 
       // old users
       chat.Users.forEach((user, index) => {
         if (users.has(user.id)) {
-          chat.Users[index].status = "online";
+          chat.Users[index].status = 'online';
           users.get(user.id).sockets.forEach((socket) => {
             try {
-              io.to(socket).emit("added-user-to-group", {
+              io.to(socket).emit('added-user-to-group', {
                 chat,
                 chatters: [newChatter],
               });
@@ -132,7 +132,7 @@ const SocketServer = (server) => {
       if (users.has(newChatter.id)) {
         users.get(newChatter.id).sockets.forEach((socket) => {
           try {
-            io.to(socket).emit("added-user-to-group", {
+            io.to(socket).emit('added-user-to-group', {
               chat,
               chatters: chat.Users,
             });
@@ -140,7 +140,26 @@ const SocketServer = (server) => {
         });
       }
     });
-    socket.on("disconnect", async () => {
+
+    socket.on('leave-current-chat', (data) => {
+      const { chatId, userId, currentUserId, notifyUsers } = data;
+
+      notifyUsers.forEach((id) => {
+        if (users.has(id)) {
+          users.get(id).sockets.forEach((socket) => {
+            try {
+              io.to(socket).emit('remove-user-from-chat', {
+                chatId,
+                userId,
+                currentUserId,
+              });
+            } catch (e) {}
+          });
+        }
+      });
+    });
+
+    socket.on('disconnect', async () => {
       if (userSockets.has(socket.id)) {
         const user = users.get(userSockets.get(socket.id));
 
@@ -159,7 +178,7 @@ const SocketServer = (server) => {
             if (users.has(chatters[i])) {
               users.get(chatters[i]).sockets.forEach((socket) => {
                 try {
-                  io.to(socket).emit("offline", user);
+                  io.to(socket).emit('offline', user);
                 } catch (e) {
                   console.log(e);
                 }
