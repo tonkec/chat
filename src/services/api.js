@@ -3,7 +3,7 @@ import { logout } from '../store/actions/auth';
 import store from '../store';
 
 const API = axios.create({
-  baseURL: process.env.REACT_APP_BACKEND_PORT,
+  baseURL: 'https://duga-backend.herokuapp.com',
   headers: {
     Accept: 'application/json',
     Authorization: `Bearer ${localStorage.getItem('token') || ''}`,
