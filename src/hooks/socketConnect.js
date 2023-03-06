@@ -18,7 +18,9 @@ function useSocket(dispatch, user) {
   useEffect(() => {
     dispatch(fetchChats())
       .then((res) => {
-        const socket = socketIOClient.connect('http://127.0.0.1:4000');
+        const socket = socketIOClient.connect(
+          process.env.REACT_APP_BACKEND_PORT
+        );
         dispatch(setSocket(socket));
         socket.emit('join', user);
         socket.on('typing', (sender) => {

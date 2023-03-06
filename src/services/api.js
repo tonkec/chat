@@ -1,11 +1,12 @@
-import axios from "axios";
-import { logout } from "../store/actions/auth";
-import store from "../store";
+import axios from 'axios';
+import { logout } from '../store/actions/auth';
+import store from '../store';
+
 const API = axios.create({
-  baseURL: "http://127.0.0.1:4000",
+  baseURL: process.env.REACT_APP_BACKEND_PORT,
   headers: {
-    Accept: "application/json",
-    Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+    Accept: 'application/json',
+    Authorization: `Bearer ${localStorage.getItem('token') || ''}`,
   },
 });
 
@@ -18,8 +19,8 @@ API.interceptors.response.use(
       throw err;
     }
     if (err.response.data.name) {
-      if (typeof err.response.data.error.name !== "undefined") {
-        if (err.response.data.error.name === "TokenExpiredError") {
+      if (typeof err.response.data.error.name !== 'undefined') {
+        if (err.response.data.error.name === 'TokenExpiredError') {
           store.dispatch(logout());
           throw err;
         }
