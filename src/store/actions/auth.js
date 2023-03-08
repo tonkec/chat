@@ -3,8 +3,11 @@ import { LOGIN, REGISTER, LOGOUT, UPDATE_PROFILE } from '../types';
 export const login = (params, navigate) => (dispatch) => {
   return AuthService.login(params)
     .then((data) => {
+      const isUserVerified = data.data.isVerified;
       dispatch({ type: LOGIN, payload: data.data });
-      navigate('/');
+      if (isUserVerified) {
+        navigate('/');
+      }
     })
     .catch((e) => console.log(e));
 };
@@ -13,7 +16,7 @@ export const register = (params, navigate) => (dispatch) => {
   return AuthService.register(params)
     .then((data) => {
       dispatch({ type: REGISTER, payload: data.data });
-      // navigate("/");
+      navigate('/login');
     })
     .catch((e) => console.log(e));
 };
