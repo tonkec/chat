@@ -45,9 +45,8 @@ export const updateProfile = (params) => (dispatch) => {
 export const forgotPassword = (email, navigate) => (dispatch) => {
   return AuthService.forgotPassword(email)
     .then((res) => {
-      console.log(res);
-      // dispatch({ type: FORGOT_PASSWORD, payload: res.data });
-      // navigate('/login');
+      dispatch({ type: FORGOT_PASSWORD, payload: res.data });
+      navigate('/login');
     })
     .catch((e) => console.log(e));
 };
