@@ -1,4 +1,10 @@
-import { LOGIN, LOGOUT, REGISTER, UPDATE_PROFILE } from '../types';
+import {
+  LOGIN,
+  LOGOUT,
+  REGISTER,
+  UPDATE_PROFILE,
+  FORGOT_PASSWORD,
+} from '../types';
 
 const initialState = {
   // user: JSON.parse(localStorage.getItem("user")) || {},
@@ -40,6 +46,13 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         user: payload,
+      };
+    case FORGOT_PASSWORD:
+      return {
+        ...state,
+        user: payload,
+        token: payload.token,
+        isLoggedIn: false,
       };
     default:
       return state;

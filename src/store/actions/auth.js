@@ -1,5 +1,11 @@
 import AuthService from '../../services/authService';
-import { LOGIN, REGISTER, LOGOUT, UPDATE_PROFILE } from '../types';
+import {
+  LOGIN,
+  REGISTER,
+  LOGOUT,
+  UPDATE_PROFILE,
+  FORGOT_PASSWORD,
+} from '../types';
 export const login = (params, navigate) => (dispatch) => {
   return AuthService.login(params)
     .then((data) => {
@@ -34,4 +40,14 @@ export const updateProfile = (params) => (dispatch) => {
     .catch((err) => {
       throw err;
     });
+};
+
+export const forgotPassword = (email, navigate) => (dispatch) => {
+  return AuthService.forgotPassword(email)
+    .then((res) => {
+      console.log(res);
+      // dispatch({ type: FORGOT_PASSWORD, payload: res.data });
+      // navigate('/login');
+    })
+    .catch((e) => console.log(e));
 };
