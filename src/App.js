@@ -1,10 +1,11 @@
-import "./App.scss";
-import Login from "./components/auth/Login";
-import Register from "./components/auth/Register";
-import Chat from "./components/chat/Chat";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import NotFound from "./components/NotFound";
-import ProtectedRoute from "./router/ProtectedRoute";
+import './App.scss';
+import Login from './components/auth/Login';
+import Register from './components/auth/Register';
+import Chat from './components/chat/Chat';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import NotFound from './components/NotFound';
+import ProtectedRoute from './router/ProtectedRoute';
+import ForgotPassword from './components/auth/ForgotPassword';
 function App() {
   return (
     <Router>
@@ -14,6 +15,7 @@ function App() {
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

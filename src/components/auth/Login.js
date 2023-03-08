@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { login } from '../../store/actions/auth';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Login = () => {
   let navigate = useNavigate();
@@ -57,7 +57,13 @@ const Login = () => {
               <button>Login</button>
             </form>
             {message && <p>{message}</p>}
-            <p> Don't have account? Register</p>
+            <p>
+              Don't have account? <Link to="/register">Register</Link>
+            </p>
+
+            <p>
+              <Link to="/forgot-passwrod">Forgot password?</Link>
+            </p>
           </div>
         </div>
       </div>
