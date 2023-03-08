@@ -1,0 +1,9 @@
+@import '../../../assets/variables.scss';
+.main-auth {
+  height: 100%;
+  background-color: $authMainBackground;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
