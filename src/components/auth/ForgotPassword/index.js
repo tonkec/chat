@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { forgotPassword } from '../../store/actions/auth';
+import { forgotPassword } from '../../../store/actions/auth';
 import { useNavigate } from 'react-router-dom';
+import './../Auth.scss';
+import AuthLayout from '../../Layout/AuthLayout';
 
 const ForgotPassword = () => {
   const dispatch = useDispatch();
@@ -13,9 +15,10 @@ const ForgotPassword = () => {
     dispatch(forgotPassword(email, navigate));
   };
   return (
-    <>
-      <h1>Forgot password?</h1>
-      <form>
+    <AuthLayout>
+      <form className="form-auth">
+        <h3 className="form-heading">Tvoj email</h3>
+
         <input
           type="email"
           placeholder="Tvoj email"
@@ -24,7 +27,7 @@ const ForgotPassword = () => {
         />
         <button onClick={onHandleSubmit}>Zatraži novu lozinku</button>
       </form>
-    </>
+    </AuthLayout>
   );
 };
 
