@@ -8,23 +8,17 @@ const Login = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
 
-  const user = useSelector((state) => {
+  const isVerified = useSelector((state) => {
     return state.authReducer.isVerified;
   });
 
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(login({ email, password }, navigate));
-    if (user) {
-      setMessage('');
-    } else {
-      setMessage('Not verified');
-    }
   };
 
-  useEffect(() => {}, [user]);
+  const message = isVerified !== false ? '' : 'Email not verified';
 
   return (
     <div id="auth-container">

@@ -27,7 +27,7 @@ export const register = (params, navigate) => (dispatch) => {
     .catch((e) => console.log(e));
 };
 
-export const logout = (navigate) => (dispatch) => {
+export const logout = () => (dispatch) => {
   AuthService.logout();
   dispatch({ type: LOGOUT });
 };

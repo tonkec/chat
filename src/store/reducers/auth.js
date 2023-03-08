@@ -13,7 +13,7 @@ const initialState = {
   user: {},
   token: '',
   isLoggedIn: false,
-  isVerified: false,
+  isVerified: null,
 };
 
 const authReducer = (state = initialState, action) => {
