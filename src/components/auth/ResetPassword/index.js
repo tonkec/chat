@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { resetPassword } from '../../store/actions/auth';
+import { resetPassword } from '../../../store/actions/auth';
+import AuthLayout from '../../Layout/AuthLayout';
+
+import './../Auth.scss';
 const ResetPassword = () => {
   const dispatch = useDispatch();
   const [password, setPassword] = useState('');
@@ -19,9 +22,9 @@ const ResetPassword = () => {
     dispatch(resetPassword(password, email));
   };
   return (
-    <>
-      <h1>Promjena lozinke za </h1>
-      <form>
+    <AuthLayout>
+      <form className="form-auth">
+        <h3 className="form-heading">Promjena lozinke za </h3>
         <input
           type="password"
           placeholder="Tvoja nova lozinka"
@@ -36,7 +39,7 @@ const ResetPassword = () => {
         />
         <button onClick={onHandleSubmit}>Promijeni lozinku</button>
       </form>
-    </>
+    </AuthLayout>
   );
 };
 

@@ -18,7 +18,6 @@ const ForgotPassword = () => {
     <AuthLayout>
       <form className="form-auth">
         <h3 className="form-heading">Tvoj email</h3>
-
         <input
           type="email"
           placeholder="Tvoj email"
