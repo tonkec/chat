@@ -6,7 +6,7 @@ import {
   FORGOT_PASSWORD,
 } from '../types';
 
-const initialState = {
+export const initialState = {
   // user: JSON.parse(localStorage.getItem("user")) || {},
   // token: localStorage.getItem("token") || "",
   // isLoggedIn: !!localStorage.getItem("user"),
@@ -16,7 +16,7 @@ const initialState = {
   isVerified: null,
 };
 
-const authReducer = (state = initialState, action) => {
+export const authReducer = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
