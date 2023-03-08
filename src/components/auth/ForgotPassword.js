@@ -10,7 +10,6 @@ const ForgotPassword = () => {
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    console.log(email);
     dispatch(forgotPassword(email, navigate));
   };
   return (
