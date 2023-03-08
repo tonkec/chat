@@ -1,9 +1,9 @@
-import React, { useState, Fragment } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../../store/actions/auth";
-import { updateProfile } from "../../store/actions/auth";
-import Modal from "../Modal";
-import "./Navbar.scss";
+import React, { useState, Fragment } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../../../store/actions/auth';
+import { updateProfile } from '../../../store/actions/auth';
+import Modal from '../../Modal';
+import './Navbar.scss';
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -16,8 +16,8 @@ const Navbar = () => {
   const [lastName, setLastName] = useState(user.lastName);
   const [email, setEmail] = useState(user.email);
   const [gender, setGender] = useState(user.gender);
-  const [password, setPassword] = useState("");
-  const [avatar, setAvatar] = useState("");
+  const [password, setPassword] = useState('');
+  const [avatar, setAvatar] = useState('');
 
   const submitForm = (e) => {
     e.preventDefault();
