@@ -29,7 +29,7 @@ const Links = () => {
       <ul>
         {links.map((link, i) => (
           <li key={i}>
-            <Link to={link.to}>{link.text}</Link>
+            <Link to={`/${link.to}`}>{link.text}</Link>
           </li>
         ))}
       </ul>

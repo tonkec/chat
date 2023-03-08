@@ -1,11 +1,11 @@
 import Content from '../Content';
 import Sidebar from '../Sidebar';
 
-const Main = ({ children }) => {
+const Main = ({ children, component }) => {
   return (
     <div>
       <Sidebar />
-      <Content content={children} />
+      <Content component={component} />
     </div>
   );
 };

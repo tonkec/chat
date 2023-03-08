@@ -1,6 +1,10 @@
 import './Content.scss';
-const Content = ({ content }) => {
-  return <main className="content">{content}</main>;
+const Content = ({ component: Component }) => {
+  return (
+    <main className="content">
+      <Component />
+    </main>
+  );
 };
 
 export default Content;
