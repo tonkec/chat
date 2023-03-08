@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NotFound from './../components/NotFound';
 import ProtectedRoute from './ProtectedRoute';
 import ForgotPassword from './../components/auth/ForgotPassword';
+import ResetPassword from '../components/auth/ResetPassword';
 const RoutesComponent = () => (
   <Router>
     <Routes>
@@ -14,6 +15,7 @@ const RoutesComponent = () => (
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   </Router>

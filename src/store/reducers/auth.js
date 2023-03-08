@@ -4,6 +4,7 @@ import {
   REGISTER,
   UPDATE_PROFILE,
   FORGOT_PASSWORD,
+  RESET_PASSWORD,
 } from '../types';
 
 export const initialState = {
@@ -53,6 +54,12 @@ export const authReducer = (state = initialState, action) => {
         user: payload,
         token: payload.token,
         isLoggedIn: false,
+      };
+    case RESET_PASSWORD:
+      return {
+        ...state,
+        isLoggedIn: false,
+        newPassword: payload.password,
       };
     default:
       return state;

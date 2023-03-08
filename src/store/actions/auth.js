@@ -5,6 +5,7 @@ import {
   LOGOUT,
   UPDATE_PROFILE,
   FORGOT_PASSWORD,
+  RESET_PASSWORD,
 } from '../types';
 export const login = (params, navigate) => (dispatch) => {
   return AuthService.login(params)
@@ -47,6 +48,16 @@ export const forgotPassword = (email, navigate) => (dispatch) => {
     .then((res) => {
       dispatch({ type: FORGOT_PASSWORD, payload: res.data });
       navigate('/login');
+    })
+    .catch((e) => console.log(e));
+};
+
+export const resetPassword = (password, email) => (dispatch) => {
+  console.log(password, email);
+  return AuthService.resetPassword(password, email)
+    .then((res) => {
+      console.log(res);
+      dispatch({ type: RESET_PASSWORD, payload: res.data });
     })
     .catch((e) => console.log(e));
 };

@@ -33,6 +33,12 @@ const AuthService = {
       .then((res) => res)
       .catch((e) => e);
   },
+  resetPassword: (password, email) => {
+    return api
+      .post('/reset-password', { password, email })
+      .then((res) => console.log(res))
+      .catch((e) => e);
+  },
 };
 
 const saveUserToLocalStorage = (data) => {
