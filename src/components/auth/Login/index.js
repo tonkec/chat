@@ -3,7 +3,7 @@ import { login } from '../../../store/actions/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import AuthLayout from '../../Layout/AuthLayout';
-import './Login.scss';
+import './../Auth.scss';
 
 const Login = () => {
   let navigate = useNavigate();
