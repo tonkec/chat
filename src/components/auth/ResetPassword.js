@@ -11,6 +11,11 @@ const ResetPassword = () => {
   const onHandleSubmit = (e) => {
     e.preventDefault();
     const email = searchParams.get('email');
+
+    if (password !== passwordConfirmation) {
+      // show error message
+      return;
+    }
     dispatch(resetPassword(password, email));
   };
   return (
