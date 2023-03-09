@@ -9,12 +9,9 @@ import {
 } from '../types';
 
 export const initialState = {
-  // user: JSON.parse(localStorage.getItem("user")) || {},
-  // token: localStorage.getItem("token") || "",
-  // isLoggedIn: !!localStorage.getItem("user"),
-  user: {},
-  token: '',
-  isLoggedIn: false,
+  user: JSON.parse(localStorage.getItem('user')) || {},
+  token: localStorage.getItem('token') || '',
+  isLoggedIn: !!localStorage.getItem('user'),
   isVerified: null,
 };
 
