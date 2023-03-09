@@ -29,7 +29,7 @@ const Register = () => {
           value={firstName}
           required
           type="text"
-          placeholder="f name"
+          placeholder="Tvoje ime"
         />
 
         <input
@@ -37,7 +37,7 @@ const Register = () => {
           value={lastName}
           required
           type="text"
-          placeholder="l name"
+          placeholder="Tvoje prezime"
         />
 
         <select onChange={(e) => setGender(e.target.value)}>
@@ -50,7 +50,7 @@ const Register = () => {
           value={email}
           required
           type="email"
-          placeholder="email"
+          placeholder="Tvoj mail"
         />
 
         <input
@@ -58,10 +58,10 @@ const Register = () => {
           value={password}
           required
           type="password"
-          placeholder="password"
+          placeholder="Tvoja lozinka"
         />
 
-        <button>Register</button>
+        <button>Pridruži se</button>
       </form>
 
       <div className="links-auth">
