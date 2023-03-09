@@ -1,4 +1,7 @@
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../../../store/actions/auth';
+
 import './Links.scss';
 const links = [
   {
@@ -17,13 +20,14 @@ const links = [
     to: 'račun',
     text: 'moj račun',
   },
-  {
-    to: 'log-out',
-    text: 'odjavi se',
-  },
 ];
 
 const Links = () => {
+  const dispatch = useDispatch();
+  const onLogoutClick = () => {
+    dispatch(logout());
+    // TODO disconnect from socket
+  };
   return (
     <nav>
       <ul>
@@ -32,6 +36,12 @@ const Links = () => {
             <Link to={`/${link.to}`}>{link.text}</Link>
           </li>
         ))}
+
+        <li>
+          <Link to={`/`} onClick={onLogoutClick}>
+            Odjavi se
+          </Link>
+        </li>
       </ul>
     </nav>
   );
