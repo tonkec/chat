@@ -23,7 +23,7 @@ const Register = () => {
   return (
     <AuthLayout>
       <form onSubmit={onSubmit} className="form-auth">
-        <h2 className="form-heading">Welcome</h2>
+        <h2 className="form-heading">Pridruži se</h2>
         <input
           onChange={(e) => setFirstName(e.target.value)}
           value={firstName}
