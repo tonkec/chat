@@ -3,7 +3,6 @@ import DashobardCard from './DashboardCard';
 import './Dashboard.scss';
 const Dashboard = () => {
   const onlineUsers = useSelector((state) => state.userReducer.onlineUsers);
-  console.log(onlineUsers);
   return (
     <div className="dashboard">
       <h2>Tvoj Dashboard</h2>
