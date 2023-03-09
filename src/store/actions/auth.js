@@ -12,6 +12,7 @@ export const login = (params, navigate) => (dispatch) => {
   return AuthService.login(params)
     .then((data) => {
       const isUserVerified = data.data.isVerified;
+      console.log(data);
       dispatch({ type: LOGIN, payload: data.data });
       if (isUserVerified) {
         navigate('/');

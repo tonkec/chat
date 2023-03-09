@@ -13,6 +13,7 @@ import {
   ADD_USER_TO_GROUP,
   LEAVE_CURRENT_CHAT,
   DELETE_CURRENT_CHAT,
+  HAS_GONE_ONLINE,
 } from '../actions/chat';
 const initilState = {
   chats: [],

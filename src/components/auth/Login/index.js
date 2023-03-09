@@ -20,7 +20,7 @@ const Login = () => {
     dispatch(login({ email, password }, navigate));
   };
 
-  const message = isVerified !== false ? '' : 'Email not verified';
+  const message = isVerified !== null ? '' : 'Email not verified';
 
   return (
     <AuthLayout>

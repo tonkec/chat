@@ -16,11 +16,9 @@ import {
 
 function useSocket(dispatch, user) {
   useEffect(() => {
+    const socket = socketIOClient.connect(process.env.REACT_APP_BACKEND_PORT);
     dispatch(fetchChats())
       .then((res) => {
-        const socket = socketIOClient.connect(
-          process.env.REACT_APP_BACKEND_PORT
-        );
         dispatch(setSocket(socket));
         socket.emit('join', user);
         socket.on('typing', (sender) => {
@@ -34,7 +32,7 @@ function useSocket(dispatch, user) {
         });
 
         socket.on('online', (user) => {
-          console.log('Online', user);
+          console.log('Online Friend', user);
           dispatch(onlineFriend(user));
         });
 
