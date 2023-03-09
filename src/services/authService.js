@@ -36,7 +36,13 @@ const AuthService = {
   resetPassword: (password, email) => {
     return api
       .post('/reset-password', { password, email })
-      .then((res) => console.log(res))
+      .then((res) => res)
+      .catch((e) => e);
+  },
+  getResetPasswordToken: (email, token) => {
+    return api
+      .post('/verification-token', { email, token })
+      .then((res) => res)
       .catch((e) => e);
   },
 };

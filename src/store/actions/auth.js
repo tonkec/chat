@@ -6,6 +6,7 @@ import {
   UPDATE_PROFILE,
   FORGOT_PASSWORD,
   RESET_PASSWORD,
+  GET_RESET_PASSWORD_TOKEN,
 } from '../types';
 export const login = (params, navigate) => (dispatch) => {
   return AuthService.login(params)
@@ -53,11 +54,17 @@ export const forgotPassword = (email, navigate) => (dispatch) => {
 };
 
 export const resetPassword = (password, email) => (dispatch) => {
-  console.log(password, email);
   return AuthService.resetPassword(password, email)
     .then((res) => {
-      console.log(res);
       dispatch({ type: RESET_PASSWORD, payload: res.data });
     })
     .catch((e) => console.log(e));
+};
+
+export const getResetPasswordToken = (email, token) => (dispatch) => {
+  return AuthService.getResetPasswordToken(email, token)
+    .then((res) => {
+      dispatch({ type: GET_RESET_PASSWORD_TOKEN, payload: res.data });
+    })
+    .catch((e) => e);
 };
