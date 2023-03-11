@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import AuthLayout from "../../Layout/AuthLayout";
 import "./../Auth.scss";
-import IsEmailValid from "../IsEmailValid";
+import isEmailValid from "../IsEmailValid";
+import ErrorMessage from "../ErrorMessage";
+import isPasswordValid from "../IsPasswordValid";
 
 const Login = () => {
   let navigate = useNavigate();
@@ -12,19 +14,29 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isDisabled, setDisabled] = useState(false);
   const isVerified = useSelector((state) => {
     return state.authReducer.isVerified;
   });
 
-  const setAndCheckEmail = (e) => {
-    if (!IsEmailValid(e.target.value)) {
-      setError("Email is invalid");
+  const onEmailChange = (e) => {
+    const validEmail = isEmailValid(e.target.value);
+    if (validEmail) {
+      setEmail(e.target.value);
     } else {
-      setError(null);
+      setError("Email is invalid");
+      setDisabled(true);
     }
-    setEmail(e.target.value);
   };
-
+  const onPasswordChange = (e) => {
+    const validPassword = isPasswordValid(e.target.value);
+    if (validPassword) {
+      setPassword(e.target.value);
+    } else {
+      setError("Password must contain at least 6 characters");
+      setDisabled(true);
+    }
+  };
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(login({ email, password }, navigate));
@@ -38,22 +50,24 @@ const Login = () => {
         <h3 className="form-heading">Ulogiraj se!</h3>
         <input
           // onChange={(e) => setEmail(e.target.value)}
-          onChange={setAndCheckEmail}
+          onChange={onEmailChange}
           value={email}
           required
           type="email"
           placeholder="Email"
         />
         <input
-          onChange={(e) => setPassword(e.target.value)}
+          // onChange={(e) => setPassword(e.target.value)}
+          onChange={onPasswordChange}
           value={password}
           required
           type="password"
           placeholder="Lozinka"
         />
-        <button>Login</button>
+        <button disabled={isDisabled}>Login</button>
       </form>
-      {error && <h5 style={{ color: "red" }}>{error}</h5>}
+
+      <ErrorMessage error={error} />
       <div className="links-auth">
         {message && <p>{message}</p>}
         <Link to="/register">Registriraj se</Link> {"  "}
