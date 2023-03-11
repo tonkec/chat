@@ -63,9 +63,9 @@ const Login = () => {
         <button>Login</button>
       </form>
       <div className="links-auth">
-        {message}
         <Link to="/register">Registriraj se</Link> {'  '}
         <Link to="/forgot-password">Zaboravljena lozinka?</Link>
+        <p className="message-auth">{message}</p>
       </div>
     </AuthLayout>
   );
