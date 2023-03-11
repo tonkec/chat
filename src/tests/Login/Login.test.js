@@ -14,6 +14,11 @@ const notVerifiedUser = {
   password: 'secret',
 };
 
+const wrongCredentialsUser = {
+  email: 'iamfaker@a.com',
+  password: 'secret',
+};
+
 test('renders the login page', async () => {
   myCustomRender(<App />);
   expect(screen.getByText('Ulogiraj se!')).toBeTruthy();
@@ -35,8 +40,25 @@ test('show email not verified message', async () => {
   server.close();
 });
 
-test('not showing of email not verified message', async () => {
-  // mock successful login endpoint
+test('should not log in with the wrong credentials', async () => {
+  const server = createMockedServer({ isVerified: null });
+  myCustomRender(<App />);
+
+  const inputEmail = screen.getByPlaceholderText('Email');
+  fireEvent.change(inputEmail, {
+    target: { value: wrongCredentialsUser.email },
+  });
+
+  const inputPassword = screen.getByPlaceholderText('Lozinka');
+  fireEvent.change(inputPassword, {
+    target: { value: wrongCredentialsUser.password },
+  });
+  userEvent.click(screen.getByRole('button', { name: 'Login' }));
+  await screen.findByText('Ulogiraj se!');
+  server.listen();
+});
+
+test('not showing of email not verified message and should log in with the correct credentials', async () => {
   const server = createMockedServer({ isVerified: true });
   myCustomRender(<App />);
   const inputEmail = screen.getByPlaceholderText('Email');

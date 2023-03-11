@@ -4,8 +4,12 @@ const AuthService = {
     return api
       .post('/login', data)
       .then((res) => {
-        saveUserToLocalStorage(res.data);
-        return res;
+        if (res) {
+          if (res.data) {
+            saveUserToLocalStorage(res.data);
+            return res;
+          }
+        }
       })
       .catch((err) => {
         console.log('err', err);

@@ -12,13 +12,18 @@ import {
 export const login = (params, navigate) => (dispatch) => {
   return AuthService.login(params)
     .then((data) => {
-      const isUserVerified = data.data.isVerified;
+      let isUserVerified;
+      if (data) {
+        isUserVerified = data.data.isVerified;
+      }
 
       if (isUserVerified) {
         dispatch({ type: LOGIN, payload: data.data });
         navigate('/');
       } else {
-        dispatch({ type: EMAIL_NOT_VERIFIED, payload: data.data });
+        if (data) {
+          dispatch({ type: EMAIL_NOT_VERIFIED, payload: data.data });
+        }
       }
     })
     .catch((e) => console.log(e));

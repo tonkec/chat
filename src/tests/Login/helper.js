@@ -17,7 +17,6 @@ export const myCustomRender = (
   } = {}
 ) => {
   const Wrapper = ({ children }) => (
-    // maybe add router as well
     <Provider store={appStore}>{children}</Provider>
   );
 
