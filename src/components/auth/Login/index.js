@@ -20,7 +20,8 @@ const Login = () => {
     e.preventDefault();
     dispatch(login({ email, password }, navigate));
   };
-  const message = isVerified !== false ? '' : EMAIL_NOT_VERIFIED;
+  const message =
+    isVerified !== false && isVerified !== null ? '' : EMAIL_NOT_VERIFIED;
   return (
     <AuthLayout>
       <form onSubmit={onSubmit} className="form-auth">

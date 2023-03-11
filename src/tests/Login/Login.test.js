@@ -4,9 +4,14 @@ import { myCustomRender, createMockedServer } from './helper';
 import userEvent from '@testing-library/user-event';
 import { fireEvent } from '@testing-library/react';
 import { EMAIL_NOT_VERIFIED } from '../../components/auth/constants';
-const user = {
+const verifiedUser = {
   email: 'antonija1023@gmail.com',
   password: 'glitch',
+};
+
+const notVerifiedUser = {
+  email: 'notVerified@mail.com',
+  password: 'secret',
 };
 
 test('renders the login page', async () => {
@@ -14,16 +19,15 @@ test('renders the login page', async () => {
   expect(screen.getByText('Ulogiraj se!')).toBeTruthy();
 });
 
-test('email verification failure', async () => {
-  // mock failing login endpoint
-  const server = createMockedServer({ isVerified: false });
+test('show email not verified message', async () => {
+  const server = createMockedServer({ isVerified: null });
   myCustomRender(<App />);
   const inputEmail = screen.getByPlaceholderText('Email');
-  fireEvent.change(inputEmail, { target: { value: user.email } });
+  fireEvent.change(inputEmail, { target: { value: notVerifiedUser.email } });
 
   const inputPassword = screen.getByPlaceholderText('Lozinka');
   fireEvent.change(inputPassword, {
-    target: { value: user.password },
+    target: { value: notVerifiedUser.password },
   });
   userEvent.click(screen.getByRole('button', { name: 'Login' }));
   server.listen();
@@ -31,9 +35,19 @@ test('email verification failure', async () => {
   server.close();
 });
 
-test('email verification succcess', async () => {
+test('not showing of email not verified message', async () => {
   // mock successful login endpoint
+  const server = createMockedServer({ isVerified: true });
   myCustomRender(<App />);
+  const inputEmail = screen.getByPlaceholderText('Email');
+  fireEvent.change(inputEmail, { target: { value: verifiedUser.email } });
+
+  const inputPassword = screen.getByPlaceholderText('Lozinka');
+  fireEvent.change(inputPassword, {
+    target: { value: verifiedUser.password },
+  });
   userEvent.click(screen.getByRole('button', { name: 'Login' }));
-  // check whether URL has changed to home, or some other check
+  server.listen();
+  await screen.findByText('Tvoj Dashboard');
+  server.close();
 });
