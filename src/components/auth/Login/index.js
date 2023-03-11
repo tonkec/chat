@@ -3,6 +3,7 @@ import { login } from '../../../store/actions/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import AuthLayout from '../../Layout/AuthLayout';
+import { EMAIL_NOT_VERIFIED } from '../constants';
 import './../Auth.scss';
 
 const Login = () => {
@@ -19,9 +20,7 @@ const Login = () => {
     e.preventDefault();
     dispatch(login({ email, password }, navigate));
   };
-
-  const message = isVerified !== null ? '' : 'Email not verified';
-
+  const message = isVerified !== false ? '' : EMAIL_NOT_VERIFIED;
   return (
     <AuthLayout>
       <form onSubmit={onSubmit} className="form-auth">
