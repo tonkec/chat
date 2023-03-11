@@ -24,6 +24,11 @@ test('renders the login page', async () => {
   expect(screen.getByText('Ulogiraj se!')).toBeTruthy();
 });
 
+test('should not show the email not verified message on mount', async () => {
+  myCustomRender(<App />);
+  expect(screen.queryByText('Email not verified')).toBeFalsy();
+});
+
 test('show email not verified message', async () => {
   const server = createMockedServer({ isVerified: null });
   myCustomRender(<App />);

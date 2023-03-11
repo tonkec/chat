@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { login } from '../../../store/actions/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
@@ -11,6 +11,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [message, setMessage] = useState(null);
 
   const isVerified = useSelector((state) => {
     return state.authReducer.isVerified;
@@ -20,8 +21,27 @@ const Login = () => {
     e.preventDefault();
     dispatch(login({ email, password }, navigate));
   };
-  const message =
-    isVerified !== false && isVerified !== null ? '' : EMAIL_NOT_VERIFIED;
+
+  const showMessage = () => {
+    if (isVerified === 'initial') {
+      setMessage(null);
+      return;
+    }
+
+    if (isVerified) {
+      setMessage(null);
+      return;
+    }
+
+    if (!isVerified) {
+      setMessage(EMAIL_NOT_VERIFIED);
+      return;
+    }
+  };
+
+  useEffect(() => {
+    showMessage();
+  });
   return (
     <AuthLayout>
       <form onSubmit={onSubmit} className="form-auth">
@@ -43,7 +63,7 @@ const Login = () => {
         <button>Login</button>
       </form>
       <div className="links-auth">
-        {message && <p>{message}</p>}
+        {message}
         <Link to="/register">Registriraj se</Link> {'  '}
         <Link to="/forgot-password">Zaboravljena lozinka?</Link>
       </div>

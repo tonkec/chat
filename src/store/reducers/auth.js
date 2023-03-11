@@ -13,7 +13,7 @@ export const initialState = {
   user: JSON.parse(localStorage.getItem('user')) || {},
   token: localStorage.getItem('token') || '',
   isLoggedIn: !!localStorage.getItem('user'),
-  isVerified: null,
+  isVerified: 'initial',
 };
 
 export const authReducer = (state = initialState, action) => {
