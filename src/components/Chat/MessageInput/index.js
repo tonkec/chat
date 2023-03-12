@@ -1,11 +1,11 @@
-import { useState, useRef, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import ChatService from "../../services/chatService";
-import data from "@emoji-mart/data";
-import Picker from "@emoji-mart/react";
-import { incrementScroll } from "../../store/actions/chat";
+import { useState, useRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import ChatService from '../../../services/chatService';
+import data from '@emoji-mart/data';
+import Picker from '@emoji-mart/react';
+import { incrementScroll } from '../../../store/actions/chat';
 
-import "./MessageInput.scss";
+import './MessageInput.scss';
 const MessageInput = ({ chat }) => {
   const dispatch = useDispatch();
 
@@ -13,8 +13,8 @@ const MessageInput = ({ chat }) => {
   const socket = useSelector((state) => state.chatReducer.socket);
   const newMessage = useSelector((state) => state.chatReducer.newMessage);
 
-  const [message, setMessage] = useState("");
-  const [image, setImage] = useState("");
+  const [message, setMessage] = useState('');
+  const [image, setImage] = useState('');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [showNewMessageNotification, setShowNewMessageNotification] =
     useState(false);
@@ -32,17 +32,17 @@ const MessageInput = ({ chat }) => {
 
     if (value.length === 1) {
       receiver.typing = true;
-      socket.emit("typing", receiver);
+      socket.emit('typing', receiver);
     }
 
     if (value.length === 0) {
       receiver.typing = false;
-      socket.emit("typing", receiver);
+      socket.emit('typing', receiver);
     }
   };
 
   const handleKeyDown = (e, imageUpload) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       sendMessage(imageUpload);
     }
   };
@@ -53,24 +53,24 @@ const MessageInput = ({ chat }) => {
     }
 
     const msg = {
-      type: imageUpload ? "image" : "text",
+      type: imageUpload ? 'image' : 'text',
       fromUser: user,
       toUserId: chat.Users.map((user) => user.id),
       chatId: chat.id,
       message: imageUpload ? imageUpload : message,
     };
 
-    setMessage("");
-    setImage("");
+    setMessage('');
+    setImage('');
     setShowEmojiPicker(false);
     // send message with socket
-    socket.emit("message", msg);
+    socket.emit('message', msg);
   };
 
   const handleImageUpload = () => {
     const formData = new FormData();
-    formData.append("id", chat.id);
-    formData.append("image", image);
+    formData.append('id', chat.id);
+    formData.append('image', image);
     ChatService.uploadImage(formData)
       .then((image) => {
         sendMessage(image);
@@ -93,7 +93,7 @@ const MessageInput = ({ chat }) => {
   };
 
   useEffect(() => {
-    const msgBox = document.getElementById("msg-box");
+    const msgBox = document.getElementById('msg-box');
     const isSeen = newMessage.seen;
     const isCurrentChat = newMessage.chatId === chat.id;
     const messageBoxHeight = msgBox.scrollHeight !== msgBox.clientHeight;
@@ -132,7 +132,7 @@ const MessageInput = ({ chat }) => {
               <div id="image-details" className="m-0">
                 <p>{image.name}</p>
                 <button onClick={handleImageUpload}>Upload</button>
-                <button onClick={() => setImage("")}>Remove</button>
+                <button onClick={() => setImage('')}>Remove</button>
               </div>
             ) : null}
 
@@ -164,7 +164,7 @@ const MessageInput = ({ chat }) => {
           data={data}
           title="Pick your emoji..."
           emoji="point_up"
-          style={{ position: "absolute", bottom: "20px", right: "20px" }}
+          style={{ position: 'absolute', bottom: '20px', right: '20px' }}
           onEmojiSelect={selectEmoji}
         />
       ) : null}

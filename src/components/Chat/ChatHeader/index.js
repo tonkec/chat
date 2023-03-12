@@ -1,8 +1,8 @@
 import { useState, Fragment } from 'react';
-import { userStatus } from '../../utlis/helpers';
+import { userStatus } from '../../../utlis/helpers';
 import { useSelector } from 'react-redux';
-import Modal from '../../components/Modal';
-import ChatService from '../../services/chatService';
+import Modal from '../../Modal';
+import ChatService from '../../../services/chatService';
 const ChatHeader = ({ chat }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [suggestions, setSuggestions] = useState([]);

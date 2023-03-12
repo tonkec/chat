@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
-import "./MessageBox.scss";
-import Message from "../Message";
-import { useSelector, useDispatch } from "react-redux";
-import { paginateMessages } from "../../store/actions/chat";
+import { useEffect, useRef, useState } from 'react';
+import './MessageBox.scss';
+import Message from '../Message';
+import { useSelector, useDispatch } from 'react-redux';
+import { paginateMessages } from '../../../store/actions/chat';
 const MessageBox = ({ chat }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -27,7 +27,7 @@ const MessageBox = ({ chat }) => {
     if (e.target.scrollTop === 0) {
       setLoading(true);
       const pagination = chat.Pagination;
-      const page = typeof pagination === "undefined" ? 1 : pagination.page;
+      const page = typeof pagination === 'undefined' ? 1 : pagination.page;
       dispatch(paginateMessages(chat.id, parseInt(page) + 1))
         .then((res) => {
           if (res) {
