@@ -1,10 +1,10 @@
-import React, { useState, Fragment } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import Friend from "../Friend";
-import { setCurrentChat } from "../../store/actions/chat";
-import Modal from "../Modal";
-import ChatService from "../../services/chatService";
-import "./FriendList.scss";
+import React, { useState, Fragment } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import Friend from '../Friend';
+import { setCurrentChat } from '../../../store/actions/chat';
+import Modal from '../../Modal';
+import ChatService from '../../../services/chatService';
+import './FriendList.scss';
 
 const FriendList = () => {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const FriendList = () => {
   const addNewFriend = (id) => {
     ChatService.createChat(id)
       .then((chats) => {
-        socket.emit("add-friend", chats);
+        socket.emit('add-friend', chats);
         setShowFriendsModal(false);
       })
       .catch((err) => console.log(err));
