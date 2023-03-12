@@ -9,7 +9,7 @@ import {
   GET_RESET_PASSWORD_TOKEN,
   EMAIL_NOT_VERIFIED,
 } from '../types';
-export const login = (params, navigate) => (dispatch) => {
+export const login = (params) => (dispatch) => {
   return AuthService.login(params)
     .then((data) => {
       let isUserVerified;
@@ -19,7 +19,6 @@ export const login = (params, navigate) => (dispatch) => {
 
       if (isUserVerified) {
         dispatch({ type: LOGIN, payload: data.data });
-        navigate('/');
         return data;
       } else {
         if (data) {

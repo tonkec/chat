@@ -3,7 +3,11 @@ import { login } from '../../../store/actions/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import AuthLayout from '../../Layout/AuthLayout';
-import { EMAIL_NOT_VERIFIED, INVALID_CREDENTIALS } from '../constants';
+import {
+  EMAIL_NOT_VERIFIED,
+  INVALID_CREDENTIALS,
+  SUCCESSFUL_LOGIN,
+} from '../constants';
 import FlashMessageContext from '../../../context/FlashMessage/flashMessageContext';
 
 import './../Auth.scss';
@@ -22,10 +26,14 @@ const Login = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const result = await dispatch(login({ email, password }, navigate));
+    const result = await dispatch(login({ email, password }));
     if (result.status === 404) {
       flashMessageContext.error(INVALID_CREDENTIALS);
+      return;
     }
+
+    navigate('/');
+    flashMessageContext.success(SUCCESSFUL_LOGIN);
   };
 
   const isUserVerified = () => {
