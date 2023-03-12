@@ -15,7 +15,6 @@ const Login = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState(null);
 
   const isVerified = useSelector((state) => {
     return state.authReducer.isVerified;
