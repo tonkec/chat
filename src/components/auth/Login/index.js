@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { login } from '../../../store/actions/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import AuthLayout from '../../Layout/AuthLayout';
 import { EMAIL_NOT_VERIFIED } from '../constants';
+import NotificationContext from '../../../context/Notification/notificationContext';
+
 import './../Auth.scss';
 
 const Login = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
+  const notificationCtx = useContext(NotificationContext);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState(null);
@@ -20,6 +24,10 @@ const Login = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(login({ email, password }, navigate));
+
+    if (!isVerified) {
+      notificationCtx.error(EMAIL_NOT_VERIFIED);
+    }
   };
 
   const showMessage = () => {
@@ -32,15 +40,16 @@ const Login = () => {
       setMessage(null);
       return;
     }
-
-    if (!isVerified) {
-      setMessage(EMAIL_NOT_VERIFIED);
-      return;
-    }
   };
 
   useEffect(() => {
     showMessage();
+  });
+
+  useEffect(() => {
+    setTimeout(() => {
+      notificationCtx.close();
+    }, 5000);
   });
   return (
     <AuthLayout>
