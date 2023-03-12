@@ -6,7 +6,6 @@ import store from './store';
 import { Provider } from 'react-redux';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 if (process.env.NODE_ENV === 'development') {
-  console.log('here');
   const { worker } = require('./tests/Login/mocks/browser');
   worker.start();
 }
