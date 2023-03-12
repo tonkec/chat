@@ -6,12 +6,10 @@ const NotificationProvider = (props) => {
   const [notification, setNotification] = useState(null);
   const [notificationText, setNotificationText] = useState(null);
   const success = (text) => {
-    window.scroll(0, 0);
     setNotificationText(text);
     setNotification(STATES.SUCCESS);
   };
   const error = (text) => {
-    window.scroll(0, 0);
     setNotificationText(text);
     setNotification(STATES.ERROR);
   };
