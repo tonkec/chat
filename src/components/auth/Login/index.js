@@ -11,8 +11,6 @@ import {
   EMAIL_INVALID,
 } from '../constants';
 import FlashMessageContext from '../../../context/FlashMessage/flashMessageContext';
-
-import ErrorMessage from '../../Error';
 import isEmailValid from '../validators/emailValidator';
 import isPasswordValid from '../validators/passwordValidator';
 import './../Auth.scss';
@@ -45,11 +43,13 @@ const Login = () => {
       }
     }
 
+    flashMessageContext.close();
     setError(null);
     setDisabled(false);
   };
 
   const handleInvalidInput = (error) => {
+    flashMessageContext.error(error);
     setError(error);
     setDisabled(true);
   };
@@ -74,19 +74,23 @@ const Login = () => {
     handleInvalidInput(PASSWORD_MIN_CHARACTERS);
   };
 
-  const onSubmit = async (e) => {
+  const submitData = async () => {
+    const result = await dispatch(login({ email, password }));
+    if (result.status === 404) {
+      flashMessageContext.error(INVALID_CREDENTIALS);
+      return;
+    }
+
+    navigate('/');
+    flashMessageContext.success(SUCCESSFUL_LOGIN);
+  };
+
+  const onFormSubmit = (e) => {
     e.preventDefault();
     const formHasError = error;
     const isFormValid = !formHasError || formHasError === '';
     if (isFormValid) {
-      const result = await dispatch(login({ email, password }));
-      if (result.status === 404) {
-        flashMessageContext.error(INVALID_CREDENTIALS);
-        return;
-      }
-
-      navigate('/');
-      flashMessageContext.success(SUCCESSFUL_LOGIN);
+      submitData();
     }
   };
 
@@ -111,7 +115,7 @@ const Login = () => {
 
   return (
     <AuthLayout>
-      <form onSubmit={onSubmit} className="form-auth">
+      <form onSubmit={onFormSubmit} className="form-auth">
         <h3 className="form-heading">Ulogiraj se!</h3>
         <input
           onChange={onEmailChange}
@@ -128,7 +132,6 @@ const Login = () => {
         <button disabled={isDisabled}>Login</button>
       </form>
 
-      <ErrorMessage error={error} />
       <div className="links-auth">
         <Link to="/register">Registriraj se</Link> {'  '}
         <Link to="/forgot-password">Zaboravljena lozinka?</Link>
