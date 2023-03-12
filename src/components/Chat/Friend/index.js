@@ -18,8 +18,8 @@ const Friend = ({ chat, click }) => {
   };
 
   return (
-    <div onClick={click} className={`friend-list ${isChatOpened()}`}>
-      <div>
+    <div onClick={click} className={`friend ${isChatOpened()}`}>
+      <div className="friend-data">
         <img
           width="40"
           height="40"

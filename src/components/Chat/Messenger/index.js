@@ -1,9 +1,9 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import ChatHeader from "../ChatHeader/";
-import MessageBox from "../MessageBox/";
-import MessageInput from "../MessageInput";
-import "./Messenger.scss";
+import React from 'react';
+import { useSelector } from 'react-redux';
+import ChatHeader from '../ChatHeader/';
+import MessageBox from '../MessageBox/';
+import MessageInput from '../MessageInput';
+import './Messenger.scss';
 
 const Messenger = () => {
   const chat = useSelector((state) => {
@@ -15,16 +15,13 @@ const Messenger = () => {
   };
 
   return (
-    <div id="messenger" className="shadow-light">
-      {activeChat() ? (
-        <div id="messenger-wrap">
+    <div>
+      {activeChat() && (
+        <div>
           <ChatHeader chat={chat} />
-          <hr />
           <MessageBox chat={chat} />
           <MessageInput chat={chat} />
         </div>
-      ) : (
-        <p>No active chat</p>
       )}
     </div>
   );

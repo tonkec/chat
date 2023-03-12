@@ -32,15 +32,17 @@ const FriendList = () => {
   };
 
   return (
-    <div id="friends" className="shadow-light">
-      <div id="title">
-        <h3 className="m-0">Friends</h3>
-        <button onClick={() => setShowFriendsModal(true)}>ADD</button>
+    <div className="friend-list">
+      <div className="friend-action">
+        <button
+          className="button-inline-block"
+          onClick={() => setShowFriendsModal(true)}
+        >
+          Nova poruka
+        </button>
       </div>
 
-      <hr />
-
-      <div id="friends-box">
+      <div className="friend-container">
         {chats.length > 0 ? (
           chats.map((chat) => {
             return (
