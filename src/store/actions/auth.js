@@ -20,13 +20,17 @@ export const login = (params, navigate) => (dispatch) => {
       if (isUserVerified) {
         dispatch({ type: LOGIN, payload: data.data });
         navigate('/');
+        return data;
       } else {
         if (data) {
           dispatch({ type: EMAIL_NOT_VERIFIED, payload: data.data });
+          return data;
         }
       }
     })
-    .catch((e) => console.log(e));
+    .catch((e) => {
+      throw e;
+    });
 };
 
 export const register = (params, navigate) => (dispatch) => {

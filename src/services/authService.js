@@ -12,7 +12,7 @@ const AuthService = {
         }
       })
       .catch((err) => {
-        console.log('err', err);
+        throw err;
       });
   },
   register: (data) => {
