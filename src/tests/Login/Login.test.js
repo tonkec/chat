@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import App from '../../App';
-import { myCustomRender, createMockedServer } from './helper';
+import { myCustomRender } from './helper';
 import userEvent from '@testing-library/user-event';
 import { fireEvent } from '@testing-library/react';
 import { EMAIL_NOT_VERIFIED } from '../../components/auth/constants';
@@ -30,7 +30,6 @@ test('should not show the email not verified message on mount', async () => {
 });
 
 test('show email not verified message', async () => {
-  const server = createMockedServer({ isVerified: null });
   myCustomRender(<App />);
   const inputEmail = screen.getByPlaceholderText('Email');
   fireEvent.change(inputEmail, { target: { value: notVerifiedUser.email } });
@@ -40,13 +39,10 @@ test('show email not verified message', async () => {
     target: { value: notVerifiedUser.password },
   });
   userEvent.click(screen.getByRole('button', { name: 'Login' }));
-  server.listen();
   await screen.findByText(EMAIL_NOT_VERIFIED);
-  server.close();
 });
 
 test('should not log in with the wrong credentials', async () => {
-  const server = createMockedServer({ isVerified: null });
   myCustomRender(<App />);
 
   const inputEmail = screen.getByPlaceholderText('Email');
@@ -60,11 +56,9 @@ test('should not log in with the wrong credentials', async () => {
   });
   userEvent.click(screen.getByRole('button', { name: 'Login' }));
   await screen.findByText('Ulogiraj se!');
-  server.listen();
 });
 
 test('not showing of email not verified message and should log in with the correct credentials', async () => {
-  const server = createMockedServer({ isVerified: true });
   myCustomRender(<App />);
   const inputEmail = screen.getByPlaceholderText('Email');
   fireEvent.change(inputEmail, { target: { value: verifiedUser.email } });
@@ -74,7 +68,5 @@ test('not showing of email not verified message and should log in with the corre
     target: { value: verifiedUser.password },
   });
   userEvent.click(screen.getByRole('button', { name: 'Login' }));
-  server.listen();
   await screen.findByText('Tvoj Dashboard');
-  server.close();
 });
