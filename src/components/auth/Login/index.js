@@ -4,14 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import AuthLayout from '../../Layout/AuthLayout';
 import { EMAIL_NOT_VERIFIED } from '../constants';
-import NotificationContext from '../../../context/Notification/notificationContext';
+import FlashMessageContext from '../../../context/FlashMessage/flashMessageContext';
 
 import './../Auth.scss';
 
 const Login = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
-  const notificationCtx = useContext(NotificationContext);
+  const flashMessageContext = useContext(FlashMessageContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -35,7 +35,7 @@ const Login = () => {
     }
 
     if (!isVerified) {
-      notificationCtx.error(EMAIL_NOT_VERIFIED);
+      flashMessageContext.error(EMAIL_NOT_VERIFIED);
       return;
     }
   };

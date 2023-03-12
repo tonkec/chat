@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import NotificationContext from './notificationContext';
 import { STATES } from './constants';
+import FlashMessageContext from './flashMessageContext';
 
-const NotificationProvider = (props) => {
+const FlashMessageProvider = (props) => {
   const [notification, setNotification] = useState(null);
   const [notificationText, setNotificationText] = useState(null);
   const success = (text) => {
@@ -18,7 +18,7 @@ const NotificationProvider = (props) => {
     setNotification(null);
   };
   return (
-    <NotificationContext.Provider
+    <FlashMessageContext.Provider
       value={{
         success,
         error,
@@ -28,8 +28,8 @@ const NotificationProvider = (props) => {
       }}
     >
       {props.children}
-    </NotificationContext.Provider>
+    </FlashMessageContext.Provider>
   );
 };
 
-export default NotificationProvider;
+export default FlashMessageProvider;

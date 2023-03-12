@@ -1,5 +1,5 @@
 import React from 'react';
-const NotificationContext = React.createContext({
+const FlashMessageContext = React.createContext({
   notification: null,
   notificationText: null,
   success: () => {},
@@ -7,4 +7,4 @@ const NotificationContext = React.createContext({
   close: () => {},
 });
 
-export default NotificationContext;
+export default FlashMessageContext;

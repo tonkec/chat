@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import NotificationBar from '../../components/Notification';
-import NotificationProvider from '../../context/Notification/notificationProvider';
+import FlashMessage from '../../components/FlashMessage';
+import FlashMessageProvider from '../../context/FlashMessage/flashMessageProvider';
 import appStore from '../../store/index';
 
 export const myCustomRender = (
@@ -18,10 +18,10 @@ export const myCustomRender = (
 ) => {
   const Wrapper = ({ children }) => (
     <Provider store={appStore}>
-      <NotificationProvider>
-        <NotificationBar />
+      <FlashMessageProvider>
+        <FlashMessage />
         {children}
-      </NotificationProvider>
+      </FlashMessageProvider>
     </Provider>
   );
 

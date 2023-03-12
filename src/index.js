@@ -4,8 +4,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './store';
 import { Provider } from 'react-redux';
-import NotificationProvider from './context/Notification/notificationProvider';
-import NotificationBar from './components/Notification';
+import FlashMessage from './components/FlashMessage';
+import FlashMessageProvider from './context/FlashMessage/flashMessageProvider';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 if (process.env.NODE_ENV === 'development') {
   const { worker } = require('./tests/Login/mocks/browser');
@@ -14,10 +14,10 @@ if (process.env.NODE_ENV === 'development') {
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <NotificationProvider>
-        <NotificationBar />
+      <FlashMessageProvider>
+        <FlashMessage />
         <App />
-      </NotificationProvider>
+      </FlashMessageProvider>
     </Provider>
   </React.StrictMode>
 );
