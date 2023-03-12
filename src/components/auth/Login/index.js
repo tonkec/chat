@@ -24,33 +24,27 @@ const Login = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(login({ email, password }, navigate));
-
-    if (!isVerified) {
-      notificationCtx.error(EMAIL_NOT_VERIFIED);
-    }
   };
 
-  const showMessage = () => {
+  const isUserVerified = () => {
     if (isVerified === 'initial') {
-      setMessage(null);
       return;
     }
 
     if (isVerified) {
-      setMessage(null);
+      return;
+    }
+
+    if (!isVerified) {
+      notificationCtx.error(EMAIL_NOT_VERIFIED);
       return;
     }
   };
 
   useEffect(() => {
-    showMessage();
+    isUserVerified();
   });
 
-  useEffect(() => {
-    setTimeout(() => {
-      notificationCtx.close();
-    }, 5000);
-  });
   return (
     <AuthLayout>
       <form onSubmit={onSubmit} className="form-auth">
@@ -74,7 +68,6 @@ const Login = () => {
       <div className="links-auth">
         <Link to="/register">Registriraj se</Link> {'  '}
         <Link to="/forgot-password">Zaboravljena lozinka?</Link>
-        <p className="message-auth">{message}</p>
       </div>
     </AuthLayout>
   );
