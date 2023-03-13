@@ -68,7 +68,6 @@ const Login = () => {
     e.preventDefault();
     const formHasError = error;
     const isFormValid = !formHasError || formHasError === '';
-    console.log(isFormValid);
     if (isFormValid) {
       dispatch(login({ email, password }, navigate));
     }

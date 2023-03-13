@@ -14,7 +14,7 @@ const MessagesPage = () => {
     const filteredChat = allChats.filter(
       (chatFromAllChats) => parseInt(id) === chatFromAllChats.id
     );
-    setChat(filteredChat);
+    setChat(filteredChat[0]);
   }, [dispatch, id]);
 
   useEffect(() => {

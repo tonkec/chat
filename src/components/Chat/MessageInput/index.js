@@ -7,7 +7,6 @@ import { incrementScroll } from '../../../store/actions/chat';
 
 import './MessageInput.scss';
 const MessageInput = ({ chat }) => {
-  console.log(chat, 'message input');
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.authReducer.user);
@@ -28,7 +27,7 @@ const MessageInput = ({ chat }) => {
     const receiver = {
       chatId: chat.id,
       fromUser: user,
-      toUserId: chat.Users && chat.Users.map((user) => user.id),
+      toUserId: chat.Users.map((user) => user.id),
     };
 
     if (value.length === 1) {
@@ -61,13 +60,11 @@ const MessageInput = ({ chat }) => {
       message: imageUpload ? imageUpload : message,
     };
 
-    console.log(msg, 'msg');
-
     setMessage('');
     setImage('');
     setShowEmojiPicker(false);
     // send message with socket
-    // socket.emit('message', msg);
+    socket.emit('message', msg);
   };
 
   const handleImageUpload = () => {
@@ -119,27 +116,30 @@ const MessageInput = ({ chat }) => {
   };
 
   return (
-    <div id="input-container">
-      <div id="message-input">
-        <div id="image-upload-container">
+    <div className="input-container">
+      <div className="message-input">
+        <div className="image-upload-container">
           <div>
             {showNewMessageNotification ? (
-              <div id="message-notification" onClick={showNewMessage}>
+              <div className="message-notification" onClick={showNewMessage}>
                 <p>Bell</p>
                 <p className="m-0">new message</p>
               </div>
             ) : null}
           </div>
-          <div id="image-upload">
+          <div className="image-upload">
             {image.name ? (
-              <div id="image-details" className="m-0">
+              <div className="m-0 image-details">
                 <p>{image.name}</p>
                 <button onClick={handleImageUpload}>Upload</button>
                 <button onClick={() => setImage('')}>Remove</button>
               </div>
             ) : null}
 
-            <button onClick={() => fileUpload.current.click()}>Upload</button>
+            <button
+              className="button-inline-block button-file"
+              onClick={() => fileUpload.current.click()}
+            ></button>
           </div>
         </div>
         <input
@@ -150,8 +150,11 @@ const MessageInput = ({ chat }) => {
           value={message}
           ref={msgInput}
         />
-        <button onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
-          smile
+        <button
+          className="button-inline-block button-emoji"
+          onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+        >
+          🙂
         </button>
       </div>
 
@@ -167,7 +170,7 @@ const MessageInput = ({ chat }) => {
           data={data}
           title="Pick your emoji..."
           emoji="point_up"
-          style={{ position: 'absolute', bottom: '20px', right: '20px' }}
+          style={{ position: 'absolute', bottom: '20px', right: '0px' }}
           onEmojiSelect={selectEmoji}
         />
       ) : null}

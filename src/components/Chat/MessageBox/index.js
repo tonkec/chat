@@ -10,7 +10,6 @@ const MessageBox = ({ chat }) => {
   const user = useSelector((state) => state.authReducer.user);
   const scrollBottom = useSelector((state) => state.chatReducer.scrollBottom);
   const senderTyping = useSelector((state) => state.chatReducer.senderTyping);
-
   const msgBox = useRef();
 
   useEffect(() => {

@@ -15,17 +15,7 @@ API.interceptors.response.use(
     return res;
   },
   (err) => {
-    if (err.response.status !== 401) {
-      throw err;
-    }
-    if (err.response.data.name) {
-      if (typeof err.response.data.error.name !== 'undefined') {
-        if (err.response.data.error.name === 'TokenExpiredError') {
-          store.dispatch(logout());
-          throw err;
-        }
-      }
-    }
+    throw err;
   }
 );
 

@@ -25,7 +25,6 @@ const Messenger = ({ chat: chatFromProps }) => {
   };
 
   const chat = chatFromState || chatFromProps;
-
   return (
     <div>
       {activeChat() && (
