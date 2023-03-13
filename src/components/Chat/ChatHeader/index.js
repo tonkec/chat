@@ -39,18 +39,19 @@ const ChatHeader = ({ chat }) => {
   return (
     <>
       <div id="chatter">
-        {chat.Users.map((user) => {
-          return (
-            <div className="chatter-info" key={user.id}>
-              <h3>
-                {user.firstName} {user.lastName}
-              </h3>
-              <div className="chatter-status">
-                <span className={`online-status ${userStatus(user)}`}></span>
+        {chat.Users &&
+          chat.Users.map((user) => {
+            return (
+              <div className="chatter-info" key={user.id}>
+                <h3>
+                  {user.firstName} {user.lastName}
+                </h3>
+                <div className="chatter-status">
+                  <span className={`online-status ${userStatus(user)}`}></span>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
       <div onClick={() => setShowOptions(!showOptions)}>options</div>
 

@@ -18,7 +18,9 @@ const FriendList = () => {
 
   const openChat = (chat) => {
     dispatch(setCurrentChat(chat));
-    navigate(`/poruka/${chat.id}`);
+    navigate(`/poruka/${chat.id}`, {
+      state: chat,
+    });
   };
 
   const searchFriends = (e) => {

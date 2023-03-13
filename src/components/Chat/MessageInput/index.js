@@ -7,6 +7,7 @@ import { incrementScroll } from '../../../store/actions/chat';
 
 import './MessageInput.scss';
 const MessageInput = ({ chat }) => {
+  console.log(chat, 'message input');
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.authReducer.user);
@@ -27,7 +28,7 @@ const MessageInput = ({ chat }) => {
     const receiver = {
       chatId: chat.id,
       fromUser: user,
-      toUserId: chat.Users.map((user) => user.id),
+      toUserId: chat.Users && chat.Users.map((user) => user.id),
     };
 
     if (value.length === 1) {
@@ -55,16 +56,18 @@ const MessageInput = ({ chat }) => {
     const msg = {
       type: imageUpload ? 'image' : 'text',
       fromUser: user,
-      toUserId: chat.Users.map((user) => user.id),
+      toUserId: chat.Users && chat.Users.map((user) => user.id),
       chatId: chat.id,
       message: imageUpload ? imageUpload : message,
     };
+
+    console.log(msg, 'msg');
 
     setMessage('');
     setImage('');
     setShowEmojiPicker(false);
     // send message with socket
-    socket.emit('message', msg);
+    // socket.emit('message', msg);
   };
 
   const handleImageUpload = () => {
