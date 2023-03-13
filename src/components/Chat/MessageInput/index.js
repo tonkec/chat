@@ -4,7 +4,7 @@ import ChatService from '../../../services/chatService';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import { incrementScroll } from '../../../store/actions/chat';
-
+import { HiPaperClip } from 'react-icons/hi';
 import './MessageInput.scss';
 const MessageInput = ({ chat }) => {
   const dispatch = useDispatch();
@@ -139,7 +139,9 @@ const MessageInput = ({ chat }) => {
             <button
               className="button-inline-block button-file"
               onClick={() => fileUpload.current.click()}
-            ></button>
+            >
+              <HiPaperClip />
+            </button>
           </div>
         </div>
         <input

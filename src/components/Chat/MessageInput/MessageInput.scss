@@ -6,6 +6,7 @@ em-emoji-picker {
 
 .input-container {
   position: relative;
+  padding-top: 20px;
   input {
     background-color: #ffffff;
     width: 100%;
@@ -19,7 +20,7 @@ em-emoji-picker {
 
   .button-inline-block.button-emoji {
     position: absolute;
-    right: 30px;
+    right: 25px;
     padding-top: 18px;
     padding-bottom: 18px;
     background-color: transparent;
@@ -29,6 +30,9 @@ em-emoji-picker {
     position: absolute;
     right: 0px;
     background-color: transparent;
+    font-size: 1em;
+    color: #2c3e50;
+    top: 25px;
   }
 
   input[type='file'] {

@@ -3,6 +3,9 @@ import { userStatus } from '../../../utlis/helpers';
 import { useSelector } from 'react-redux';
 import Modal from '../../Modal';
 import ChatService from '../../../services/chatService';
+import { SlOptionsVertical } from 'react-icons/sl';
+import './ChatHeader.scss';
+
 const ChatHeader = ({ chat }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
@@ -38,25 +41,31 @@ const ChatHeader = ({ chat }) => {
 
   return (
     <>
-      <div id="chatter">
-        {chat.Users &&
-          chat.Users.map((user) => {
-            return (
-              <div className="chatter-info" key={user.id}>
-                <h3>
-                  {user.firstName} {user.lastName}
-                </h3>
-                <div className="chatter-status">
-                  <span className={`online-status ${userStatus(user)}`}></span>
+      <div className="chat-header">
+        <div>
+          {chat.Users &&
+            chat.Users.map((user) => {
+              return (
+                <div className="chatter-info" key={user.id}>
+                  <h3>
+                    {user.firstName} {user.lastName}
+                  </h3>
+                  <div className="chatter-status">
+                    <span
+                      className={`online-status ${userStatus(user)}`}
+                    ></span>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+        </div>
+        <div className="options" onClick={() => setShowOptions(!showOptions)}>
+          <SlOptionsVertical />
+        </div>
       </div>
-      <div onClick={() => setShowOptions(!showOptions)}>options</div>
 
       {showOptions ? (
-        <div id="settings">
+        <div className="settings">
           <div onClick={() => setShowAddFriendModal(true)}>
             <p>Add user to chat</p>
           </div>
