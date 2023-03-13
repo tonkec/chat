@@ -66,7 +66,12 @@ const MessageBox = ({ chat }) => {
   }, [scrollBottom, senderTyping.typing]);
 
   return (
-    <div id="msg-box" ref={msgBox} onScroll={handeInfiniteScroll}>
+    <div
+      className="msg-box"
+      id="msg-box"
+      ref={msgBox}
+      onScroll={handeInfiniteScroll}
+    >
       {loading ? <p>Loading</p> : null}
       {chat.Messages &&
         chat.Messages.map((message, index) => (

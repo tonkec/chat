@@ -146,7 +146,7 @@ const MessageInput = ({ chat }) => {
         </div>
         <input
           type="text"
-          placeholder="Message...."
+          placeholder="Stisni enter da pošalješ poruku..."
           onChange={(e) => handleMessage(e)}
           onKeyDown={(e) => handleKeyDown(e, false)}
           value={message}
