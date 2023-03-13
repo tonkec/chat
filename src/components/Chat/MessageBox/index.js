@@ -11,12 +11,14 @@ const MessageBox = ({ chat }) => {
   const scrollBottom = useSelector((state) => state.chatReducer.scrollBottom);
   const senderTyping = useSelector((state) => state.chatReducer.senderTyping);
   const msgBox = useRef();
-
+  const hasMessageBox = msgBox.current;
   useEffect(() => {
-    setTimeout(() => {
-      scrollManual(msgBox.current.scrollHeight);
-    }, 100);
-  }, [scrollBottom]);
+    if (hasMessageBox) {
+      setTimeout(() => {
+        scrollManual(msgBox.current.scrollHeight);
+      }, 100);
+    }
+  }, [scrollBottom, hasMessageBox]);
 
   const scrollManual = (value) => {
     msgBox.current.scrollTop = value;
@@ -41,40 +43,47 @@ const MessageBox = ({ chat }) => {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      scrollManual(Math.ceil(msgBox.current.scrollHeight * 0.1));
-    }, 100);
-  }, [scrollUp]);
-
-  useEffect(() => {
-    if (
-      senderTyping.typing &&
-      msgBox.current.scrollTop > msgBox.current.scrollHeight * 0.3
-    ) {
+    if (hasMessageBox) {
       setTimeout(() => {
-        scrollManual(msgBox.current.scrollHeight);
+        scrollManual(Math.ceil(msgBox.current.scrollHeight * 0.1));
       }, 100);
     }
-  }, [senderTyping]);
+  }, [scrollUp, hasMessageBox]);
+
+  useEffect(() => {
+    if (hasMessageBox) {
+      if (
+        senderTyping.typing &&
+        msgBox.current.scrollTop > msgBox.current.scrollHeight * 0.3
+      ) {
+        setTimeout(() => {
+          scrollManual(msgBox.current.scrollHeight);
+        }, 100);
+      }
+    }
+  }, [senderTyping, hasMessageBox]);
 
   useEffect(() => {
     if (!senderTyping.typing) {
-      setTimeout(() => {
-        scrollManual(msgBox.current.scrollHeight);
-      }, 100);
+      if (hasMessageBox) {
+        setTimeout(() => {
+          scrollManual(msgBox.current.scrollHeight);
+        }, 100);
+      }
     }
   }, [scrollBottom, senderTyping.typing]);
 
+  const hasMessages = chat.Messages.length > 0;
   return (
-    <div
-      className="msg-box"
-      id="msg-box"
-      ref={msgBox}
-      onScroll={handeInfiniteScroll}
-    >
-      {loading ? <p>Loading</p> : null}
-      {chat.Messages &&
-        chat.Messages.map((message, index) => (
+    hasMessages && (
+      <div
+        className="msg-box"
+        id="msg-box"
+        ref={msgBox}
+        onScroll={handeInfiniteScroll}
+      >
+        {loading ? <p>Loading</p> : null}
+        {chat.Messages.map((message, index) => (
           <Message
             user={user}
             chat={chat}
@@ -83,17 +92,18 @@ const MessageBox = ({ chat }) => {
             key={message.id}
           />
         ))}
-      {senderTyping.typing && senderTyping.chatId === chat.id ? (
-        <div className="message">
-          <div className="other-person">
-            <p>
-              {senderTyping.fromUser.firstName}
-              {senderTyping.fromUser.lasttName}...
-            </p>
+        {senderTyping.typing && senderTyping.chatId === chat.id ? (
+          <div className="message">
+            <div className="other-person">
+              <p>
+                {senderTyping.fromUser.firstName}
+                {senderTyping.fromUser.lasttName}...
+              </p>
+            </div>
           </div>
-        </div>
-      ) : null}
-    </div>
+        ) : null}
+      </div>
+    )
   );
 };
 

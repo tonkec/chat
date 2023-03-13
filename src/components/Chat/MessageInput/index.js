@@ -96,11 +96,19 @@ const MessageInput = ({ chat }) => {
     const msgBox = document.getElementById('msg-box');
     const isSeen = newMessage.seen;
     const isCurrentChat = newMessage.chatId === chat.id;
-    const messageBoxHeight = msgBox.scrollHeight !== msgBox.clientHeight;
-    const isScrolled = msgBox.scrollTop > msgBox.scrollHeight * 0.3;
+    const messageBoxHeight = () => {
+      if (msgBox) {
+        return msgBox.scrollHeight !== msgBox.clientHeight;
+      }
+    };
+    const isScrolled = () => {
+      if (msgBox) {
+        return msgBox.scrollTop > msgBox.scrollHeight * 0.3;
+      }
+    };
 
-    if (!isSeen && isCurrentChat && messageBoxHeight) {
-      if (isScrolled) {
+    if (msgBox && !isSeen && isCurrentChat && messageBoxHeight()) {
+      if (isScrolled()) {
         dispatch(incrementScroll());
       } else {
         setShowNewMessageNotification(true);
