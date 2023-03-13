@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import './MessageBox.scss';
 import Message from '../Message';
 import { useSelector, useDispatch } from 'react-redux';
@@ -10,18 +10,14 @@ const MessageBox = ({ chat }) => {
   const user = useSelector((state) => state.authReducer.user);
   const scrollBottom = useSelector((state) => state.chatReducer.scrollBottom);
   const senderTyping = useSelector((state) => state.chatReducer.senderTyping);
-  const msgBox = useRef();
-  const hasMessageBox = msgBox.current;
   useEffect(() => {
-    if (hasMessageBox) {
-      setTimeout(() => {
-        scrollManual(msgBox.current.scrollHeight);
-      }, 100);
-    }
-  }, [scrollBottom, hasMessageBox]);
+    setTimeout(() => {
+      scrollManual(document.documentElement.scrollHeight);
+    }, 100);
+  }, [scrollBottom]);
 
   const scrollManual = (value) => {
-    msgBox.current.scrollTop = value;
+    document.documentElement.scrollTop = value;
   };
 
   const handeInfiniteScroll = (e) => {
@@ -42,46 +38,10 @@ const MessageBox = ({ chat }) => {
     }
   };
 
-  useEffect(() => {
-    if (hasMessageBox) {
-      setTimeout(() => {
-        scrollManual(Math.ceil(msgBox.current.scrollHeight * 0.1));
-      }, 100);
-    }
-  }, [scrollUp, hasMessageBox]);
-
-  useEffect(() => {
-    if (hasMessageBox) {
-      if (
-        senderTyping.typing &&
-        msgBox.current.scrollTop > msgBox.current.scrollHeight * 0.3
-      ) {
-        setTimeout(() => {
-          scrollManual(msgBox.current.scrollHeight);
-        }, 100);
-      }
-    }
-  }, [senderTyping, hasMessageBox]);
-
-  useEffect(() => {
-    if (!senderTyping.typing) {
-      if (hasMessageBox) {
-        setTimeout(() => {
-          scrollManual(msgBox.current.scrollHeight);
-        }, 100);
-      }
-    }
-  }, [scrollBottom, senderTyping.typing]);
-
   const hasMessages = chat.Messages.length > 0;
   return (
     hasMessages && (
-      <div
-        className="msg-box"
-        id="msg-box"
-        ref={msgBox}
-        onScroll={handeInfiniteScroll}
-      >
+      <div className="msg-box" id="msg-box" onScroll={handeInfiniteScroll}>
         {loading ? <p>Loading</p> : null}
         {chat.Messages.map((message, index) => (
           <Message

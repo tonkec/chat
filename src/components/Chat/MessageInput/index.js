@@ -5,6 +5,7 @@ import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import { incrementScroll } from '../../../store/actions/chat';
 import { HiPaperClip } from 'react-icons/hi';
+import { AiFillBell } from 'react-icons/ai';
 import './MessageInput.scss';
 const MessageInput = ({ chat }) => {
   const dispatch = useDispatch();
@@ -93,23 +94,26 @@ const MessageInput = ({ chat }) => {
   };
 
   useEffect(() => {
-    const msgBox = document.getElementById('msg-box');
     const isSeen = newMessage.seen;
     const isCurrentChat = newMessage.chatId === chat.id;
-    const messageBoxHeight = () => {
-      if (msgBox) {
-        return msgBox.scrollHeight !== msgBox.clientHeight;
-      }
-    };
-    const isScrolled = () => {
-      if (msgBox) {
-        return msgBox.scrollTop > msgBox.scrollHeight * 0.3;
-      }
-    };
+    const documentHeight =
+      document.documentElement.scrollHeight !==
+      document.documentElement.clientHeight;
 
-    if (msgBox && !isSeen && isCurrentChat && messageBoxHeight()) {
+    const isScrolled = () => {
+      console.log(document.documentElement.scrollTop, 'scrollt top');
+      console.log(document.documentElement.scrollHeight, 'height');
+      return (
+        document.documentElement.scrollTop >
+        document.documentElement.scrollHeight
+      );
+    };
+    const shouldScroll = !isSeen && isCurrentChat && documentHeight;
+    console.log(shouldScroll, 'shouldScroll');
+    console.log(isScrolled(), 'isscrolled');
+    if (shouldScroll) {
       if (isScrolled()) {
-        dispatch(incrementScroll());
+        // dispatch(incrementScroll());
       } else {
         setShowNewMessageNotification(true);
       }
@@ -122,7 +126,7 @@ const MessageInput = ({ chat }) => {
     dispatch(incrementScroll());
     setShowNewMessageNotification(false);
   };
-
+  console.log(showNewMessageNotification, 'msg notif');
   return (
     <div className="input-container">
       <div className="message-input">
@@ -130,8 +134,7 @@ const MessageInput = ({ chat }) => {
           <div>
             {showNewMessageNotification ? (
               <div className="message-notification" onClick={showNewMessage}>
-                <p>Bell</p>
-                <p className="m-0">new message</p>
+                <AiFillBell />
               </div>
             ) : null}
           </div>

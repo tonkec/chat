@@ -7,6 +7,7 @@ em-emoji-picker {
 .input-container {
   position: relative;
   padding-top: 10px;
+  margin-bottom: 50px;
   input {
     background-color: #ffffff;
     width: 100%;
@@ -41,5 +42,16 @@ em-emoji-picker {
 
   input[type='file'] {
     display: none;
+  }
+}
+
+.message-notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+
+  svg {
+    color: #80ed99;
+    font-size: 2rem;
   }
 }
