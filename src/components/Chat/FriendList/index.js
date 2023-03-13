@@ -61,24 +61,27 @@ const FriendList = () => {
       {showFriendsModal && (
         <Modal click={() => setShowFriendsModal(false)}>
           <Fragment key="header">
-            <h3 className="m-0">Create new chat</h3>
+            <h5 className="m-0">Nova poruka</h5>
           </Fragment>
 
           <Fragment key="body">
-            <p>Find friends by typing their name bellow</p>
+            <p>Odaberi osobu s kojom želiš pričati...</p>
             <input
               onInput={(e) => searchFriends(e)}
               type="text"
-              placeholder="Search..."
+              placeholder="Pretraži..."
             />
             <div id="suggestions">
               {suggestions.map((user) => {
                 return (
-                  <div key={user.id} className="suggestion">
+                  <div
+                    key={user.id}
+                    className="suggestion"
+                    onClick={() => addNewFriend(user.id)}
+                  >
                     <p className="m-0">
                       {user.firstName} {user.lastName}
                     </p>
-                    <button onClick={() => addNewFriend(user.id)}>ADD</button>
                   </div>
                 );
               })}
