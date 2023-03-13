@@ -9,12 +9,7 @@ const Chat = () => {
   const user = useSelector((state) => state.authReducer.user);
   useSocket(dispatch, user);
 
-  return (
-    <>
-      <FriendList />
-      <Messenger />
-    </>
-  );
+  return <FriendList />;
 };
 
 export default Chat;
