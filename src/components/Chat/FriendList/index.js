@@ -5,9 +5,11 @@ import { setCurrentChat } from '../../../store/actions/chat';
 import Modal from '../../Modal';
 import ChatService from '../../../services/chatService';
 import './FriendList.scss';
+import { useNavigate } from 'react-router';
 
 const FriendList = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const chats = useSelector((state) => state.chatReducer.chats);
   const socket = useSelector((state) => state.chatReducer.socket);
 
@@ -16,6 +18,7 @@ const FriendList = () => {
 
   const openChat = (chat) => {
     dispatch(setCurrentChat(chat));
+    navigate(`/poruka/${chat.id}`);
   };
 
   const searchFriends = (e) => {
