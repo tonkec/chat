@@ -109,8 +109,6 @@ const MessageInput = ({ chat }) => {
       );
     };
     const shouldScroll = !isSeen && isCurrentChat && documentHeight;
-    console.log(shouldScroll, 'shouldScroll');
-    console.log(isScrolled(), 'isscrolled');
     if (shouldScroll) {
       if (isScrolled()) {
         // dispatch(incrementScroll());
@@ -126,7 +124,6 @@ const MessageInput = ({ chat }) => {
     dispatch(incrementScroll());
     setShowNewMessageNotification(false);
   };
-  console.log(showNewMessageNotification, 'msg notif');
   return (
     <div className="input-container">
       <div className="message-input">
@@ -137,22 +134,6 @@ const MessageInput = ({ chat }) => {
                 <AiFillBell />
               </div>
             ) : null}
-          </div>
-          <div className="image-upload">
-            {image.name ? (
-              <div className="m-0 image-details">
-                <p>{image.name}</p>
-                <button onClick={handleImageUpload}>Upload</button>
-                <button onClick={() => setImage('')}>Remove</button>
-              </div>
-            ) : null}
-
-            <button
-              className="button-inline-block button-file"
-              onClick={() => fileUpload.current.click()}
-            >
-              <HiPaperClip />
-            </button>
           </div>
         </div>
         <input
