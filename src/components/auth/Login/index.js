@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { login } from '../../../store/actions/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import AuthLayout from '../../Layout/AuthLayout';
-import ErrorMessage from '../../Error';
+import {
+  EMAIL_NOT_VERIFIED,
+  INVALID_CREDENTIALS,
+  SUCCESSFUL_LOGIN,
+  PASSWORD_MIN_CHARACTERS,
+  EMAIL_INVALID,
+} from '../constants';
+import FlashMessageContext from '../../../context/FlashMessage/flashMessageContext';
 import isEmailValid from '../validators/emailValidator';
 import isPasswordValid from '../validators/passwordValidator';
-import { PASSWORD_MIN_CHARACTERS, EMAIL_INVALID } from '../constants/login';
 import './../Auth.scss';
 
 const Login = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
+  const flashMessageContext = useContext(FlashMessageContext);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -35,11 +43,13 @@ const Login = () => {
       }
     }
 
+    flashMessageContext.close();
     setError(null);
     setDisabled(false);
   };
 
   const handleInvalidInput = (error) => {
+    flashMessageContext.error(error);
     setError(error);
     setDisabled(true);
   };
@@ -64,21 +74,50 @@ const Login = () => {
     handleInvalidInput(PASSWORD_MIN_CHARACTERS);
   };
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const formHasError = error;
-    const isFormValid = !formHasError || formHasError === '';
-    console.log(isFormValid);
-    if (isFormValid) {
-      dispatch(login({ email, password }, navigate));
+  const submitData = async () => {
+    try {
+      await dispatch(login({ email, password }));
+      navigate('/');
+      flashMessageContext.success(SUCCESSFUL_LOGIN);
+    } catch (e) {
+      if (e.status === 404) {
+        flashMessageContext.error(INVALID_CREDENTIALS);
+        return;
+      }
     }
   };
 
-  const message = isVerified !== null ? '' : 'Email not verified';
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    const formHasError = error;
+    const isFormValid = !formHasError || formHasError === '';
+    if (isFormValid) {
+      submitData();
+    }
+  };
+
+  const isUserVerified = useCallback(() => {
+    if (isVerified === 'initial') {
+      return;
+    }
+
+    if (isVerified) {
+      return;
+    }
+
+    if (!isVerified) {
+      flashMessageContext.error(EMAIL_NOT_VERIFIED);
+      return;
+    }
+  }, [isVerified, flashMessageContext]);
+
+  useEffect(() => {
+    isUserVerified();
+  }, [isUserVerified]);
 
   return (
     <AuthLayout>
-      <form onSubmit={onSubmit} className="form-auth">
+      <form onSubmit={onFormSubmit} className="form-auth">
         <h3 className="form-heading">Ulogiraj se!</h3>
         <input
           onChange={onEmailChange}
@@ -95,9 +134,7 @@ const Login = () => {
         <button disabled={isDisabled}>Login</button>
       </form>
 
-      <ErrorMessage error={error} />
       <div className="links-auth">
-        {message && <p>{message}</p>}
         <Link to="/register">Registriraj se</Link> {'  '}
         <Link to="/forgot-password">Zaboravljena lozinka?</Link>
       </div>
