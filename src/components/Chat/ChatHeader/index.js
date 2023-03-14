@@ -16,22 +16,22 @@ const ChatHeader = ({ chat }) => {
     ChatService.searchUsers(e.target.value).then((res) => setSuggestions(res));
   };
 
-  const addNewFriend = (id) => {
-    ChatService.addFriendToGroupChat(id, chat.id)
-      .then((data) => {
-        socket.emit('add-user-to-group', data);
-        setShowAddFriendModal(false);
-      })
-      .catch((err) => console.log(err));
-  };
+  // const addNewFriend = (id) => {
+  //   ChatService.addFriendToGroupChat(id, chat.id)
+  //     .then((data) => {
+  //       socket.emit('add-user-to-group', data);
+  //       setShowAddFriendModal(false);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
-  const leaveChat = () => {
-    ChatService.leaveCurrentChat(chat.id)
-      .then((data) => {
-        socket.emit('leave-current-chat', data);
-      })
-      .catch((err) => console.log(err));
-  };
+  // const leaveChat = () => {
+  //   ChatService.leaveCurrentChat(chat.id)
+  //     .then((data) => {
+  //       socket.emit('leave-current-chat', data);
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   const deleteChat = () => {
     ChatService.deleteCurrentChat(chat.id).then((data) => {
@@ -66,15 +66,15 @@ const ChatHeader = ({ chat }) => {
 
       {showOptions ? (
         <div className="settings">
-          <div onClick={() => setShowAddFriendModal(true)}>
+          {/* <div onClick={() => setShowAddFriendModal(true)}>
             <p>Add user to chat</p>
-          </div>
+          </div> */}
 
-          {chat.type === 'group' ? (
+          {/* {chat.type === 'group' ? (
             <div onClick={() => leaveChat()}>
               <p>Leave chat</p>
             </div>
-          ) : null}
+          ) : null} */}
 
           {chat.type === 'dual' ? (
             <div onClick={() => deleteChat()}>
@@ -84,18 +84,18 @@ const ChatHeader = ({ chat }) => {
         </div>
       ) : null}
 
-      {showAddFriendModal && (
+      {/* {showAddFriendModal && (
         <Modal click={() => setShowAddFriendModal(false)}>
           <Fragment key="header">
-            <h3 className="m-0">Add friend to group chat</h3>
+            <h3 className="m-0">Nova poruka</h3>
           </Fragment>
 
           <Fragment key="body">
-            <p>Find friends by typing their name bellow</p>
+            <p>Odaberi osobu s kojom želiš pričati...</p>
             <input
               onInput={(e) => searchFriends(e)}
               type="text"
-              placeholder="Search..."
+              placeholder="Pretraži..."
             />
             <div id="suggestions">
               {suggestions.map((user) => {
@@ -111,7 +111,7 @@ const ChatHeader = ({ chat }) => {
             </div>
           </Fragment>
         </Modal>
-      )}
+      )} */}
     </>
   );
 };

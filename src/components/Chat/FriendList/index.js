@@ -48,15 +48,12 @@ const FriendList = () => {
       </div>
 
       <div className="friend-container">
-        {chats.length > 0 ? (
+        {chats.length > 0 &&
           chats.map((chat) => {
             return (
               <Friend click={() => openChat(chat)} chat={chat} key={chat.id} />
             );
-          })
-        ) : (
-          <p id="no-chat">No friends added</p>
-        )}
+          })}
       </div>
       {showFriendsModal && (
         <Modal click={() => setShowFriendsModal(false)}>
