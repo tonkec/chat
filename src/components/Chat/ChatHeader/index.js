@@ -21,15 +21,23 @@ const ChatHeader = ({ chat }) => {
 
   return (
     <>
+      {chat.type === 'dual' ? (
+        <div onClick={() => deleteChat()} className="delete-chat">
+          <p>Obriši razgovor</p>
+        </div>
+      ) : null}
       <div className="chat-header">
         <div>
           {chat.Users &&
             chat.Users.map((user) => {
               return (
                 <div className="chatter-info" key={user.id}>
-                  <h3>
-                    {user.firstName} {user.lastName}
-                  </h3>
+                  <img
+                    src={user.avatar}
+                    alt="user avatar"
+                    className="user-avatar"
+                  />
+                  <h3>{user.firstName}</h3>
                   <div className="chatter-status">
                     <span
                       className={`online-status ${userStatus(user)}`}
@@ -39,20 +47,7 @@ const ChatHeader = ({ chat }) => {
               );
             })}
         </div>
-        <div className="options" onClick={() => setShowOptions(!showOptions)}>
-          <SlOptionsVertical />
-        </div>
       </div>
-
-      {showOptions ? (
-        <div className="settings">
-          {chat.type === 'dual' ? (
-            <div onClick={() => deleteChat()}>
-              <p>Delete chat</p>
-            </div>
-          ) : null}
-        </div>
-      ) : null}
     </>
   );
 };

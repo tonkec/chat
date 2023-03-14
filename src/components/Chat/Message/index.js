@@ -15,20 +15,29 @@ const Message = ({ user, chat, index, message }) => {
         message.fromUserId === user.id ? 'creator' : ''
       }`}
     >
+      {message.fromUserId !== user.id && (
+        <img
+          src={message.User.avatar}
+          alt="user-avatar"
+          className="user-avatar"
+        />
+      )}
       <div
         className={message.fromUserId === user.id ? 'owner' : 'other-person'}
       >
         {message.fromUserId !== user.id ? (
-          <h6 className="m-0">
-            {message.User.firstName} {message.User.lastName}
-          </h6>
+          <>
+            <h6 className="m-0">
+              {message.User.firstName} {message.User.lastName}{' '}
+            </h6>
+          </>
         ) : null}
         {message.type === 'text' ? (
           <p>{message.message}</p>
         ) : (
           <img src={message.message} alt="user upload" />
         )}
-      </div>
+      </div>{' '}
     </div>
   );
 };

@@ -38,32 +38,29 @@ const MessageBox = ({ chat }) => {
     }
   };
 
-  const hasMessages = chat.Messages.length > 0;
   return (
-    hasMessages && (
-      <div className="msg-box" id="msg-box" onScroll={handeInfiniteScroll}>
-        {loading ? <p>Loading</p> : null}
-        {chat.Messages.map((message, index) => (
-          <Message
-            user={user}
-            chat={chat}
-            message={message}
-            index={index}
-            key={message.id}
-          />
-        ))}
-        {senderTyping.typing && senderTyping.chatId === chat.id ? (
-          <div className="message">
-            <div className="other-person">
-              <p>
-                {senderTyping.fromUser.firstName}
-                {senderTyping.fromUser.lasttName}...
-              </p>
-            </div>
+    <div className="msg-box" id="msg-box" onScroll={handeInfiniteScroll}>
+      {loading ? <p>Loading</p> : null}
+      {chat.Messages.map((message, index) => (
+        <Message
+          user={user}
+          chat={chat}
+          message={message}
+          index={index}
+          key={message.id}
+        />
+      ))}
+      {senderTyping.typing && senderTyping.chatId === chat.id ? (
+        <div className="message">
+          <div className="other-person">
+            <p>
+              {senderTyping.fromUser.firstName}
+              {senderTyping.fromUser.lasttName}...
+            </p>
           </div>
-        ) : null}
-      </div>
-    )
+        </div>
+      ) : null}
+    </div>
   );
 };
 
