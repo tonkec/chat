@@ -96,7 +96,7 @@ const Login = () => {
     }
   };
 
-  const isUserVerified = useCallback(() => {
+  const isUserVerified = () => {
     if (isVerified === 'initial') {
       return;
     }
@@ -109,11 +109,11 @@ const Login = () => {
       flashMessageContext.error(EMAIL_NOT_VERIFIED);
       return;
     }
-  }, [isVerified, flashMessageContext]);
+  };
 
   useEffect(() => {
     isUserVerified();
-  }, [isUserVerified]);
+  }, []);
 
   return (
     <AuthLayout>
