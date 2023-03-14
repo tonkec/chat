@@ -7,7 +7,6 @@ import { AiFillBell } from 'react-icons/ai';
 import './MessageInput.scss';
 const MessageInput = ({ chat }) => {
   const dispatch = useDispatch();
-
   const user = useSelector((state) => state.authReducer.user);
   const socket = useSelector((state) => state.chatReducer.socket);
   const newMessage = useSelector((state) => state.chatReducer.newMessage);
