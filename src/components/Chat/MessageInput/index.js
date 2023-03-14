@@ -1,10 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import ChatService from '../../../services/chatService';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import { incrementScroll } from '../../../store/actions/chat';
-import { HiPaperClip } from 'react-icons/hi';
 import { AiFillBell } from 'react-icons/ai';
 import './MessageInput.scss';
 const MessageInput = ({ chat }) => {
@@ -15,12 +13,10 @@ const MessageInput = ({ chat }) => {
   const newMessage = useSelector((state) => state.chatReducer.newMessage);
 
   const [message, setMessage] = useState('');
-  const [image, setImage] = useState('');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [showNewMessageNotification, setShowNewMessageNotification] =
     useState(false);
 
-  const fileUpload = useRef();
   const msgInput = useRef();
   const handleMessage = (e) => {
     const value = e.target.value;
@@ -62,21 +58,8 @@ const MessageInput = ({ chat }) => {
     };
 
     setMessage('');
-    setImage('');
     setShowEmojiPicker(false);
-    // send message with socket
     socket.emit('message', msg);
-  };
-
-  const handleImageUpload = () => {
-    const formData = new FormData();
-    formData.append('id', chat.id);
-    formData.append('image', image);
-    ChatService.uploadImage(formData)
-      .then((image) => {
-        sendMessage(image);
-      })
-      .catch((e) => console.log(e));
   };
 
   const selectEmoji = (emoji) => {
@@ -151,13 +134,6 @@ const MessageInput = ({ chat }) => {
           🙂
         </button>
       </div>
-
-      <input
-        type="file"
-        id="chat-image"
-        ref={fileUpload}
-        onChange={(e) => setImage(e.target.files[0])}
-      />
 
       {showEmojiPicker ? (
         <Picker

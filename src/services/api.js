@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { logout } from '../store/actions/auth';
-import store from '../store';
 
 const API = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_PORT,

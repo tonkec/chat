@@ -1,7 +1,6 @@
 import { useState, Fragment } from 'react';
 import { userStatus } from '../../../utlis/helpers';
 import { useSelector } from 'react-redux';
-import Modal from '../../Modal';
 import ChatService from '../../../services/chatService';
 import { SlOptionsVertical } from 'react-icons/sl';
 import './ChatHeader.scss';
