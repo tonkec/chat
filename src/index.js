@@ -7,10 +7,6 @@ import { Provider } from 'react-redux';
 import FlashMessage from './components/FlashMessage';
 import FlashMessageProvider from './context/FlashMessage/flashMessageProvider';
 const root = ReactDOM.createRoot(document.getElementById('root'));
-if (process.env.NODE_ENV === 'development') {
-  const { worker } = require('./tests/Login/mocks/browser');
-  worker.start();
-}
 root.render(
   <React.StrictMode>
     <Provider store={store}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { login } from '../../../store/actions/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
@@ -75,14 +75,16 @@ const Login = () => {
   };
 
   const submitData = async () => {
-    const result = await dispatch(login({ email, password }));
-    if (result.status === 404) {
-      flashMessageContext.error(INVALID_CREDENTIALS);
-      return;
+    try {
+      await dispatch(login({ email, password }));
+      navigate('/');
+      flashMessageContext.success(SUCCESSFUL_LOGIN);
+    } catch (e) {
+      if (e.status === 404) {
+        flashMessageContext.error(INVALID_CREDENTIALS);
+        return;
+      }
     }
-
-    navigate('/');
-    flashMessageContext.success(SUCCESSFUL_LOGIN);
   };
 
   const onFormSubmit = (e) => {
@@ -94,7 +96,7 @@ const Login = () => {
     }
   };
 
-  const isUserVerified = () => {
+  const isUserVerified = useCallback(() => {
     if (isVerified === 'initial') {
       return;
     }
@@ -107,11 +109,11 @@ const Login = () => {
       flashMessageContext.error(EMAIL_NOT_VERIFIED);
       return;
     }
-  };
+  }, [isVerified, flashMessageContext]);
 
   useEffect(() => {
     isUserVerified();
-  });
+  }, [isUserVerified]);
 
   return (
     <AuthLayout>
