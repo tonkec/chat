@@ -6,13 +6,14 @@ import {
   FORGOT_PASSWORD,
   RESET_PASSWORD,
   GET_RESET_PASSWORD_TOKEN,
+  EMAIL_NOT_VERIFIED,
 } from '../types';
 
 export const initialState = {
   user: JSON.parse(localStorage.getItem('user')) || {},
   token: localStorage.getItem('token') || '',
   isLoggedIn: !!localStorage.getItem('user'),
-  isVerified: null,
+  isVerified: 'initial',
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -64,6 +65,14 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         isLoggedIn: false,
         resetPasswordToken: payload.token,
+      };
+    case EMAIL_NOT_VERIFIED:
+      return {
+        ...state,
+        token: payload.token,
+        user: payload,
+        isLoggedIn: false,
+        isVerified: payload.isVerified,
       };
     default:
       return state;

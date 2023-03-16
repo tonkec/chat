@@ -1,0 +1,23 @@
+.error {
+  padding: 20px;
+  background-color: #f28482;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  p {
+    margin: 0;
+    color: #ffffff;
+  }
+}
+
+.success {
+  padding: 20px;
+  background-color: #80ed99;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  p {
+    margin: 0;
+    color: #ffffff;
+  }
+}

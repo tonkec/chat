@@ -27,7 +27,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!@axios)/'",
+    "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!@axios)/' --detectOpenHandles",
     "eject": "react-scripts eject",
     "build:production": "env-cmd -f .env.production npm run build",
     "start:dev": "env-cmd -f .env.development npm start"
@@ -52,5 +52,8 @@
   },
   "devDependencies": {
     "@iconify/react": "^4.1.0"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
