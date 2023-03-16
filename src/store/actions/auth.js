@@ -7,18 +7,29 @@ import {
   FORGOT_PASSWORD,
   RESET_PASSWORD,
   GET_RESET_PASSWORD_TOKEN,
+  EMAIL_NOT_VERIFIED,
 } from '../types';
-export const login = (params, navigate) => (dispatch) => {
+export const login = (params) => (dispatch) => {
   return AuthService.login(params)
     .then((data) => {
-      const isUserVerified = data.data.isVerified;
-      console.log(data);
-      dispatch({ type: LOGIN, payload: data.data });
+      let isUserVerified;
+      if (data) {
+        isUserVerified = data.data.isVerified;
+      }
+
       if (isUserVerified) {
-        navigate('/');
+        dispatch({ type: LOGIN, payload: data.data });
+        return data;
+      } else {
+        if (data) {
+          dispatch({ type: EMAIL_NOT_VERIFIED, payload: data.data });
+          return data;
+        }
       }
     })
-    .catch((e) => console.log(e));
+    .catch((e) => {
+      throw e;
+    });
 };
 
 export const register = (params, navigate) => (dispatch) => {
