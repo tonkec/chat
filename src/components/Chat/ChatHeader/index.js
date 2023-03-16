@@ -1,14 +1,11 @@
-import { useState, Fragment } from 'react';
 import { userStatus } from '../../../utlis/helpers';
 import { useSelector } from 'react-redux';
 import ChatService from '../../../services/chatService';
 import { useNavigate } from 'react-router-dom';
-import { SlOptionsVertical } from 'react-icons/sl';
 import './ChatHeader.scss';
 
 const ChatHeader = ({ chat }) => {
   const navigate = useNavigate();
-  const [showOptions, setShowOptions] = useState(false);
 
   const socket = useSelector((state) => state.chatReducer.socket);
 
