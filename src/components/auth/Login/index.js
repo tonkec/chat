@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { login } from '../../../store/actions/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
@@ -14,8 +14,11 @@ import FlashMessageContext from '../../../context/FlashMessage/flashMessageConte
 import isEmailValid from '../validators/emailValidator';
 import isPasswordValid from '../validators/passwordValidator';
 import './../Auth.scss';
+import { useLocation } from 'react-router-dom';
 
 const Login = () => {
+  const location = useLocation();
+
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const flashMessageContext = useContext(FlashMessageContext);
@@ -117,6 +120,9 @@ const Login = () => {
 
   return (
     <AuthLayout>
+      {process.env.NODE_ENV === 'test' && (
+        <p data-testid="location-display">{location.pathname}</p>
+      )}
       <form onSubmit={onFormSubmit} className="form-auth">
         <h3 className="form-heading">Ulogiraj se!</h3>
         <input

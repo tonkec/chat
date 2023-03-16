@@ -51,5 +51,8 @@
   },
   "msw": {
     "workerDirectory": "public"
+  },
+  "devDependencies": {
+    "react-select-event": "^5.5.1"
   }
 }

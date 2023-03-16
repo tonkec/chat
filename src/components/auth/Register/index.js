@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import AuthLayout from '../../Layout/AuthLayout';
 import './../Auth.scss';
-
 const Register = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -19,6 +18,9 @@ const Register = () => {
     dispatch(
       register({ email, password, firstName, lastName, gender }, navigate)
     );
+
+    //TODO only redirect if response is 200
+    navigate(`/login`);
   };
   return (
     <AuthLayout>
@@ -40,7 +42,10 @@ const Register = () => {
           placeholder="Tvoje prezime"
         />
 
-        <select onChange={(e) => setGender(e.target.value)}>
+        <select
+          data-testid="select"
+          onChange={(e) => setGender(e.target.value)}
+        >
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
@@ -51,6 +56,7 @@ const Register = () => {
           required
           type="email"
           placeholder="Tvoj mail"
+          data-testid="email"
         />
 
         <input
