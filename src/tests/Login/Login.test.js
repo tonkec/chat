@@ -92,7 +92,7 @@ test('should not log in with the wrong credentials', async () => {
         return res(
           ctx.status(404),
           ctx.json({
-            message: 'User not found',
+            message: 'Invalid credentials',
           })
         );
       }
