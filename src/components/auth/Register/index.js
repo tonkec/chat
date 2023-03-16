@@ -131,10 +131,7 @@ const Register = () => {
           placeholder="Tvoje prezime"
         />
 
-        <select
-          onChange={onGenderSelect}
-          // onChange={(e) => setGender(e.target.value)}
-        >
+        <select onChange={onGenderSelect}>
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
