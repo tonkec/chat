@@ -13,7 +13,7 @@ import {
   LAST_NAME_EMPTY,
   PASSWORD_MIN_CHARACTERS,
 } from "../constants/login";
-import ErrorMessage from "../../Error";
+
 import nameValidator from "../validators/nameValidator";
 import optionValidator from "../validators/optionValidator";
 const Register = () => {
@@ -152,7 +152,7 @@ const Register = () => {
 
         <button disabled={isDisabled}>Pridruži se</button>
       </form>
-      <ErrorMessage error={error} />
+
       <div className="links-auth">
         <Link to="/login">Ulogiraj se</Link>
       </div>
