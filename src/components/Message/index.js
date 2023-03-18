@@ -1,33 +1,17 @@
-import "./Message.scss";
+import Messenger from '../Chat/Messenger';
+import { useDispatch } from 'react-redux';
+import { setCurrentChat } from '../../store/actions/chat';
+import { useEffect } from 'react';
+const Message = ({ options }) => {
+  const dispatch = useDispatch();
 
-const Message = ({ user, chat, index, message }) => {
-  const determineMargin = () => {
-    if (index + 1 === chat.Messages.length) return;
-    return message.fromUserId === chat.Messages[index + 1].fromUserId
-      ? "mb-5"
-      : "mb-10";
-  };
+  useEffect(() => {
+    dispatch(setCurrentChat(options.chat));
+  });
   return (
-    <div
-      className={`message ${determineMargin()} ${
-        message.fromUserId === user.id ? "creator" : ""
-      }`}
-    >
-      <div
-        className={message.fromUserId === user.id ? "owner" : "other-person"}
-      >
-        {message.fromUserId !== user.id ? (
-          <h6 className="m-0">
-            {message.User.firstName} {message.User.lastName}
-          </h6>
-        ) : null}
-        {message.type === "text" ? (
-          <p>{message.message}</p>
-        ) : (
-          <img src={message.message} alt="user upload" />
-        )}
-      </div>
-    </div>
+    <>
+      <Messenger chat={options.chat} />
+    </>
   );
 };
 

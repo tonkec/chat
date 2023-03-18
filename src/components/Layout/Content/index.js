@@ -1,8 +1,8 @@
 import './Content.scss';
-const Content = ({ component: Component }) => {
+const Content = ({ component: Component, options }) => {
   return (
     <main className="content">
-      <Component />
+      <Component options={options} />
     </main>
   );
 };

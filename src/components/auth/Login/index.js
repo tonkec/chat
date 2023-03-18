@@ -84,6 +84,7 @@ const Login = () => {
         flashMessageContext.error(INVALID_CREDENTIALS);
         return;
       }
+      flashMessageContext.error(e.response.data.message);
     }
   };
 

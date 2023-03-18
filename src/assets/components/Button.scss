@@ -1,0 +1,21 @@
+@import '../variables.scss';
+button {
+  display: block;
+  background-color: $buttonBackground;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  padding: 15px 10px;
+  cursor: pointer;
+  color: white;
+
+  &:hover {
+    background-color: $buttonBackgroundHover;
+  }
+
+  &.button-inline-block {
+    display: inline-block;
+    width: auto;
+    padding: 15px 20px;
+  }
+}
