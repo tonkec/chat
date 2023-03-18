@@ -2,7 +2,10 @@
 .content {
   width: calc(100% - #{$sidebarWidth});
   margin-left: $sidebarWidth;
-  padding: 50px 50px;
+  padding-top: $topSpacer;
+  padding-left: $leftSpacer;
+  padding-bottom: $bottomSpacer;
+  padding-right: $rightSpacer;
   background-color: $contentBackground;
   height: 100%;
 }
