@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { register } from "../../../store/actions/auth";
 import { useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
@@ -16,9 +16,12 @@ import {
 
 import nameValidator from "../validators/nameValidator";
 import optionValidator from "../validators/optionValidator";
+import FlashMessageContext from "../../../context/FlashMessage/flashMessageContext";
 const Register = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
+  const flashMessageContext = useContext(FlashMessageContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -54,11 +57,12 @@ const Register = () => {
         console.log("Invalid value for validation type");
       }
     }
-
+    flashMessageContext.close();
     setError(null);
     setDisabled(false);
   };
   const handleInvalidInput = (error) => {
+    flashMessageContext.error(error);
     setError(error);
     setDisabled(true);
   };
