@@ -1,22 +1,22 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   resetPassword,
   getResetPasswordToken,
-} from '../../../store/actions/auth';
-import AuthLayout from '../../Layout/AuthLayout';
+} from "../../../store/actions/auth";
+import AuthLayout from "../../Layout/AuthLayout";
 
-import './../Auth.scss';
+import "./../Auth.scss";
 const ResetPassword = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [password, setPassword] = useState('');
-  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [submitted, setSubmitted] = useState(false);
   let [searchParams, setSearchParams] = useSearchParams();
-  const email = searchParams.get('email');
-  const token = searchParams.get('token');
+  const email = searchParams.get("email");
+  const token = searchParams.get("token");
 
   const hasToken = useSelector((state) => {
     return state.authReducer.resetPasswordToken;
@@ -27,7 +27,7 @@ const ResetPassword = () => {
       return;
     }
 
-    if (password.trim() === '') {
+    if (password.trim() === "") {
       return;
     }
 
@@ -40,15 +40,15 @@ const ResetPassword = () => {
     setSubmitted(true);
   };
   const message =
-    typeof hasToken === 'undefined' && submitted
-      ? 'Something is wrong with the token'
-      : '';
+    typeof hasToken === "undefined" && submitted
+      ? "Something is wrong with the token"
+      : "";
 
   useEffect(() => {
     if (submitted) {
       if (hasToken) {
         dispatch(resetPassword(password, email));
-        navigate('/login');
+        navigate("/login");
       }
     }
   }, [hasToken, dispatch, email, password, submitted, navigate]);
@@ -60,13 +60,13 @@ const ResetPassword = () => {
         <input
           type="password"
           placeholder="Tvoja nova lozinka"
-          value={password || ''}
+          value={password || ""}
           onChange={(e) => setPassword(e.target.value)}
         />
         <input
           type="password"
           placeholder="Ponovi svoju novu lozinku"
-          value={passwordConfirmation || ''}
+          value={passwordConfirmation || ""}
           onChange={(e) => setPasswordConfirmation(e.target.value)}
         />
         <button onClick={onHandleSubmit}>Promijeni lozinku</button>
