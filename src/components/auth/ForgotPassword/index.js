@@ -14,7 +14,7 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [isDisabled, setDisabled] = useState(false);
-  // const FlashMessageContext = useContext(FlashMessageContext);
+  const flashMessageContext = useContext(FlashMessageContext);
   const handleValidInput = (action, value) => {
     switch (action) {
       case "email": {
@@ -27,13 +27,13 @@ const ForgotPassword = () => {
       }
     }
 
-    // flashMessageContext.close();
+    flashMessageContext.close();
     setError(null);
     setDisabled(false);
   };
 
   const handleInvalidInput = (error) => {
-    // flashMessageContext.error(error);
+    flashMessageContext.error(error);
     setError(error);
     setDisabled(true);
   };
