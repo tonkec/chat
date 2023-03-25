@@ -30,7 +30,7 @@ const Dashboard = () => {
   ]);
   return (
     <div className="dashboard">
-      <h2>Tvoj Dashboard</h2>
+      <h2>Tvoj Dashboard {currentUser.firstName}</h2>
       <p>Trenutno online korisnici</p>
       <div className="dashboard-cards">
         {onlineUsers.length > 0 &&

@@ -2,7 +2,11 @@ import './Navbar.scss';
 import Dropdown from '../../Dropdown';
 import { AiOutlineDown } from 'react-icons/ai';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUserOffline, setUserOnline } from '../../../store/actions/user';
+import {
+  setUserOffline,
+  setUserOnline,
+  setOnlineUsers,
+} from '../../../store/actions/user';
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -25,10 +29,14 @@ const Navbar = () => {
     socket.emit('set-user-offline', currentUser);
   };
 
-  const items = [
-    { displayText: 'budi online', actionOnClick: onOnline },
-    { displayText: 'budi offline', actionOnClick: onOffline },
-  ];
+  const setItems = () => {
+    const isOnline = JSON.parse(localStorage.getItem('online'));
+    const displayText = isOnline ? 'Budi offline' : 'Budi online';
+    const actionOnClick = isOnline ? onOffline : onOnline;
+    return { displayText: displayText, actionOnClick: actionOnClick };
+  };
+
+  const items = [setItems()];
   return (
     <nav className="navbar">
       <Dropdown items={items} buttonContent={dropdownButtonContent} />

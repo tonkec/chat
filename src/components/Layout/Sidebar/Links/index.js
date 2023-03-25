@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../../store/actions/auth';
 
 import './Links.scss';
@@ -23,10 +23,11 @@ const links = [
 ];
 
 const Links = () => {
+  const socket = useSelector((state) => state.chatReducer.socket);
   const dispatch = useDispatch();
   const onLogoutClick = () => {
+    socket.emit('disconnect');
     dispatch(logout());
-    // TODO disconnect from socket
   };
   return (
     <nav>
