@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { register } from '../../../store/actions/auth';
 import { useDispatch } from 'react-redux';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import AuthLayout from '../../Layout/AuthLayout';
 import isEmailValid from '../validators/emailValidator';
 import isPasswordValid from '../validators/passwordValidator';
@@ -17,6 +17,7 @@ import FlashMessageContext from '../../../context/FlashMessage/flashMessageConte
 import './../Auth.scss';
 
 const Register = () => {
+  const location = useLocation();
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const flashMessageContext = useContext(FlashMessageContext);
@@ -58,15 +59,7 @@ const Register = () => {
     }
     flashMessageContext.close();
     setError(null);
-
-    if (
-      email !== '' &&
-      firstName !== '' &&
-      lastName !== '' &&
-      password !== ''
-    ) {
-      setDisabled(false);
-    }
+    setDisabled(false);
   };
 
   const handleInvalidInput = (error) => {
@@ -125,16 +118,19 @@ const Register = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const errorIsEmpty = error === '' && !isDisabled;
+    const errorIsEmpty = error === null && !isDisabled;
+    console.log(error);
     if (errorIsEmpty) {
-      dispatch(
-        register({ email, password, firstName, lastName, gender }, navigate)
-      );
+      dispatch(register({ email, password, firstName, lastName, gender }));
+      navigate('/login');
       return;
     }
   };
   return (
     <AuthLayout>
+      {process.env.NODE_ENV === 'test' && (
+        <p data-testid="location-display">{location.pathname}</p>
+      )}
       <form onSubmit={onSubmit} className="form-auth">
         <h2 className="form-heading">Pridruži se</h2>
         <input
@@ -151,14 +147,7 @@ const Register = () => {
           placeholder="Tvoje prezime"
         />
 
-<<<<<<< HEAD
-        <select
-          data-testid="select"
-          onChange={(e) => setGender(e.target.value)}
-        >
-=======
-        <select onChange={onGenderSelect}>
->>>>>>> 572a7d1615d02d524639820ca8507cef433bc379
+        <select onChange={onGenderSelect} data-testid="select">
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
