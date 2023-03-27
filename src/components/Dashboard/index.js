@@ -18,6 +18,7 @@ const Dashboard = () => {
     if (shouldConnectToSocket) {
       const socket = socketIOClient.connect(process.env.REACT_APP_BACKEND_PORT);
       isCurrentUserOnline && socket.emit('login', currentUser);
+      !isCurrentUserOnline && socket.emit('get-all-online-users');
       socket.on('get-users', (users) => dispatch(setOnlineUsers(users)));
       dispatch(setSocket(socket));
     }
