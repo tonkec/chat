@@ -2,11 +2,7 @@ import './Navbar.scss';
 import Dropdown from '../../Dropdown';
 import { AiOutlineDown } from 'react-icons/ai';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  setUserOffline,
-  setUserOnline,
-  setOnlineUsers,
-} from '../../../store/actions/user';
+import { setUserOffline, setUserOnline } from '../../../store/actions/user';
 
 const Navbar = () => {
   const dispatch = useDispatch();
