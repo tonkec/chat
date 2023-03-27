@@ -10,7 +10,7 @@ import {
   NAME_EMPTY,
   LAST_NAME_EMPTY,
   PASSWORD_MIN_CHARACTERS,
-} from '../constants/login';
+} from '../constants';
 import nameValidator from '../validators/nameValidator';
 import optionValidator from '../validators/optionValidator';
 import FlashMessageContext from '../../../context/FlashMessage/flashMessageContext';
@@ -119,7 +119,6 @@ const Register = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     const errorIsEmpty = error === null && !isDisabled;
-    console.log(error);
     if (errorIsEmpty) {
       dispatch(register({ email, password, firstName, lastName, gender }));
       navigate('/login');

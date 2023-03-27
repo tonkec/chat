@@ -13,6 +13,7 @@ import HomePage from '../../pages/HomePage';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import Login from '../../components/auth/Login';
+import { EMAIL_INVALID } from '../../components/auth/constants';
 
 const user = {
   firstName: 'antonija',
@@ -42,6 +43,16 @@ const App = () => (
 test('renders the register page', () => {
   render(<App />);
   expect(screen.getAllByText('Pridruži se')).toBeTruthy();
+});
+
+test('show error message when email is not valid', () => {
+  render(<App />);
+  const inputEmail = screen.getByTestId('email');
+  // eslint-disable-next-line testing-library/no-unnecessary-act
+  act(() => {
+    userEvent.type(inputEmail, '1!.a');
+  });
+  expect(screen.getByText(EMAIL_INVALID)).toBeInTheDocument();
 });
 
 test('redirects to the login page after successful signup', async () => {
