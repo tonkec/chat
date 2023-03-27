@@ -4,4 +4,5 @@ export const SUCCESSFUL_LOGIN = 'Successful login';
 export const EMAIL_INVALID = 'Invalid email';
 export const NAME_EMPTY = 'Please enter your name';
 export const LAST_NAME_EMPTY = 'Please enter your last name';
+export const DIFFERENT_PASSWORDS = 'The passwords do not match';
 export const PASSWORD_MIN_CHARACTERS = 'Must have at least 6 characters';
