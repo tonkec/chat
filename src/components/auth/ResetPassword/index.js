@@ -69,7 +69,6 @@ const ResetPassword = () => {
     }
 
     if (password !== passwordConfirmation) {
-      // show error message
       flashMessageContext.error(DIFFERENT_PASSWORDS);
       return;
     }
@@ -99,7 +98,6 @@ const ResetPassword = () => {
           type="password"
           placeholder="Tvoja nova lozinka"
           value={password || ''}
-          // onChange={(e) => setPassword(e.target.value)}
           onChange={onPasswordChange}
         />
         <input

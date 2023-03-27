@@ -3,22 +3,22 @@ import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import FlashMessage from '../../components/FlashMessage';
-import FlashMessageProvider from '../../context/FlashMessage/flashMessageProvider';
-import appStore from '../../store/index';
-import Register from '../../components/auth/Register';
+import FlashMessage from '../../../components/FlashMessage';
+import FlashMessageProvider from '../../../context/FlashMessage/flashMessageProvider';
+import appStore from '../../../store/index';
+import Register from '../../../components/auth/Register';
 import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
-import ProtectedRoute from '../../router/ProtectedRoute';
-import HomePage from '../../pages/HomePage';
+import ProtectedRoute from '../../../router/ProtectedRoute';
+import HomePage from '../../../pages/HomePage';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import Login from '../../components/auth/Login';
+import Login from '../../../components/auth/Login';
 import {
   EMAIL_INVALID,
   LAST_NAME_EMPTY,
   NAME_EMPTY,
   PASSWORD_MIN_CHARACTERS,
-} from '../../components/auth/constants';
+} from '../../../components/auth/constants';
 
 const user = {
   firstName: 'antonija',

@@ -4,16 +4,16 @@ import { act } from 'react-dom/test-utils';
 import {
   EMAIL_NOT_VERIFIED,
   INVALID_CREDENTIALS,
-} from '../../components/auth/constants';
+} from '../../../components/auth/constants';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import FlashMessage from '../../components/FlashMessage';
-import FlashMessageProvider from '../../context/FlashMessage/flashMessageProvider';
-import appStore from '../../store/index';
-import Login from '../../components/auth/Login';
+import FlashMessage from '../../../components/FlashMessage';
+import FlashMessageProvider from '../../../context/FlashMessage/flashMessageProvider';
+import appStore from '../../../store/index';
+import Login from '../../../components/auth/Login';
 import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
-import ProtectedRoute from '../../router/ProtectedRoute';
-import HomePage from '../../pages/HomePage';
+import ProtectedRoute from '../../../router/ProtectedRoute';
+import HomePage from '../../../pages/HomePage';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 
