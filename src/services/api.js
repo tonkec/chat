@@ -13,11 +13,7 @@ API.interceptors.response.use(
     return res;
   },
   (err) => {
-    if (err.response.status !== 200) {
-      throw err.response;
-    }
-
-    return err.response;
+    throw err;
   }
 );
 

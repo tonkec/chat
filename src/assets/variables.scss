@@ -1,5 +1,7 @@
 @import './colors.scss';
 
+$contentBackground: $white2;
+
 $sidebarWidth: 200px;
 $sidebarBackground: $blue;
 $sidebarBoxShadow: -5px -5px 15px 5px $white;
@@ -7,3 +9,6 @@ $sidebarLinkHover: $blue2;
 $sidebarLinkHoverPipeBackground: $blue3;
 
 $authMainBackground: $blue;
+
+$buttonBackground: $blue2;
+$buttonBackgroundHover: $blue3;

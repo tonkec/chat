@@ -7,6 +7,7 @@ import ForgotPassword from './../components/auth/ForgotPassword';
 import ResetPassword from '../components/auth/ResetPassword';
 import HomePage from '../pages/HomePage';
 import MessagesPage from '../pages/MessagesPage';
+import MessagePage from '../pages/MessagePage';
 
 const RoutesComponent = () => (
   <Router>
@@ -14,6 +15,7 @@ const RoutesComponent = () => (
       <Route exact path="/" element={<ProtectedRoute />}>
         <Route exact path="/" element={<HomePage />} />
       </Route>
+      <Route path="/poruka/:id" element={<MessagePage />} />
       <Route path="/poruke" element={<MessagesPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />

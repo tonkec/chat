@@ -21,12 +21,12 @@ const Login = () => {
 
   let navigate = useNavigate();
   const dispatch = useDispatch();
-  const flashMessageContext = useContext(FlashMessageContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isDisabled, setDisabled] = useState(false);
+  const flashMessageContext = useContext(FlashMessageContext);
   const isVerified = useSelector((state) => {
     return state.authReducer.isVerified;
   });
@@ -87,6 +87,7 @@ const Login = () => {
         flashMessageContext.error(INVALID_CREDENTIALS);
         return;
       }
+      flashMessageContext.error(e.response.data.message);
     }
   };
 
