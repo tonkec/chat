@@ -65,6 +65,21 @@ test('show error message when email is not valid', () => {
   ).toHaveAttribute('disabled');
 });
 
+test('show error message when email is empty', () => {
+  render(<App />);
+  const inputEmail = screen.getByTestId('email');
+  // eslint-disable-next-line testing-library/no-unnecessary-act
+  act(() => {
+    userEvent.type(inputEmail, '   ');
+  });
+  expect(screen.getByText(EMAIL_INVALID)).toBeInTheDocument();
+  expect(
+    screen.getByRole('button', {
+      name: /Pridruži se/i,
+    })
+  ).toHaveAttribute('disabled');
+});
+
 test('show error message when first name is not valid', () => {
   render(<App />);
   const inputName = screen.getByTestId('name');

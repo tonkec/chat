@@ -151,6 +151,7 @@ const Register = () => {
 
         <input
           onChange={onEmailChange}
+          onKeyDown={onEmailChange}
           required
           type="email"
           placeholder="Tvoj mail"
