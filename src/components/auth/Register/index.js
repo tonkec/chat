@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { register } from '../../../store/actions/auth';
 import { useDispatch } from 'react-redux';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import AuthLayout from '../../Layout/AuthLayout';
 import isEmailValid from '../validators/emailValidator';
 import isPasswordValid from '../validators/passwordValidator';
@@ -11,13 +11,12 @@ import {
   LAST_NAME_EMPTY,
   PASSWORD_MIN_CHARACTERS,
 } from '../constants';
-import nameValidator from '../validators/nameValidator';
+import isNameValid from '../validators/nameValidator';
 import optionValidator from '../validators/optionValidator';
 import FlashMessageContext from '../../../context/FlashMessage/flashMessageContext';
 import './../Auth.scss';
 
 const Register = () => {
-  const location = useLocation();
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const flashMessageContext = useContext(FlashMessageContext);
@@ -70,7 +69,7 @@ const Register = () => {
 
   const onNameChange = (e) => {
     const value = e.target.value;
-    const validName = nameValidator(value);
+    const validName = isNameValid(value);
     if (validName) {
       handleValidInput('firstName', value);
       return;
@@ -80,7 +79,7 @@ const Register = () => {
 
   const onLastNameChange = (e) => {
     const value = e.target.value;
-    const validLastName = nameValidator(value);
+    const validLastName = isNameValid(value);
     if (validLastName) {
       handleValidInput('lastName', value);
       return;
@@ -127,9 +126,6 @@ const Register = () => {
   };
   return (
     <AuthLayout>
-      {process.env.NODE_ENV === 'test' && (
-        <p data-testid="location-display">{location.pathname}</p>
-      )}
       <form onSubmit={onSubmit} className="form-auth">
         <h2 className="form-heading">Pridruži se</h2>
         <input
@@ -137,6 +133,7 @@ const Register = () => {
           required
           type="text"
           placeholder="Tvoje ime"
+          data-testid="name"
         />
 
         <input
@@ -144,6 +141,7 @@ const Register = () => {
           required
           type="text"
           placeholder="Tvoje prezime"
+          data-testid="lastName"
         />
 
         <select onChange={onGenderSelect} data-testid="select">
@@ -164,6 +162,7 @@ const Register = () => {
           required
           type="password"
           placeholder="Tvoja lozinka"
+          data-testid="password"
         />
 
         <button disabled={isDisabled}>Pridruži se</button>

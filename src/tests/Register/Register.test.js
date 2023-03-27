@@ -13,7 +13,12 @@ import HomePage from '../../pages/HomePage';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import Login from '../../components/auth/Login';
-import { EMAIL_INVALID } from '../../components/auth/constants';
+import {
+  EMAIL_INVALID,
+  LAST_NAME_EMPTY,
+  NAME_EMPTY,
+  PASSWORD_MIN_CHARACTERS,
+} from '../../components/auth/constants';
 
 const user = {
   firstName: 'antonija',
@@ -53,6 +58,56 @@ test('show error message when email is not valid', () => {
     userEvent.type(inputEmail, '1!.a');
   });
   expect(screen.getByText(EMAIL_INVALID)).toBeInTheDocument();
+  expect(
+    screen.getByRole('button', {
+      name: /Pridruži se/i,
+    })
+  ).toHaveAttribute('disabled');
+});
+
+test('show error message when first name is not valid', () => {
+  render(<App />);
+  const inputName = screen.getByTestId('name');
+  // eslint-disable-next-line testing-library/no-unnecessary-act
+  act(() => {
+    userEvent.type(inputName, '    ');
+  });
+  expect(screen.getByText(NAME_EMPTY)).toBeInTheDocument();
+  expect(
+    screen.getByRole('button', {
+      name: /Pridruži se/i,
+    })
+  ).toHaveAttribute('disabled');
+});
+
+test('show error message when last name is not valid', () => {
+  render(<App />);
+  const inputName = screen.getByTestId('lastName');
+  // eslint-disable-next-line testing-library/no-unnecessary-act
+  act(() => {
+    userEvent.type(inputName, '    ');
+  });
+  expect(screen.getByText(LAST_NAME_EMPTY)).toBeInTheDocument();
+  expect(
+    screen.getByRole('button', {
+      name: /Pridruži se/i,
+    })
+  ).toHaveAttribute('disabled');
+});
+
+test('show error message when password is not valid', () => {
+  render(<App />);
+  const inputName = screen.getByTestId('password');
+  // eslint-disable-next-line testing-library/no-unnecessary-act
+  act(() => {
+    userEvent.type(inputName, '1');
+  });
+  expect(screen.getByText(PASSWORD_MIN_CHARACTERS)).toBeInTheDocument();
+  expect(
+    screen.getByRole('button', {
+      name: /Pridruži se/i,
+    })
+  ).toHaveAttribute('disabled');
 });
 
 test('redirects to the login page after successful signup', async () => {
