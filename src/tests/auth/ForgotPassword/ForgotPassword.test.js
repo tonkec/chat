@@ -73,10 +73,6 @@ test('it should redirect to login if email is valid', async () => {
   // eslint-disable-next-line testing-library/no-unnecessary-act
   act(() => {
     userEvent.type(inputEmail, 'antonija1023@gmail.com');
-  });
-
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
     userEvent.click(
       screen.getByRole('button', { name: 'Zatraži novu lozinku' })
     );

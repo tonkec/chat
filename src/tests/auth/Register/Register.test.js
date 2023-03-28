@@ -147,41 +147,22 @@ test('redirects to the login page after successful signup', async () => {
     )
   );
   server.listen();
-
   render(<App />);
   const inputEmail = screen.getByTestId('email');
+  const inputPassword = screen.queryByPlaceholderText('Tvoja lozinka');
+  const inputFirstName = screen.queryByPlaceholderText('Tvoje ime');
+  const inputLastName = screen.queryByPlaceholderText('Tvoje prezime');
+
   // eslint-disable-next-line testing-library/no-unnecessary-act
   act(() => {
     userEvent.type(inputEmail, user.email);
-  });
-
-  const inputPassword = screen.queryByPlaceholderText('Tvoja lozinka');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
     userEvent.type(inputPassword, user.password);
-  });
-  const inputFirstName = screen.queryByPlaceholderText('Tvoje ime');
-
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputFirstName, user.firstName);
-  });
-
-  const inputLastName = screen.queryByPlaceholderText('Tvoje prezime');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
     userEvent.type(inputLastName, user.lastName);
-  });
-
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
+    userEvent.type(inputFirstName, user.firstName);
     userEvent.selectOptions(screen.getByTestId('select'), 'male');
-  });
-
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
     userEvent.click(screen.getByRole('button', { name: 'Pridruži se' }));
   });
-  expect(screen.getByTestId('location-display')).toHaveTextContent('/login');
+
+  expect(await screen.findByText('Login')).toBeInTheDocument();
   server.close();
 });

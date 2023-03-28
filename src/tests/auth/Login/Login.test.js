@@ -37,12 +37,12 @@ const App = () => (
   </Provider>
 );
 
-test('renders the login page', async () => {
+test('renders the login page', () => {
   render(<App />);
   expect(screen.getByText('Ulogiraj se!')).toBeTruthy();
 });
 
-test('should not show the email not verified message on mount', async () => {
+test('should not show the email not verified message on mount', () => {
   render(<App />);
   expect(screen.queryByText('Email not verified')).toBeFalsy();
 });
@@ -68,17 +68,15 @@ test('show email not verified message', async () => {
   server.listen();
   render(<App />);
   const inputEmail = screen.getByPlaceholderText('Email');
+  const inputPassword = screen.getByPlaceholderText('Lozinka');
+
   // eslint-disable-next-line testing-library/no-unnecessary-act
   act(() => {
     userEvent.type(inputEmail, user.email);
+    userEvent.type(inputPassword, user.password);
+    userEvent.click(screen.getByRole('button', { name: 'Login' }));
   });
 
-  const inputPassword = screen.getByPlaceholderText('Lozinka');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputPassword, user.password);
-  });
-  userEvent.click(screen.getByRole('button', { name: 'Login' }));
   await screen.findByText(EMAIL_NOT_VERIFIED);
   server.close();
 });
@@ -97,22 +95,18 @@ test('should not log in with the wrong credentials', async () => {
       }
     )
   );
+  server.listen();
   render(<App />);
 
-  server.listen();
-
   const inputEmail = screen.getByPlaceholderText('Email');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputEmail, user.email);
-  });
-
   const inputPassword = screen.getByPlaceholderText('Lozinka');
   // eslint-disable-next-line testing-library/no-unnecessary-act
   act(() => {
+    userEvent.type(inputEmail, user.email);
     userEvent.type(inputPassword, user.password);
+    userEvent.click(screen.getByRole('button', { name: 'Login' }));
   });
-  userEvent.click(screen.getByRole('button', { name: 'Login' }));
+
   await screen.findByText(INVALID_CREDENTIALS);
   server.close();
 });
@@ -138,17 +132,14 @@ test('not showing of email not verified message and should log in with the corre
   server.listen();
   render(<App />);
   const inputEmail = screen.getByPlaceholderText('Email');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputEmail, user.email);
-  });
-
   const inputPassword = screen.getByPlaceholderText('Lozinka');
   // eslint-disable-next-line testing-library/no-unnecessary-act
   act(() => {
+    userEvent.type(inputEmail, user.email);
+    userEvent.click(screen.getByRole('button', { name: 'Login' }));
     userEvent.type(inputPassword, user.password);
   });
-  userEvent.click(screen.getByRole('button', { name: 'Login' }));
+
   await screen.findByText('Tvoj Dashboard');
   server.close();
 });

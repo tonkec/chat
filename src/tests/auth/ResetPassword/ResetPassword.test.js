@@ -27,7 +27,7 @@ const renderApp = (token, email) => {
             <Route exact path="/" element={<ProtectedRoute />}>
               <Route exact path="/" element={<HomePage />} />
             </Route>
-            <Route path="/login" element={<Login />} />{' '}
+            <Route path="/login" element={<Login />} />
             <Route path="/reset-password" element={<ResetPassword />} />
           </Routes>
         </Router>
@@ -37,7 +37,7 @@ const renderApp = (token, email) => {
   render(<App />);
 };
 
-test('renders the reset password page', async () => {
+test('renders the reset password page', () => {
   renderApp(123, 'antonija1023@gmail.com');
   expect(screen.getByText('Promjena lozinke')).toBeTruthy();
 });
@@ -71,7 +71,7 @@ test('it should not submit the form if passwords are mismatched', () => {
   ).toHaveAttribute('disabled');
 });
 
-test('it should show an error message if there are params missing', async () => {
+test('it should show an error message if there are params missing', () => {
   renderApp('', '');
   const inputPassword = screen.getByTestId('password');
   const inputPasswordConfirmation = screen.getByTestId('confirmationPassword');
@@ -81,10 +81,10 @@ test('it should show an error message if there are params missing', async () => 
     userEvent.type(inputPasswordConfirmation, '123456');
     userEvent.click(screen.getByRole('button', { name: 'Promijeni lozinku' }));
   });
-  await screen.findByText('Something is wrong with the token');
+  screen.getByText('Something is wrong with the token');
 });
 
-test('it should submit the form if it is valid and all params exist', async () => {
+test('it should submit the form if it is valid and all params exist', () => {
   renderApp(123, 'antonija1023@gmail.com');
   const inputPassword = screen.getByTestId('password');
   const inputPasswordConfirmation = screen.getByTestId('confirmationPassword');
@@ -94,5 +94,5 @@ test('it should submit the form if it is valid and all params exist', async () =
     userEvent.type(inputPasswordConfirmation, '123456');
     userEvent.click(screen.getByRole('button', { name: 'Promijeni lozinku' }));
   });
-  await screen.findByText('Ulogiraj se!');
+  screen.getByText('Ulogiraj se!');
 });
