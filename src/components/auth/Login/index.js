@@ -9,6 +9,7 @@ import {
   SUCCESSFUL_LOGIN,
   PASSWORD_MIN_CHARACTERS,
   EMAIL_INVALID,
+  SOMETHING_WENT_WRONG,
 } from '../constants';
 import FlashMessageContext from '../../../context/FlashMessage/flashMessageContext';
 import isEmailValid from '../validators/emailValidator';
@@ -83,11 +84,11 @@ const Login = () => {
       navigate('/');
       flashMessageContext.success(SUCCESSFUL_LOGIN);
     } catch (e) {
-      if (e.status === 404) {
+      if (e.response.status === 401) {
         flashMessageContext.error(INVALID_CREDENTIALS);
-        return;
+      } else {
+        flashMessageContext.error(SOMETHING_WENT_WRONG);
       }
-      flashMessageContext.error(e.response.data.message);
     }
   };
 

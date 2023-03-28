@@ -9,6 +9,7 @@ import {
   PASSWORD_MIN_CHARACTERS,
   PASSWORDS_MISMATCH,
   WRONG_TOKEN,
+  SOMETHING_WENT_WRONG,
 } from '../constants';
 import AuthLayout from '../../Layout/AuthLayout';
 import isPasswordValid from '../validators/passwordValidator';
@@ -83,9 +84,13 @@ const ResetPassword = () => {
       return;
     }
 
-    dispatch(getResetPasswordToken(email, token));
-    dispatch(resetPassword(password, email));
-    navigate('/login');
+    try {
+      dispatch(getResetPasswordToken(email, token));
+      dispatch(resetPassword(password, email));
+      navigate('/login');
+    } catch (e) {
+      flashMessageContext.error(SOMETHING_WENT_WRONG);
+    }
   };
 
   return (

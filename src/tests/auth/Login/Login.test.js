@@ -87,7 +87,7 @@ test('should not log in with the wrong credentials', async () => {
       `${process.env.REACT_APP_BACKEND_PORT}/login`,
       (req, res, ctx) => {
         return res(
-          ctx.status(404),
+          ctx.status(401),
           ctx.json({
             message: 'Invalid credentials',
           })

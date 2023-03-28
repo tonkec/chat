@@ -10,6 +10,7 @@ import {
   NAME_EMPTY,
   LAST_NAME_EMPTY,
   PASSWORD_MIN_CHARACTERS,
+  SOMETHING_WENT_WRONG,
 } from '../constants';
 import isNameValid from '../validators/nameValidator';
 import optionValidator from '../validators/optionValidator';
@@ -119,8 +120,12 @@ const Register = () => {
     e.preventDefault();
     const errorIsEmpty = error === null && !isDisabled;
     if (errorIsEmpty) {
-      dispatch(register({ email, password, firstName, lastName, gender }));
-      navigate('/login');
+      try {
+        dispatch(register({ email, password, firstName, lastName, gender }));
+        navigate('/login');
+      } catch (e) {
+        flashMessageContext.error(SOMETHING_WENT_WRONG);
+      }
       return;
     }
   };

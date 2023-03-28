@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { forgotPassword } from '../../../store/actions/auth';
 import { useNavigate } from 'react-router-dom';
 import AuthLayout from '../../Layout/AuthLayout';
-import { EMAIL_INVALID } from '../constants';
+import { EMAIL_INVALID, SOMETHING_WENT_WRONG } from '../constants';
 import FlashMessageContext from '../../../context/FlashMessage/flashMessageContext';
 import isEmailValid from '../validators/emailValidator';
 import './../Auth.scss';
@@ -36,7 +36,11 @@ const ForgotPassword = () => {
   };
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    dispatch(forgotPassword(email, navigate));
+    try {
+      dispatch(forgotPassword(email, navigate));
+    } catch (e) {
+      flashMessageContext.error(SOMETHING_WENT_WRONG);
+    }
   };
   return (
     <AuthLayout>

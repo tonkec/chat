@@ -7,3 +7,4 @@ export const LAST_NAME_EMPTY = 'Please enter your last name';
 export const PASSWORD_MIN_CHARACTERS = 'Must have at least 6 characters';
 export const PASSWORDS_MISMATCH = 'Passwords do not match';
 export const WRONG_TOKEN = 'Something is wrong with the token';
+export const SOMETHING_WENT_WRONG = 'Something went wrong';
