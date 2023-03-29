@@ -32,3 +32,5 @@ jobs:
       env:
          CI: ""
     - run: npm test
+      env:
+         REACT_APP_BACKEND_PORT: 'https://duga-backend.herokuapp.com'
