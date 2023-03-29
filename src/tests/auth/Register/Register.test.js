@@ -1,6 +1,5 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { act } from 'react-dom/test-utils';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import FlashMessage from '../../../components/FlashMessage';

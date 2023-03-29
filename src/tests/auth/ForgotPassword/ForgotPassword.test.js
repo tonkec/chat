@@ -7,7 +7,6 @@ import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from '../../../router/ProtectedRoute';
 import HomePage from '../../../pages/HomePage';
 import ForgotPassword from '../../../components/auth/ForgotPassword';
-import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 import Login from '../../../components/auth/Login';
 import { rest } from 'msw';

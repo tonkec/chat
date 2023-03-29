@@ -1,6 +1,5 @@
 import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { act } from 'react-dom/test-utils';
 import {
   EMAIL_NOT_VERIFIED,
   INVALID_CREDENTIALS,
