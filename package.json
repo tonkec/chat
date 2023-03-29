@@ -28,7 +28,8 @@
     "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!@axios)/' --detectOpenHandles",
     "eject": "react-scripts eject",
     "build:production": "env-cmd -f .env.production npm run build",
-    "start:dev": "env-cmd -f .env.development npm start"
+    "start:dev": "env-cmd -f .env.development npm start",
+    "ci:test": "npm test -- --watchAll=false"
   },
   "eslintConfig": {
     "extends": [
