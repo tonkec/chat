@@ -15,6 +15,8 @@ import ProtectedRoute from '../../../router/ProtectedRoute';
 import HomePage from '../../../pages/HomePage';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import SocketMock from 'socket.io-mock';
+import 'setimmediate';
 
 const user = {
   email: 'antonija1023@gmail.com',
@@ -36,6 +38,15 @@ const App = () => (
     </FlashMessageProvider>
   </Provider>
 );
+
+let socket;
+beforeEach(() => {
+  socket = new SocketMock();
+});
+
+afterEach(() => {
+  jest.restoreAllMocks();
+});
 
 test('renders the login page', () => {
   render(<App />);
@@ -141,5 +152,6 @@ test('not showing of email not verified message and should log in with the corre
   });
 
   await screen.findByText('Tvoj Dashboard');
+  expect(socket.socketClient.connected).toBeTruthy();
   server.close();
 });
