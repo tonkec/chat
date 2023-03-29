@@ -80,14 +80,9 @@ test('show email not verified message', async () => {
   render(<App />);
   const inputEmail = screen.getByPlaceholderText('Email');
   const inputPassword = screen.getByPlaceholderText('Lozinka');
-
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputEmail, user.email);
-    userEvent.type(inputPassword, user.password);
-    userEvent.click(screen.getByRole('button', { name: 'Login' }));
-  });
-
+  await userEvent.type(inputEmail, user.email);
+  await userEvent.type(inputPassword, user.password);
+  await userEvent.click(screen.getByRole('button', { name: 'Login' }));
   await screen.findByText(EMAIL_NOT_VERIFIED);
   server.close();
 });
@@ -111,13 +106,9 @@ test('should not log in with the wrong credentials', async () => {
 
   const inputEmail = screen.getByPlaceholderText('Email');
   const inputPassword = screen.getByPlaceholderText('Lozinka');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputEmail, user.email);
-    userEvent.type(inputPassword, user.password);
-    userEvent.click(screen.getByRole('button', { name: 'Login' }));
-  });
-
+  await userEvent.type(inputEmail, user.email);
+  await userEvent.type(inputPassword, user.password);
+  await userEvent.click(screen.getByRole('button', { name: 'Login' }));
   await screen.findByText(INVALID_CREDENTIALS);
   server.close();
 });
@@ -144,12 +135,9 @@ test('not showing of email not verified message and should log in with the corre
   render(<App />);
   const inputEmail = screen.getByPlaceholderText('Email');
   const inputPassword = screen.getByPlaceholderText('Lozinka');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputEmail, user.email);
-    userEvent.click(screen.getByRole('button', { name: 'Login' }));
-    userEvent.type(inputPassword, user.password);
-  });
+  await userEvent.type(inputEmail, user.email);
+  await userEvent.click(screen.getByRole('button', { name: 'Login' }));
+  await userEvent.type(inputPassword, user.password);
 
   await screen.findByText('Tvoj Dashboard');
   expect(socket.socketClient.connected).toBeTruthy();

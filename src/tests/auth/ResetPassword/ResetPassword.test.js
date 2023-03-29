@@ -58,11 +58,8 @@ test('it should not submit the form if passwords are mismatched', () => {
   renderApp(123, 'antonija1023@gmail.com');
   const inputPassword = screen.getByTestId('password');
   const inputPasswordConfirmation = screen.getByTestId('confirmationPassword');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputPassword, '1');
-    userEvent.type(inputPasswordConfirmation, '2');
-  });
+  userEvent.type(inputPassword, '1');
+  userEvent.type(inputPasswordConfirmation, '2');
 
   expect(
     screen.getByRole('button', {
@@ -71,28 +68,26 @@ test('it should not submit the form if passwords are mismatched', () => {
   ).toHaveAttribute('disabled');
 });
 
-test('it should show an error message if there are params missing', () => {
+test('it should show an error message if there are params missing', async () => {
   renderApp('', '');
   const inputPassword = screen.getByTestId('password');
   const inputPasswordConfirmation = screen.getByTestId('confirmationPassword');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputPassword, '123456');
-    userEvent.type(inputPasswordConfirmation, '123456');
-    userEvent.click(screen.getByRole('button', { name: 'Promijeni lozinku' }));
-  });
+  await userEvent.type(inputPassword, '123456');
+  await userEvent.type(inputPasswordConfirmation, '123456');
+  await userEvent.click(
+    screen.getByRole('button', { name: 'Promijeni lozinku' })
+  );
   screen.getByText('Something is wrong with the token');
 });
 
-test('it should submit the form if it is valid and all params exist', () => {
+test('it should submit the form if it is valid and all params exist', async () => {
   renderApp(123, 'antonija1023@gmail.com');
   const inputPassword = screen.getByTestId('password');
   const inputPasswordConfirmation = screen.getByTestId('confirmationPassword');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputPassword, '123456');
-    userEvent.type(inputPasswordConfirmation, '123456');
-    userEvent.click(screen.getByRole('button', { name: 'Promijeni lozinku' }));
-  });
+  await userEvent.type(inputPassword, '123456');
+  await userEvent.type(inputPasswordConfirmation, '123456');
+  await userEvent.click(
+    screen.getByRole('button', { name: 'Promijeni lozinku' })
+  );
   screen.getByText('Ulogiraj se!');
 });

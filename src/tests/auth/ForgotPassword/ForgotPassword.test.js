@@ -34,13 +34,10 @@ test('renders the forgot password page', () => {
   expect(screen.getByText('Zaboravljena lozinka')).toBeTruthy();
 });
 
-test('it should disable button if email is invalid', () => {
+test('it should disable button if email is invalid', async () => {
   render(<App />);
   const inputEmail = screen.getByTestId('email');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputEmail, '1');
-  });
+  await userEvent.type(inputEmail, '1');
   expect(
     screen.getByRole('button', {
       name: /Zatraži novu lozinku/i,
@@ -70,14 +67,8 @@ test('it should redirect to login if email is valid', async () => {
   server.listen();
   render(<App />);
   const inputEmail = screen.getByTestId('email');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputEmail, 'antonija1023@gmail.com');
-    userEvent.click(
-      screen.getByRole('button', { name: 'Zatraži novu lozinku' })
-    );
-  });
-
+  userEvent.type(inputEmail, 'antonija1023@gmail.com');
+  userEvent.click(screen.getByRole('button', { name: 'Zatraži novu lozinku' }));
   expect(await screen.findByText('Ulogiraj se!')).toBeInTheDocument();
   server.close();
 });

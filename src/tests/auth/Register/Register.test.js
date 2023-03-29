@@ -50,13 +50,11 @@ test('renders the register page', () => {
   expect(screen.getAllByText('Pridruži se')).toBeTruthy();
 });
 
-test('show error message when email is not valid', () => {
+test('show error message when email is not valid', async () => {
   render(<App />);
   const inputEmail = screen.getByTestId('email');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputEmail, '1!.a');
-  });
+  await userEvent.type(inputEmail, '1!.a');
+
   expect(screen.getByText(EMAIL_INVALID)).toBeInTheDocument();
   expect(
     screen.getByRole('button', {
@@ -65,13 +63,11 @@ test('show error message when email is not valid', () => {
   ).toHaveAttribute('disabled');
 });
 
-test('show error message when email is empty', () => {
+test('show error message when email is empty', async () => {
   render(<App />);
   const inputEmail = screen.getByTestId('email');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputEmail, '   ');
-  });
+  await userEvent.type(inputEmail, '   ');
+
   expect(screen.getByText(EMAIL_INVALID)).toBeInTheDocument();
   expect(
     screen.getByRole('button', {
@@ -80,13 +76,11 @@ test('show error message when email is empty', () => {
   ).toHaveAttribute('disabled');
 });
 
-test('show error message when first name is not valid', () => {
+test('show error message when first name is not valid', async () => {
   render(<App />);
   const inputName = screen.getByTestId('name');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputName, '    ');
-  });
+  await userEvent.type(inputName, '    ');
+
   expect(screen.getByText(NAME_EMPTY)).toBeInTheDocument();
   expect(
     screen.getByRole('button', {
@@ -95,13 +89,11 @@ test('show error message when first name is not valid', () => {
   ).toHaveAttribute('disabled');
 });
 
-test('show error message when last name is not valid', () => {
+test('show error message when last name is not valid', async () => {
   render(<App />);
   const inputName = screen.getByTestId('lastName');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputName, '    ');
-  });
+  await userEvent.type(inputName, '    ');
+
   expect(screen.getByText(LAST_NAME_EMPTY)).toBeInTheDocument();
   expect(
     screen.getByRole('button', {
@@ -110,13 +102,10 @@ test('show error message when last name is not valid', () => {
   ).toHaveAttribute('disabled');
 });
 
-test('show error message when password is not valid', () => {
+test('show error message when password is not valid', async () => {
   render(<App />);
   const inputName = screen.getByTestId('password');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputName, '1');
-  });
+  await userEvent.type(inputName, '1');
   expect(screen.getByText(PASSWORD_MIN_CHARACTERS)).toBeInTheDocument();
   expect(
     screen.getByRole('button', {
@@ -153,16 +142,12 @@ test('redirects to the login page after successful signup', async () => {
   const inputFirstName = screen.queryByPlaceholderText('Tvoje ime');
   const inputLastName = screen.queryByPlaceholderText('Tvoje prezime');
 
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputEmail, user.email);
-    userEvent.type(inputPassword, user.password);
-    userEvent.type(inputLastName, user.lastName);
-    userEvent.type(inputFirstName, user.firstName);
-    userEvent.selectOptions(screen.getByTestId('select'), 'male');
-    userEvent.click(screen.getByRole('button', { name: 'Pridruži se' }));
-  });
-
+  await userEvent.type(inputEmail, user.email);
+  await userEvent.type(inputPassword, user.password);
+  await userEvent.type(inputLastName, user.lastName);
+  await userEvent.type(inputFirstName, user.firstName);
+  await userEvent.selectOptions(screen.getByTestId('select'), 'male');
+  await userEvent.click(screen.getByRole('button', { name: 'Pridruži se' }));
   expect(await screen.findByText('Login')).toBeInTheDocument();
   server.close();
 });
