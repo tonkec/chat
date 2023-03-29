@@ -53,7 +53,6 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
-    "react-select-event": "^5.5.1",
     "setimmediate": "^1.0.5"
   },
   "msw": {

@@ -22,7 +22,6 @@ import {
 const user = {
   firstName: 'antonija',
   lastName: 'simic',
-  gender: 'male',
   email: 'antonija1024@gmail.com',
   password: 'glitch',
 };
@@ -118,13 +117,12 @@ test('redirects to the login page after successful signup', async () => {
     rest.post(
       `${process.env.REACT_APP_BACKEND_PORT}/register`,
       (req, res, ctx) => {
-        const { email, password, gender, firstName, lastName } = req.body;
+        const { email, password, firstName, lastName } = req.body;
         return res(
           ctx.status(200),
           ctx.json({
             email,
             password,
-            gender,
             firstName,
             lastName,
             avatar: null,
@@ -145,7 +143,6 @@ test('redirects to the login page after successful signup', async () => {
   await userEvent.type(inputPassword, user.password);
   await userEvent.type(inputLastName, user.lastName);
   await userEvent.type(inputFirstName, user.firstName);
-  await userEvent.selectOptions(screen.getByTestId('select'), 'male');
   await userEvent.click(screen.getByRole('button', { name: 'Pridruži se' }));
   expect(await screen.findByText('Login')).toBeInTheDocument();
   server.close();

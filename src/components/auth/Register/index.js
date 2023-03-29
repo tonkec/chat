@@ -13,7 +13,6 @@ import {
   SOMETHING_WENT_WRONG,
 } from '../constants';
 import isNameValid from '../validators/nameValidator';
-import optionValidator from '../validators/optionValidator';
 import FlashMessageContext from '../../../context/FlashMessage/flashMessageContext';
 import './../Auth.scss';
 
@@ -26,7 +25,6 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [gender, setGender] = useState('female');
   const [error, setError] = useState('');
   const [isDisabled, setDisabled] = useState(true);
 
@@ -49,10 +47,6 @@ const Register = () => {
         break;
       }
 
-      case 'gender': {
-        setGender(value);
-        break;
-      }
       default: {
         console.log('Invalid value for validation type');
       }
@@ -88,14 +82,6 @@ const Register = () => {
     handleInvalidInput(LAST_NAME_EMPTY);
   };
 
-  const onGenderSelect = (e) => {
-    const value = e.target.value;
-    const gender = optionValidator(value);
-    if (gender) {
-      handleValidInput('gender', value);
-    }
-  };
-
   const onEmailChange = (e) => {
     const value = e.target.value;
     const validEmail = isEmailValid(value);
@@ -121,7 +107,7 @@ const Register = () => {
     const errorIsEmpty = error === null && !isDisabled;
     if (errorIsEmpty) {
       try {
-        dispatch(register({ email, password, firstName, lastName, gender }));
+        dispatch(register({ email, password, firstName, lastName }));
         navigate('/login');
       } catch (e) {
         flashMessageContext.error(SOMETHING_WENT_WRONG);
@@ -148,11 +134,6 @@ const Register = () => {
           placeholder="Tvoje prezime"
           data-testid="lastName"
         />
-
-        <select onChange={onGenderSelect} data-testid="select">
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-        </select>
 
         <input
           onChange={onEmailChange}
