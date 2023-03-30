@@ -1,21 +1,21 @@
-import { screen } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { act } from 'react-dom/test-utils';
 import {
   EMAIL_NOT_VERIFIED,
   INVALID_CREDENTIALS,
-} from '../../components/auth/constants';
-import { render } from '@testing-library/react';
+} from '../../../components/auth/constants';
 import { Provider } from 'react-redux';
-import FlashMessage from '../../components/FlashMessage';
-import FlashMessageProvider from '../../context/FlashMessage/flashMessageProvider';
-import appStore from '../../store/index';
-import Login from '../../components/auth/Login';
+import FlashMessage from '../../../components/FlashMessage';
+import FlashMessageProvider from '../../../context/FlashMessage/flashMessageProvider';
+import appStore from '../../../store/index';
+import Login from '../../../components/auth/Login';
 import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
-import ProtectedRoute from '../../router/ProtectedRoute';
-import HomePage from '../../pages/HomePage';
+import ProtectedRoute from '../../../router/ProtectedRoute';
+import HomePage from '../../../pages/HomePage';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import SocketMock from 'socket.io-mock';
+import 'setimmediate';
 
 const user = {
   email: 'antonija1023@gmail.com',
@@ -38,12 +38,21 @@ const App = () => (
   </Provider>
 );
 
-test('renders the login page', async () => {
+let socket;
+beforeEach(() => {
+  socket = new SocketMock();
+});
+
+afterEach(() => {
+  jest.restoreAllMocks();
+});
+
+test('renders the login page', () => {
   render(<App />);
   expect(screen.getByText('Ulogiraj se!')).toBeTruthy();
 });
 
-test('should not show the email not verified message on mount', async () => {
+test('should not show the email not verified message on mount', () => {
   render(<App />);
   expect(screen.queryByText('Email not verified')).toBeFalsy();
 });
@@ -69,17 +78,10 @@ test('show email not verified message', async () => {
   server.listen();
   render(<App />);
   const inputEmail = screen.getByPlaceholderText('Email');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputEmail, user.email);
-  });
-
   const inputPassword = screen.getByPlaceholderText('Lozinka');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputPassword, user.password);
-  });
-  userEvent.click(screen.getByRole('button', { name: 'Login' }));
+  await userEvent.type(inputEmail, user.email);
+  await userEvent.type(inputPassword, user.password);
+  await userEvent.click(screen.getByRole('button', { name: 'Login' }));
   await screen.findByText(EMAIL_NOT_VERIFIED);
   server.close();
 });
@@ -90,7 +92,7 @@ test('should not log in with the wrong credentials', async () => {
       `${process.env.REACT_APP_BACKEND_PORT}/login`,
       (req, res, ctx) => {
         return res(
-          ctx.status(404),
+          ctx.status(401),
           ctx.json({
             message: 'Invalid credentials',
           })
@@ -98,22 +100,14 @@ test('should not log in with the wrong credentials', async () => {
       }
     )
   );
+  server.listen();
   render(<App />);
 
-  server.listen();
-
   const inputEmail = screen.getByPlaceholderText('Email');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputEmail, user.email);
-  });
-
   const inputPassword = screen.getByPlaceholderText('Lozinka');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputPassword, user.password);
-  });
-  userEvent.click(screen.getByRole('button', { name: 'Login' }));
+  await userEvent.type(inputEmail, user.email);
+  await userEvent.type(inputPassword, user.password);
+  await userEvent.click(screen.getByRole('button', { name: 'Login' }));
   await screen.findByText(INVALID_CREDENTIALS);
   server.close();
 });
@@ -139,17 +133,12 @@ test('not showing of email not verified message and should log in with the corre
   server.listen();
   render(<App />);
   const inputEmail = screen.getByPlaceholderText('Email');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputEmail, user.email);
-  });
-
   const inputPassword = screen.getByPlaceholderText('Lozinka');
-  // eslint-disable-next-line testing-library/no-unnecessary-act
-  act(() => {
-    userEvent.type(inputPassword, user.password);
-  });
-  userEvent.click(screen.getByRole('button', { name: 'Login' }));
+  await userEvent.type(inputEmail, user.email);
+  await userEvent.click(screen.getByRole('button', { name: 'Login' }));
+  await userEvent.type(inputPassword, user.password);
+
   await screen.findByText('Tvoj Dashboard');
+  expect(socket.socketClient.connected).toBeTruthy();
   server.close();
 });

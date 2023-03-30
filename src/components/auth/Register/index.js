@@ -2,9 +2,7 @@ import React, { useContext, useState } from 'react';
 import { register } from '../../../store/actions/auth';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
-
 import AuthLayout from '../../Layout/AuthLayout';
-import './../Auth.scss';
 import isEmailValid from '../validators/emailValidator';
 import isPasswordValid from '../validators/passwordValidator';
 import {
@@ -12,11 +10,12 @@ import {
   NAME_EMPTY,
   LAST_NAME_EMPTY,
   PASSWORD_MIN_CHARACTERS,
-} from '../constants/login';
-
-import nameValidator from '../validators/nameValidator';
-import optionValidator from '../validators/optionValidator';
+  SOMETHING_WENT_WRONG,
+} from '../constants';
+import isNameValid from '../validators/nameValidator';
 import FlashMessageContext from '../../../context/FlashMessage/flashMessageContext';
+import './../Auth.scss';
+
 const Register = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
@@ -26,7 +25,6 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [gender, setGender] = useState('female');
   const [error, setError] = useState('');
   const [isDisabled, setDisabled] = useState(true);
 
@@ -49,25 +47,13 @@ const Register = () => {
         break;
       }
 
-      case 'gender': {
-        setGender(value);
-        break;
-      }
       default: {
         console.log('Invalid value for validation type');
       }
     }
     flashMessageContext.close();
     setError(null);
-
-    if (
-      email !== '' &&
-      firstName !== '' &&
-      lastName !== '' &&
-      password !== ''
-    ) {
-      setDisabled(false);
-    }
+    setDisabled(false);
   };
 
   const handleInvalidInput = (error) => {
@@ -78,7 +64,7 @@ const Register = () => {
 
   const onNameChange = (e) => {
     const value = e.target.value;
-    const validName = nameValidator(value);
+    const validName = isNameValid(value);
     if (validName) {
       handleValidInput('firstName', value);
       return;
@@ -88,20 +74,12 @@ const Register = () => {
 
   const onLastNameChange = (e) => {
     const value = e.target.value;
-    const validLastName = nameValidator(value);
+    const validLastName = isNameValid(value);
     if (validLastName) {
       handleValidInput('lastName', value);
       return;
     }
     handleInvalidInput(LAST_NAME_EMPTY);
-  };
-
-  const onGenderSelect = (e) => {
-    const value = e.target.value;
-    const gender = optionValidator(value);
-    if (gender) {
-      handleValidInput('gender', value);
-    }
   };
 
   const onEmailChange = (e) => {
@@ -126,11 +104,14 @@ const Register = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const errorIsEmpty = error === '' && !isDisabled;
+    const errorIsEmpty = error === null && !isDisabled;
     if (errorIsEmpty) {
-      dispatch(
-        register({ email, password, firstName, lastName, gender }, navigate)
-      );
+      try {
+        dispatch(register({ email, password, firstName, lastName }));
+        navigate('/login');
+      } catch (e) {
+        flashMessageContext.error(SOMETHING_WENT_WRONG);
+      }
       return;
     }
   };
@@ -143,6 +124,7 @@ const Register = () => {
           required
           type="text"
           placeholder="Tvoje ime"
+          data-testid="name"
         />
 
         <input
@@ -150,18 +132,16 @@ const Register = () => {
           required
           type="text"
           placeholder="Tvoje prezime"
+          data-testid="lastName"
         />
-
-        <select onChange={onGenderSelect}>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-        </select>
 
         <input
           onChange={onEmailChange}
+          onKeyDown={onEmailChange}
           required
           type="email"
           placeholder="Tvoj mail"
+          data-testid="email"
         />
 
         <input
@@ -169,6 +149,7 @@ const Register = () => {
           required
           type="password"
           placeholder="Tvoja lozinka"
+          data-testid="password"
         />
 
         <button disabled={isDisabled}>Pridruži se</button>

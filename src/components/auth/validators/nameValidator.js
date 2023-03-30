@@ -1,3 +1,5 @@
-export default function (name) {
-  return name.length > 0;
-}
+const isNameValid = (name) => {
+  return name.trim() !== '';
+};
+
+export default isNameValid;

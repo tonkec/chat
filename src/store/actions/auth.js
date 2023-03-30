@@ -32,11 +32,10 @@ export const login = (params) => (dispatch) => {
     });
 };
 
-export const register = (params, navigate) => (dispatch) => {
+export const register = (params) => (dispatch) => {
   return AuthService.register(params)
     .then((data) => {
       dispatch({ type: REGISTER, payload: data.data });
-      navigate('/login');
     })
     .catch((e) => console.log(e));
 };
