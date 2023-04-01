@@ -1,5 +1,21 @@
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllUsers } from '../../store/actions/user';
+import UserCard from '../UserCard';
+import '../Dashboard/Dashboard.scss';
+
 const Profiles = () => {
-  return <h1>All Profiles</h1>;
+  const dispatch = useDispatch();
+  const allUsers = useSelector((state) => state.userReducer.allUsers);
+  useEffect(() => {
+    dispatch(getAllUsers());
+  }, [dispatch]);
+  return (
+    <div className="user-cards">
+      {allUsers.length > 0 &&
+        allUsers.map((user) => <UserCard user={user} key={user.id} />)}
+    </div>
+  );
 };
 
 export default Profiles;

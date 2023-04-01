@@ -1,6 +1,6 @@
-import './DashboardCard.scss';
+import './UserCard.scss';
 const DashobardCard = ({ user }) => (
-  <div className="dashboard-card" key={user.id}>
+  <div className="user-card">
     <img src={user.avatar} alt="user avatar" />
     <p>{user.firstName}</p>
   </div>
