@@ -11,10 +11,13 @@ const Profiles = () => {
     dispatch(getAllUsers());
   }, [dispatch]);
   return (
-    <div className="user-cards">
-      {allUsers.length > 0 &&
-        allUsers.map((user) => <UserCard user={user} key={user.id} />)}
-    </div>
+    <>
+      <h2>Svi profili</h2>
+      <div className="user-cards">
+        {allUsers.length > 0 &&
+          allUsers.map((user) => <UserCard user={user} key={user.id} />)}
+      </div>
+    </>
   );
 };
 
