@@ -11,6 +11,16 @@ const UserService = {
         throw err;
       });
   },
+  getUser: (id) => {
+    return api
+      .get(`users/${id}`)
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        throw err;
+      });
+  },
 };
 
 export default UserService;

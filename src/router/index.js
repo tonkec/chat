@@ -9,6 +9,7 @@ import HomePage from '../pages/HomePage';
 import MessagesPage from '../pages/MessagesPage';
 import MessagePage from '../pages/MessagePage';
 import AllProfilesPage from '../pages/AllProfilesPage';
+import UserPage from '../pages/UserPage';
 
 const RoutesComponent = () => (
   <Router>
@@ -18,6 +19,7 @@ const RoutesComponent = () => (
       </Route>
       <Route path="/poruka/:id" element={<MessagePage />} />
       <Route path="/poruke" element={<MessagesPage />} />
+      <Route path="/user/:id" element={<UserPage />} />
       <Route path="/svi-profili" element={<AllProfilesPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
