@@ -37,7 +37,9 @@ export const register = (params) => (dispatch) => {
     .then((data) => {
       dispatch({ type: REGISTER, payload: data.data });
     })
-    .catch((e) => console.log(e));
+    .catch((e) => {
+      throw e;
+    });
 };
 
 export const logout = () => (dispatch) => {
