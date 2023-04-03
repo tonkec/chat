@@ -102,12 +102,12 @@ const Register = () => {
     handleInvalidInput(PASSWORD_MIN_CHARACTERS);
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const errorIsEmpty = error === null && !isDisabled;
     if (errorIsEmpty) {
       try {
-        dispatch(register({ email, password, firstName, lastName }));
+        await dispatch(register({ email, password, firstName, lastName }));
         navigate('/login');
       } catch (e) {
         flashMessageContext.error(SOMETHING_WENT_WRONG);
