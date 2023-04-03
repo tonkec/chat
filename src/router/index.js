@@ -17,10 +17,18 @@ const RoutesComponent = () => (
       <Route exact path="/" element={<ProtectedRoute />}>
         <Route exact path="/" element={<HomePage />} />
       </Route>
-      <Route path="/poruka/:id" element={<MessagePage />} />
-      <Route path="/poruke" element={<MessagesPage />} />
-      <Route path="/user/:id" element={<UserPage />} />
-      <Route path="/svi-profili" element={<AllProfilesPage />} />
+      <Route exact path="/" element={<ProtectedRoute />}>
+        <Route path="/poruka/:id" element={<MessagePage />} />
+      </Route>
+      <Route exact path="/" element={<ProtectedRoute />}>
+        <Route path="/poruke" element={<MessagesPage />} />
+      </Route>
+      <Route exact path="/" element={<ProtectedRoute />}>
+        <Route path="/user/:id" element={<UserPage />} />
+      </Route>
+      <Route exact path="/" element={<ProtectedRoute />}>
+        <Route path="/svi-profili" element={<AllProfilesPage />} />
+      </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
