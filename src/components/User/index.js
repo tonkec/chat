@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getUser } from '../../store/actions/user';
+import './User.scss';
 
 export const User = () => {
   const dispatch = useDispatch();
@@ -12,9 +13,12 @@ export const User = () => {
     dispatch(getUser(userId));
   }, [dispatch, userId]);
   return (
-    <>
-      <h1>{user && user.firstName} profil</h1>
-    </>
+    user && (
+      <div className="user">
+        <img src={user.avatar} alt="user avatar" />
+        <h1>{user.firstName}</h1>
+      </div>
+    )
   );
 };
 
