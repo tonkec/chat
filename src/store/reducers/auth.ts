@@ -10,13 +10,13 @@ import {
 } from '../types';
 
 export const initialState = {
-  user: JSON.parse(localStorage.getItem('user')) || {},
+  user: JSON.parse(localStorage.getItem('user')!) || {},
   token: localStorage.getItem('token') || '',
   isLoggedIn: !!localStorage.getItem('user'),
   isVerified: 'initial',
 };
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state = initialState, action: { type: any; payload: any; }) => {
   const { type, payload } = action;
 
   switch (type) {

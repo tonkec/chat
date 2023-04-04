@@ -1,6 +1,7 @@
 import Chat from '../../models/Chat';
 import { Friend } from '../../models/Friend';
 import Message from '../../models/Message';
+import User from '../../models/User';
 import ChatService from '../../services/chatService';
 export const FETCH_CHATS = 'FETCH_CHATS';
 export const SET_CURRENT_CHAT = 'SET_CURRENT_CHAT';
@@ -23,7 +24,7 @@ export const fetchChats = () => async (dispatch: (arg0: { type: string; payload:
   return ChatService.fetchChats()
     .then((data) => {
       data.forEach((chat: Chat) => {
-        chat.users.forEach((user) => {
+        chat.Users.forEach((user: User) => {
           user.status = 'offline';
         });
         chat.messages.reverse();

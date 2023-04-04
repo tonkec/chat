@@ -1,3 +1,4 @@
+import Chat from '../../models/Chat';
 import {
   FETCH_CHATS,
   SET_CURRENT_CHAT,
@@ -14,16 +15,27 @@ import {
   LEAVE_CURRENT_CHAT,
   DELETE_CURRENT_CHAT,
 } from '../actions/chat';
-const initilState = {
+import Message from '../../models/Message';
+import User from '../../models/User';
+
+interface InitialState {
+  chats: Chat[];
+  currentChat: {id: number, Users: User[], Messages: Message[], Pagination?: any};
+  socket: {};
+  newMessage: Message;
+  scrollBottom: number;
+  senderTyping: boolean
+}
+const initilState: InitialState = {
   chats: [],
-  currentChat: {},
+  currentChat: {id: 0, Users: [], Messages: []},
   socket: {},
-  newMessage: { chatId: null, seen: null },
+  newMessage: {},
   scrollBottom: 0,
-  senderTyping: { typing: false },
+  senderTyping: false,
 };
 
-const chatReducer = (state = initilState, action) => {
+const chatReducer = (state = initilState, action: { type: any; payload: any; }) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -40,8 +52,8 @@ const chatReducer = (state = initilState, action) => {
     case FRIENDS_ONLINE:
       const chatCopy = state.chats.map((chat) => {
         return {
-          ...chat,
-          Users: chat.Users.map((user) => {
+          ...(chat as Chat),
+          Users: chat.Users.map((user: User) => {
             if (payload.includes(user.id)) {
               return {
                 ...user,
@@ -61,7 +73,7 @@ const chatReducer = (state = initilState, action) => {
     case FRIEND_ONLINE: {
       let currentChatCopy = { ...state.currentChat };
       const chatsCopy = state.chats.map((chat) => {
-        const Users = chat.Users.map((user) => {
+        const Users = chat.Users.map((user: User) => {
           if (user.id === parseInt(payload.id)) {
             return {
               ...user,
@@ -94,7 +106,7 @@ const chatReducer = (state = initilState, action) => {
     case FRIEND_OFFLINE: {
       let currentChatCopy = { ...state.currentChat };
       const chatsCopy = state.chats.map((chat) => {
-        const Users = chat.Users.map((user) => {
+        const Users = chat.Users.map((user: User) => {
           if (user.id === parseInt(payload.id)) {
             return {
               ...user,
@@ -299,7 +311,7 @@ const chatReducer = (state = initilState, action) => {
           if (chatId === chat.id) {
             return {
               ...chat,
-              Users: chat.Users.filter((user) => user.id !== userId),
+              Users: chat.Users.filter((user: User) => user.id !== userId),
             };
           }
 
@@ -310,7 +322,7 @@ const chatReducer = (state = initilState, action) => {
         if (currentChatCopy.id === chatId) {
           currentChatCopy = {
             ...currentChatCopy,
-            Users: currentChatCopy.Users.filter((user) => user.id !== userId),
+            Users: currentChatCopy.Users.filter((user: User) => user.id !== userId),
           };
         }
 
