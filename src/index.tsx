@@ -6,7 +6,7 @@ import store from './store';
 import { Provider } from 'react-redux';
 import FlashMessage from './components/FlashMessage';
 import FlashMessageProvider from './context/FlashMessage/flashMessageProvider';
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root')!);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
