@@ -8,7 +8,7 @@ const ChatService = {
         throw e;
       });
   },
-  uploadImage: (data) => {
+  uploadImage: (data: any) => {
     const headers = {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     };
@@ -18,7 +18,7 @@ const ChatService = {
         throw e;
       });
   },
-  paginateMessages: (id, page) => {
+  paginateMessages: (id: any, page: any) => {
     return API.get('/chats/messages', {
       params: {
         id,
@@ -30,7 +30,7 @@ const ChatService = {
         throw e;
       });
   },
-  searchUsers: (term) => {
+  searchUsers: (term: any) => {
     return API.get('/users/search-users', {
       params: {
         term,
@@ -43,7 +43,7 @@ const ChatService = {
         throw err;
       });
   },
-  createChat: (partnerId) => {
+  createChat: (partnerId: number) => {
     return API.post('/chats/create', { partnerId })
       .then(({ data }) => {
         return data;
@@ -53,7 +53,7 @@ const ChatService = {
       });
   },
 
-  leaveCurrentChat: (chatId) => {
+  leaveCurrentChat: (chatId: number) => {
     return API.post('/chats/leave-current-chat', { chatId })
       .then(({ data }) => {
         return data;
@@ -63,7 +63,7 @@ const ChatService = {
       });
   },
 
-  addFriendToGroupChat: (userId, chatId) => {
+  addFriendToGroupChat: (userId: number, chatId: number) => {
     return API.post('/chats/add-user-to-group', { userId, chatId })
       .then(({ data }) => {
         return data;
@@ -72,7 +72,7 @@ const ChatService = {
         throw err;
       });
   },
-  deleteCurrentChat: (chatId) => {
+  deleteCurrentChat: (chatId: number) => {
     return API.delete(`/chats/${chatId}`)
       .then(({ data }) => {
         return data;

@@ -1,6 +1,6 @@
 import api from "./api";
 const AuthService = {
-  login: (data) => {
+  login: (data: any) => {
     return api
       .post("/login", data)
       .then((res) => {
@@ -15,7 +15,7 @@ const AuthService = {
         throw err;
       });
   },
-  register: (data) => {
+  register: (data: any) => {
     return api
       .post("/register", data)
       .then((res) => {
@@ -31,19 +31,19 @@ const AuthService = {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
   },
-  forgotPassword: (email) => {
+  forgotPassword: (email: string) => {
     return api
       .post("/forgot-password", { email })
       .then((res) => res)
       .catch((e) => e);
   },
-  resetPassword: (password, email) => {
+  resetPassword: (password:string, email: string) => {
     return api
       .post("/reset-password", { password, email })
       .then((res) => res)
       .catch((e) => e);
   },
-  getResetPasswordToken: (email, token) => {
+  getResetPasswordToken: (email: string, token: string) => {
     return api
       .post("/verification-token", { email, token })
       .then((res) => res)
@@ -51,7 +51,7 @@ const AuthService = {
   },
 };
 
-const saveUserToLocalStorage = (data) => {
+const saveUserToLocalStorage = (data: { token: string; }) => {
   api.defaults.headers["Authorization"] = `Bearer ${data.token}`;
   localStorage.setItem("user", JSON.stringify(data));
   localStorage.setItem("token", data.token);

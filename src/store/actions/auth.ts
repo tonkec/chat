@@ -73,7 +73,7 @@ export const forgotPassword = (email: string, navigate: NavigateFunction) => asy
   }
 };
 
-export const resetPassword = (password: string, email: string | null) => async (dispatch: (arg0: { type: string; payload: any; }) => void) => {
+export const resetPassword = (password: string, email: string) => async (dispatch: (arg0: { type: string; payload: any; }) => void) => {
   try {
     const res = await AuthService.resetPassword(password, email);
     dispatch({ type: RESET_PASSWORD, payload: res.data });
@@ -82,7 +82,7 @@ export const resetPassword = (password: string, email: string | null) => async (
   }
 };
 
-export const getResetPasswordToken = (email: string | null, token: string) => async (dispatch: (arg0: { type: string; payload: any; }) => void) => {
+export const getResetPasswordToken = (email: string, token: string) => async (dispatch: (arg0: { type: string; payload: any; }) => void) => {
   try {
     const res = await AuthService.getResetPasswordToken(email, token);
     dispatch({ type: GET_RESET_PASSWORD_TOKEN, payload: res.data });
