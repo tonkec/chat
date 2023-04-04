@@ -1,10 +1,15 @@
 import { SET_ONLINE_USERS, SET_USER_OFFLINE, SET_USER_ONLINE } from '../types';
+import User from '../../models/User';
 
-export const initialState = {
+interface InitialState {
+  onlineUsers: User[]
+}
+
+export const initialState: InitialState = {
   onlineUsers: [],
 };
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state = initialState, action: { type: any; payload: any; }) => {
   const { type, payload } = action;
 
   switch (type) {
@@ -35,7 +40,18 @@ export const userReducer = (state = initialState, action) => {
           ...state,
           onlineUsers: state.onlineUsers.map((onlineUser) => {
             if (onlineUser.user.id !== payload.id) {
-              state.onlineUsers.push({ user: payload });
+              state.onlineUsers.push({
+                user: payload,
+                id: 0,
+                firstName: '',
+                lastName: '',
+                email: '',
+                password: '',
+                gender: '',
+                isVerified: false,
+                avatar: '',
+                status: ''
+              });
             }
 
             return onlineUser;
