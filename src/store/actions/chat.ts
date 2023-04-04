@@ -1,3 +1,6 @@
+import Chat from '../../models/Chat';
+import { Friend } from '../../models/Friend';
+import Message from '../../models/Message';
 import ChatService from '../../services/chatService';
 export const FETCH_CHATS = 'FETCH_CHATS';
 export const SET_CURRENT_CHAT = 'SET_CURRENT_CHAT';
@@ -14,14 +17,16 @@ export const ADD_USER_TO_GROUP = 'ADD_USER_TO_GROUP';
 export const LEAVE_CURRENT_CHAT = 'LEAVE_CURRENT_CHAT';
 export const DELETE_CURRENT_CHAT = 'DELETE_CURRENT_CHAT';
 
-export const fetchChats = () => (dispatch) => {
+
+
+export const fetchChats = () => async (dispatch: (arg0: { type: string; payload: any; }) => void) => {
   return ChatService.fetchChats()
     .then((data) => {
-      data.forEach((chat) => {
-        chat.Users.forEach((user) => {
+      data.forEach((chat: Chat) => {
+        chat.users.forEach((user) => {
           user.status = 'offline';
         });
-        chat.Messages.reverse();
+        chat.messages.reverse();
       });
 
       dispatch({ type: FETCH_CHATS, payload: data });
@@ -32,33 +37,33 @@ export const fetchChats = () => (dispatch) => {
     });
 };
 
-export const setCurrentChat = (chat) => (dispatch) => {
+export const setCurrentChat = (chat: Chat) => (dispatch: (arg0: { type: string; payload: Chat; }) => void) => {
   dispatch({ type: SET_CURRENT_CHAT, payload: chat });
 };
 
-export const onlineFriends = (friends) => (dispatch) => {
+export const onlineFriends = (friends: Friend[]) => (dispatch: (arg0: { type: string; payload: Friend[]; }) => void) => {
   dispatch({ type: FRIENDS_ONLINE, payload: friends });
 };
-export const onlineFriend = (friend) => (dispatch) => {
+export const onlineFriend = (friend: Friend[]) => (dispatch: (arg0: { type: string; payload: Friend[]; }) => void) => {
   dispatch({ type: FRIEND_ONLINE, payload: friend });
 };
-export const offlineFriend = (friend) => (dispatch) => {
+export const offlineFriend = (friend: Friend[]) => (dispatch: (arg0: { type: string; payload: Friend[]; }) => void) => {
   dispatch({ type: FRIEND_OFFLINE, payload: friend });
 };
 
-export const setSocket = (socket) => (dispatch) => {
+export const setSocket = (socket: any) => (dispatch: (arg0: { type: string; payload: any; }) => void) => {
   dispatch({ type: SET_SOCKET, payload: socket });
 };
 
-export const receivedMessage = (message, userId) => (dispatch) => {
+export const receivedMessage = (message: Message, userId: number) => (dispatch: (arg0: { type: string; payload: { message: Message; userId: number; }; }) => void) => {
   dispatch({ type: RECEIVED_MESSAGE, payload: { message, userId } });
 };
 
-export const senderTyping = (sender) => (dispatch) => {
+export const senderTyping = (sender: any) => (dispatch: (arg0: { type: string; payload: any; }) => void) => {
   dispatch({ type: SENDER_TYPING, payload: sender });
 };
 
-export const paginateMessages = (id, page) => (dispatch) => {
+export const paginateMessages = (id: number, page: number) =>async  (dispatch: (arg0: { type: string; payload: { messages: any; id: number; pagination: any; }; }) => void) => {
   return ChatService.paginateMessages(id, page)
     .then(({ messages, pagination }) => {
       if (typeof messages !== 'undefined' && messages.length > 0) {
@@ -75,22 +80,22 @@ export const paginateMessages = (id, page) => (dispatch) => {
     });
 };
 
-export const incrementScroll = () => (dispatch) => {
+export const incrementScroll = () => (dispatch: (arg0: { type: string; }) => void) => {
   dispatch({ type: INCREMENT_SCROLL });
 };
 
-export const createChat = (chat) => (dispatch) => {
+export const createChat = (chat: Chat) => (dispatch: (arg0: { type: string; payload: Chat; }) => void) => {
   dispatch({ type: CREATE_CHAT, payload: chat });
 };
 
-export const addUserToGroup = (group) => (dispatch) => {
+export const addUserToGroup = (group: any) => (dispatch: (arg0: { type: string; payload: any; }) => void) => {
   dispatch({ type: ADD_USER_TO_GROUP, payload: group });
 };
 
-export const leaveCurrentChat = (data) => (dispatch) => {
+export const leaveCurrentChat = (data: any) => (dispatch: (arg0: { type: string; payload: any; }) => void) => {
   dispatch({ type: LEAVE_CURRENT_CHAT, payload: data });
 };
 
-export const deleteCurrentChat = (chatId) => (dispatch) => {
+export const deleteCurrentChat = (chatId: number) => (dispatch: (arg0: { type: string; payload: number; }) => void) => {
   dispatch({ type: DELETE_CURRENT_CHAT, payload: chatId });
 };
