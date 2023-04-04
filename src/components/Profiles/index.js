@@ -23,10 +23,14 @@ const Profiles = () => {
 
     setUsers(filteredUsers);
   };
+
   useEffect(() => {
     dispatch(getAllUsers());
   }, [dispatch]);
 
+  useEffect(() => {
+    setUsers(usersFromStore);
+  }, [usersFromStore]);
   return (
     <div className="all-profiles">
       <h2>Svi profili</h2>
