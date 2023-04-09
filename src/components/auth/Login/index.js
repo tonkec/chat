@@ -144,22 +144,20 @@ const Login = () => {
           type="password"
           placeholder="Lozinka"
         />
-        <button disabled={isDisabled}>
-          {isLoading ? (
-            <ColorRing
-              visible={true}
-              height="30"
-              width="30"
-              ariaLabel="blocks-loading"
-              wrapperStyle={{}}
-              wrapperClass="blocks-wrapper"
-              colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
-            />
-          ) : (
-            <>Login</>
-          )}
-        </button>
+        <button disabled={isDisabled}>Login</button>
       </form>
+
+      {isLoading ? (
+        <ColorRing
+          visible={true}
+          height="30"
+          width="30"
+          ariaLabel="blocks-loading"
+          wrapperStyle={{}}
+          wrapperClass="blocks-wrapper"
+          colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
+        />
+      ) : null}
 
       <div className="links-auth">
         <Link to="/register">Registriraj se</Link> {"  "}

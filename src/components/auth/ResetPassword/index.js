@@ -121,21 +121,21 @@ const ResetPassword = () => {
           data-testid="confirmationPassword"
         />
         <button onClick={onHandleSubmit} disabled={isDisabled}>
-          {isLoading ? (
-            <ColorRing
-              visible={true}
-              height="30"
-              width="30"
-              ariaLabel="blocks-loading"
-              wrapperStyle={{}}
-              wrapperClass="blocks-wrapper"
-              colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
-            />
-          ) : (
-            <>Promijeni lozinku</>
-          )}
+          Promijeni lozinku
         </button>
       </form>
+
+      {isLoading ? (
+        <ColorRing
+          visible={true}
+          height="30"
+          width="30"
+          ariaLabel="blocks-loading"
+          wrapperStyle={{}}
+          wrapperClass="blocks-wrapper"
+          colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
+        />
+      ) : null}
     </AuthLayout>
   );
 };

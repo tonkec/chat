@@ -155,24 +155,20 @@ const Register = () => {
           placeholder="Tvoja lozinka"
           data-testid="password"
         />
-
-        <button disabled={isDisabled}>
-          {isLoading ? (
-            <ColorRing
-              visible={true}
-              height="30"
-              width="30"
-              ariaLabel="blocks-loading"
-              wrapperStyle={{}}
-              wrapperClass="blocks-wrapper"
-              colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
-            />
-          ) : (
-            <>Pridruži se</>
-          )}
-        </button>
+        <button disabled={isDisabled}>Pridruži se</button>
       </form>
 
+      {isLoading ? (
+        <ColorRing
+          visible={true}
+          height="30"
+          width="30"
+          ariaLabel="blocks-loading"
+          wrapperStyle={{}}
+          wrapperClass="blocks-wrapper"
+          colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
+        />
+      ) : null}
       <div className="links-auth">
         <Link to="/login">Ulogiraj se</Link>
       </div>
