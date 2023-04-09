@@ -1,44 +1,45 @@
-import { useContext, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useContext, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import {
   resetPassword,
   getResetPasswordToken,
-} from '../../../store/actions/auth';
+} from "../../../store/actions/auth";
 import {
   PASSWORD_MIN_CHARACTERS,
   PASSWORDS_MISMATCH,
   WRONG_TOKEN,
   SOMETHING_WENT_WRONG,
-} from '../constants';
-import AuthLayout from '../../Layout/AuthLayout';
-import isPasswordValid from '../validators/passwordValidator';
-import FlashMessageContext from '../../../context/FlashMessage/flashMessageContext';
-import './../Auth.scss';
-
+} from "../constants";
+import AuthLayout from "../../Layout/AuthLayout";
+import isPasswordValid from "../validators/passwordValidator";
+import FlashMessageContext from "../../../context/FlashMessage/flashMessageContext";
+import "./../Auth.scss";
+import { ColorRing } from "react-loader-spinner";
 const ResetPassword = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
   const [isDisabled, setDisabled] = useState(true);
-  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [isLoading, setIsLoading] = useState("false");
   const flashMessageContext = useContext(FlashMessageContext);
   let [searchParams, setSearchParams] = useSearchParams();
-  const email = searchParams.get('email');
-  const token = searchParams.get('token');
+  const email = searchParams.get("email");
+  const token = searchParams.get("token");
 
   const handleValidInput = (action, value) => {
     switch (action) {
-      case 'password': {
+      case "password": {
         setPassword(value);
         break;
       }
-      case 'password confirmation': {
+      case "password confirmation": {
         setPasswordConfirmation(value);
         break;
       }
       default: {
-        console.log('Invalid value for validation type');
+        console.log("Invalid value for validation type");
       }
     }
 
@@ -55,7 +56,7 @@ const ResetPassword = () => {
     const value = e.target.value;
     const validPassword = isPasswordValid(value);
     if (validPassword) {
-      handleValidInput('password', value);
+      handleValidInput("password", value);
       return;
     }
     handleInvalidInput(PASSWORD_MIN_CHARACTERS);
@@ -69,7 +70,7 @@ const ResetPassword = () => {
     }
 
     if (validPassword) {
-      handleValidInput('password confirmation', value);
+      handleValidInput("password confirmation", value);
     } else {
       handleInvalidInput(PASSWORD_MIN_CHARACTERS);
     }
@@ -77,7 +78,7 @@ const ResetPassword = () => {
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    const hasToken = token !== null && token.trim() !== '';
+    const hasToken = token !== null && token.trim() !== "";
     const message = !hasToken && WRONG_TOKEN;
     message && flashMessageContext.error(message);
     if (!token) {
@@ -85,9 +86,11 @@ const ResetPassword = () => {
     }
 
     try {
+      setIsLoading(true);
       dispatch(getResetPasswordToken(email, token));
       dispatch(resetPassword(password, email));
-      navigate('/login');
+      navigate("/login");
+      setIsLoading(false);
     } catch (e) {
       flashMessageContext.error(SOMETHING_WENT_WRONG);
     }
@@ -95,7 +98,7 @@ const ResetPassword = () => {
 
   return (
     <AuthLayout>
-      {process.env.NODE_ENV === 'test' && (
+      {process.env.NODE_ENV === "test" && (
         <p data-testid="params">
           {email}
           {token}
@@ -118,7 +121,19 @@ const ResetPassword = () => {
           data-testid="confirmationPassword"
         />
         <button onClick={onHandleSubmit} disabled={isDisabled}>
-          Promijeni lozinku
+          {isLoading ? (
+            <ColorRing
+              visible={true}
+              height="30"
+              width="30"
+              ariaLabel="blocks-loading"
+              wrapperStyle={{}}
+              wrapperClass="blocks-wrapper"
+              colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
+            />
+          ) : (
+            <>Promijeni lozinku</>
+          )}
         </button>
       </form>
     </AuthLayout>

@@ -14,6 +14,7 @@ import {
 import FlashMessageContext from "../../../context/FlashMessage/flashMessageContext";
 import isEmailValid from "../validators/emailValidator";
 import isPasswordValid from "../validators/passwordValidator";
+
 import "./../Auth.scss";
 import { useLocation } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
@@ -143,22 +144,22 @@ const Login = () => {
           type="password"
           placeholder="Lozinka"
         />
-        <button disabled={isDisabled}>Login</button>
+        <button disabled={isDisabled}>
+          {isLoading ? (
+            <ColorRing
+              visible={true}
+              height="30"
+              width="30"
+              ariaLabel="blocks-loading"
+              wrapperStyle={{}}
+              wrapperClass="blocks-wrapper"
+              colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
+            />
+          ) : (
+            <>Login</>
+          )}
+        </button>
       </form>
-
-      <div>
-        {isLoading ? (
-          <ColorRing
-            visible={true}
-            height="80"
-            width="80"
-            ariaLabel="blocks-loading"
-            wrapperStyle={{}}
-            wrapperClass="blocks-wrapper"
-            colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
-          />
-        ) : null}
-      </div>
 
       <div className="links-auth">
         <Link to="/register">Registriraj se</Link> {"  "}
