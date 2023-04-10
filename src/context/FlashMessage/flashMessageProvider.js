@@ -17,8 +17,7 @@ const FlashMessageProvider = (props) => {
     setNotificationText(text);
     setNotification(STATES.ERROR);
     setTimeout(() => {
-      setNotificationText(null);
-      setNotification(null);
+      close();
     }, 5000);
   };
   const close = () => {
