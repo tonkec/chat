@@ -90,8 +90,10 @@ const Login = () => {
     } catch (e) {
       if (e.response.status === 401) {
         flashMessageContext.error(INVALID_CREDENTIALS);
+        setIsLoading(false);
       } else {
         flashMessageContext.error(SOMETHING_WENT_WRONG);
+        setIsLoading(false);
       }
     }
   };

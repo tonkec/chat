@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { STATES } from './constants';
-import FlashMessageContext from './flashMessageContext';
+import { useState } from "react";
+import { STATES } from "./constants";
+import FlashMessageContext from "./flashMessageContext";
 
 const FlashMessageProvider = (props) => {
   const [notification, setNotification] = useState(null);
