@@ -93,6 +93,7 @@ const ResetPassword = () => {
       setIsLoading(false);
     } catch (e) {
       flashMessageContext.error(SOMETHING_WENT_WRONG);
+      setIsLoading(false);
     }
   };
 
