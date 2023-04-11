@@ -21,6 +21,16 @@ const UserService = {
         throw err;
       });
   },
+  updateUser: (data) => {
+    return api
+      .post('/users/update-user', { data })
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        throw err;
+      });
+  },
 };
 
 export default UserService;
