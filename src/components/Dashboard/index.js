@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import DashobardCard from './DashboardCard';
+import UserCard from '../UserCard';
 import { useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
 import { setOnlineUsers } from './../../store/actions/user';
@@ -33,11 +33,9 @@ const Dashboard = () => {
     <div className="dashboard">
       <h2>Tvoj Dashboard {currentUser.firstName}</h2>
       <p>Trenutno online korisnici</p>
-      <div className="dashboard-cards">
+      <div className="user-cards">
         {onlineUsers.length > 0 &&
-          onlineUsers.map(({ user }) => (
-            <DashobardCard key={user.id} user={user} />
-          ))}
+          onlineUsers.map(({ user }) => <UserCard key={user.id} user={user} />)}
       </div>
     </div>
   );
