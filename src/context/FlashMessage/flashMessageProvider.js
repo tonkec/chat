@@ -9,8 +9,7 @@ const FlashMessageProvider = (props) => {
     setNotificationText(text);
     setNotification(STATES.SUCCESS);
     setTimeout(() => {
-      setNotificationText(null);
-      setNotification(null);
+      close();
     }, 5000);
   };
   const error = (text) => {
