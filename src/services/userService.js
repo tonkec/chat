@@ -13,7 +13,7 @@ const UserService = {
   },
   getUser: (id) => {
     return api
-      .get(`users/${id}`)
+      .get(`/users/${id}`)
       .then((res) => {
         return res;
       })
