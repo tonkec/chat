@@ -38,9 +38,9 @@ export const getUser = (id) => (dispatch) => {
 };
 
 export const updateUser = (data) => (dispatch) => {
-  return UserService.updateUser(data).then((res) => {
-    dispatch({ type: UPDATE_USER, payload: res.data }).catch((e) =>
-      console.log(e)
-    );
-  });
+  return UserService.updateUser(data)
+    .then((res) => {
+      dispatch({ type: UPDATE_USER, payload: res.data });
+    })
+    .catch((e) => console.log(e));
 };

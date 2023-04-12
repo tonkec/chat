@@ -68,6 +68,7 @@ export const userReducer = (state = initialState, action) => {
     case UPDATE_USER: {
       return {
         ...state,
+        user: payload,
       };
     }
 

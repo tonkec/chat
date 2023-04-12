@@ -47,16 +47,6 @@ export const logout = () => (dispatch) => {
   dispatch({ type: LOGOUT });
 };
 
-export const updateProfile = (params) => (dispatch) => {
-  return AuthService.updateProfile(params)
-    .then((data) => {
-      dispatch({ type: UPDATE_PROFILE, payload: data });
-    })
-    .catch((err) => {
-      throw err;
-    });
-};
-
 export const forgotPassword = (email, navigate) => (dispatch) => {
   return AuthService.forgotPassword(email)
     .then((res) => {
