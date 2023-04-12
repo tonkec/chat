@@ -1,4 +1,4 @@
-import { screen, render, waitFor } from '@testing-library/react';
+import { screen, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import FlashMessage from '../../../components/FlashMessage';
 import FlashMessageProvider from '../../../context/FlashMessage/flashMessageProvider';
