@@ -5,10 +5,9 @@ import Hamburger from "./Hamburger/Hamburger";
 import { useState } from "react";
 const Sidebar = () => {
   const [openSidebar, setOpenSidebar] = useState(false);
-  const [viewBurger, setViewBurger] = useState(true);
+
   function showLinks(e) {
     setOpenSidebar(!openSidebar);
-    setViewBurger(!viewBurger);
   }
 
   return (
