@@ -1,0 +1,15 @@
+@media (max-width: 992px) {
+  .hamburger.active {
+    display: block;
+    padding-left: 20px;
+    cursor: pointer;
+  }
+
+  .bar {
+    display: block;
+    background-color: white;
+    width: 50px;
+    height: 2px;
+    margin: 10px;
+  }
+}
