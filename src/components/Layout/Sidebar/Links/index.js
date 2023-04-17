@@ -1,20 +1,20 @@
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../../../store/actions/auth';
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../../../store/actions/auth";
 
-import './Links.scss';
+import "./Links.scss";
 const links = [
   {
-    to: 'svi-profili',
-    text: 'svi profili',
+    to: "svi-profili",
+    text: "svi profili",
   },
   {
-    to: 'poruke',
-    text: 'moje poruke',
+    to: "poruke",
+    text: "moje poruke",
   },
   {
-    to: 'račun',
-    text: 'moj račun',
+    to: "račun",
+    text: "moj račun",
   },
 ];
 
@@ -24,7 +24,7 @@ const Links = () => {
 
   const dispatch = useDispatch();
   const onLogoutClick = () => {
-    socket.emit('set-user-offline', currentUser);
+    socket.emit("set-user-offline", currentUser);
     dispatch(logout());
   };
   return (

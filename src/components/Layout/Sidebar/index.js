@@ -14,7 +14,7 @@ const Sidebar = () => {
     <aside className="sidebar">
       <Logo />
       <div onClick={showLinks}>
-        <Hamburger />
+        {openSidebar ? <h2 className="x-button"> X</h2> : <Hamburger />}
       </div>
 
       <div className={`nav-links  ${openSidebar && "active"}`}>
