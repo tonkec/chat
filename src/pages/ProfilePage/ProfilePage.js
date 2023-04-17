@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser, updateUser } from '../../store/actions/user';
+import axios from 'axios';
+import API from '../../services/api';
 const ProfilePage = () => {
   const dispatch = useDispatch();
   const authUser = useSelector((state) => state.authReducer.user);
@@ -11,11 +13,31 @@ const ProfilePage = () => {
   const [gender, setGender] = useState(authUser.gender);
   const [location, setLocation] = useState(authUser.location);
   const [age, setAge] = useState(authUser.age);
+  const [avatar, setAvatar] = useState(authUser.avatar);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const data = { username, bio, gender, sexuality, location, age };
-    dispatch(updateUser(data));
+    console.log(e.target.files);
+    const data = new FormData();
+    data.append('avatar', avatar);
+    // console.log(avatar, 'avatar');
+    // const formData = new FormData();
+    // formData.append('avatar', avatar);
+    // console.log(formData);
+    API.post(
+      `/uploads/avatar`,
+      {
+        data,
+      },
+      {
+        headers: {
+          'Content-Type': avatar.type,
+        },
+      }
+    );
+
+    // const data = { username, bio, gender, sexuality, location, age, avatar };
+    // dispatch(updateUser(formData));
   };
 
   useEffect(() => {
@@ -28,8 +50,14 @@ const ProfilePage = () => {
         {currentUser && currentUser.firstName}{' '}
         {currentUser && currentUser.lastName}
       </h1>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} encType="multipart/form-data">
         <input
+          type="file"
+          name="avatar"
+          onChange={(e) => setAvatar(e.target.files[0])}
+        />{' '}
+        Tvoj avatar
+        {/* <input
           type="text"
           placeholder="tvoj username"
           defaultValue={currentUser && currentUser.username}
@@ -58,14 +86,13 @@ const ProfilePage = () => {
           defaultValue={currentUser && currentUser.location}
           onChange={(e) => setLocation(e.target.value)}
         />
-
         <input
           type="text"
           placeholder="Tvoja dob"
           defaultValue={currentUser && currentUser.age}
           onChange={(e) => setAge(e.target.value)}
-        />
-        <button> Izmijeni </button>
+        /> */}
+        <button type="submit"> Izmijeni </button>
       </form>
     </>
   );
