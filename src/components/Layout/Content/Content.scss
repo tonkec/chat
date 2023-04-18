@@ -1,4 +1,4 @@
-@import '../../../assets/variables.scss';
+@import "../../../assets/variables.scss";
 .content {
   width: calc(100% - #{$sidebarWidth});
   margin-left: $sidebarWidth;
@@ -8,4 +8,10 @@
   padding-right: $rightSpacer;
   background-color: $contentBackground;
   height: 100%;
+}
+@media (max-width: 992px) {
+  .content {
+    width: 100%;
+    margin: 0;
+  }
 }
