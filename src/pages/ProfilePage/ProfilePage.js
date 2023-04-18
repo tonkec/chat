@@ -17,24 +17,14 @@ const ProfilePage = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target.files);
-    const data = new FormData();
-    data.append('avatar', avatar);
-    // console.log(avatar, 'avatar');
-    // const formData = new FormData();
-    // formData.append('avatar', avatar);
-    // console.log(formData);
-    API.post(
-      `/uploads/avatar`,
-      {
-        data,
-      },
-      {
-        headers: {
-          'Content-Type': avatar.type,
-        },
-      }
-    );
+    const formData = new FormData();
+    formData.append('avatar', avatar);
+    formData.append('userId', currentUser.id);
+
+    API.post(`/uploads/avatar`, formData, {}).then((res) => {
+      // then print response status
+      console.log(res.statusText);
+    });
 
     // const data = { username, bio, gender, sexuality, location, age, avatar };
     // dispatch(updateUser(formData));
