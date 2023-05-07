@@ -35,11 +35,13 @@
     padding-top: 35px;
   }
   .x-icon {
+    order: -1;
     display: block;
     margin: 20px;
     color: white;
   }
   .hamburger-icon {
+    order: -1;
     display: block;
     margin: 20px;
     color: $sidebarBackground;

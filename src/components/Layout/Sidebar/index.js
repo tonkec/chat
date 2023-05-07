@@ -1,7 +1,7 @@
 import Links from "./Links";
 import Logo from "./Logo";
 import "./Sidebar.scss";
-
+import "./Logo/Logo.scss";
 import { useState } from "react";
 import { TfiClose } from "react-icons/tfi";
 import { TfiAlignJustify } from "react-icons/tfi";
@@ -16,7 +16,9 @@ const Sidebar = () => {
   return (
     <div>
       <aside className={`sidebar  ${openSidebar && "active"}`}>
-        <Logo />
+        <div className={`logo-nav  ${openSidebar && "active"}`}>
+          <Logo />
+        </div>
         <div className="hamburger-icons" onClick={showLinks}>
           {openSidebar ? (
             <TfiClose className="x-icon active" />
@@ -24,6 +26,7 @@ const Sidebar = () => {
             <TfiAlignJustify className="hamburger-icon active" />
           )}
         </div>
+
         <div className={`nav-links  ${openSidebar && "active"}`}>
           <Links />
         </div>
