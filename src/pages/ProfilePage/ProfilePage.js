@@ -21,9 +21,13 @@ const ProfilePage = () => {
     formData.append('avatar', avatar);
     formData.append('userId', currentUser.id);
 
-    API.post(`/uploads/avatar`, formData, {}).then((res) => {
-      console.log(res.statusText);
-    });
+    API.post(`/uploads/avatar`, formData, {})
+      .then((res) => {
+        console.log(res.statusText);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const onUserDataSubmit = (e) => {
@@ -33,9 +37,13 @@ const ProfilePage = () => {
   };
 
   useEffect(() => {
-    API.get(`/uploads/avatar/${authUser.id}`).then((res) => {
-      setUserPhotos(res.data.Contents);
-    });
+    API.get(`/uploads/avatar/${authUser.id}`)
+      .then((res) => {
+        setUserPhotos(res.data.Contents);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, [authUser.id]);
 
   useEffect(() => {
