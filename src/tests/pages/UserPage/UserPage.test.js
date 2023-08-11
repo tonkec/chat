@@ -36,13 +36,6 @@ const App = () => (
 );
 
 it('should render the User page with bio placeholder', async () => {
-  jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
-    useParams: () => ({
-      id: '1',
-    }),
-    useRouteMatch: () => ({ url: '/user/1' }),
-  }));
   const server = setupServer(
     rest.get(
       `${process.env.REACT_APP_BACKEND_PORT}/users/1`,

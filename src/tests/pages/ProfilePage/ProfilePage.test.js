@@ -23,6 +23,8 @@ const userFromApi = {
   username: 'Tonkec',
 };
 
+const photos = [];
+
 const App = () => (
   <Provider store={appStore}>
     <FlashMessageProvider>

@@ -80,7 +80,6 @@ const ProfilePage = () => {
         <input type="submit" value="Upload image" />
       </form>
       <form onSubmit={onUserDataSubmit}>
-        Tvoj avatar
         <input
           type="text"
           placeholder="tvoj username"
