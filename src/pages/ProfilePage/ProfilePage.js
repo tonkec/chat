@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser, updateUser } from '../../store/actions/user';
+import FlashMessageContext from '../../context/FlashMessage/flashMessageContext';
 import API from '../../services/api';
 const ProfilePage = () => {
+  const flashMessageContext = useContext(FlashMessageContext);
   const dispatch = useDispatch();
   const authUser = useSelector((state) => state.authReducer.user);
   const currentUser = useSelector((state) => state.userReducer.user);
@@ -22,11 +24,10 @@ const ProfilePage = () => {
     formData.append('userId', currentUser.id);
 
     API.post(`/uploads/avatar`, formData, {})
-      .then((res) => {
-        console.log(res.statusText);
-      })
+      .then((res) => flashMessageContext.success('Image uploaded'))
       .catch((err) => {
         console.log(err);
+        flashMessageContext.error('Image upload failed');
       });
   };
 
@@ -43,8 +44,9 @@ const ProfilePage = () => {
       })
       .catch((err) => {
         console.log(err);
+        flashMessageContext.error('Failed to get user photos');
       });
-  }, [authUser.id]);
+  }, [authUser.id, flashMessageContext]);
 
   useEffect(() => {
     dispatch(getUser(authUser.id));
