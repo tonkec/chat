@@ -5,6 +5,8 @@
   - restrict file type
 - in what state is testing 14.08
 - online/offline dropdown is not working properly 14.08
+- refactor dispatching of everything
+- try catch interceptors
 
 ## New Features
 
