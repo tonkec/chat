@@ -15,7 +15,7 @@ const ProfilePage = () => {
   const [avatar, setAvatar] = useState(authUser.avatar);
   const [userPhotos, setUserPhotos] = useState([]);
 
-  const onSubmit = (e) => {
+  const onAvatarSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('avatar', avatar);
@@ -24,41 +24,51 @@ const ProfilePage = () => {
     API.post(`/uploads/avatar`, formData, {}).then((res) => {
       console.log(res.statusText);
     });
+  };
 
+  const onUserDataSubmit = (e) => {
+    e.preventDefault();
     const data = { username, bio, gender, sexuality, location, age };
     dispatch(updateUser(data));
   };
 
   useEffect(() => {
     API.get(`/uploads/avatar/${authUser.id}`).then((res) => {
-      console.log(res.data);
       setUserPhotos(res.data.Contents);
     });
+  }, [authUser.id]);
+
+  useEffect(() => {
     dispatch(getUser(authUser.id));
   }, [dispatch, authUser]);
-  console.log(userPhotos);
+
   return (
     <>
       <h1>
         {currentUser && currentUser.firstName}{' '}
         {currentUser && currentUser.lastName}
       </h1>
-      {userPhotos &&
-        userPhotos.length > 0 &&
+      {userPhotos && userPhotos.length > 0 ? (
         userPhotos.map((photo) => (
           <img
+            key={photo.Key}
             src={`https://duga-user-photo.s3.eu-north-1.amazonaws.com/${photo.Key}`}
             alt="user"
             width={200}
           />
-        ))}
-      here
-      <form onSubmit={onSubmit} encType="multipart/form-data">
+        ))
+      ) : (
+        <p>No photos</p>
+      )}
+
+      <form onSubmit={onAvatarSubmit} encType="multipart/form-data">
         <input
           type="file"
           name="avatar"
           onChange={(e) => setAvatar(e.target.files[0])}
         />{' '}
+      </form>
+      <form onSubmit={onUserDataSubmit}>
         Tvoj avatar
         <input
           type="text"
