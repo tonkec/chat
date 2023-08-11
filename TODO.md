@@ -7,7 +7,6 @@
 
 ## New Features
 
-- account route
 - notifications
   - kad dobije novu poruku
 - dashboard do kraja
