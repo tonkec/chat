@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser, updateUser } from '../../store/actions/user';
-import axios from 'axios';
 import API from '../../services/api';
 const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -14,6 +13,7 @@ const ProfilePage = () => {
   const [location, setLocation] = useState(authUser.location);
   const [age, setAge] = useState(authUser.age);
   const [avatar, setAvatar] = useState(authUser.avatar);
+  const [userPhotos, setUserPhotos] = useState([]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -22,24 +22,37 @@ const ProfilePage = () => {
     formData.append('userId', currentUser.id);
 
     API.post(`/uploads/avatar`, formData, {}).then((res) => {
-      // then print response status
       console.log(res.statusText);
     });
 
-    // const data = { username, bio, gender, sexuality, location, age, avatar };
-    // dispatch(updateUser(formData));
+    const data = { username, bio, gender, sexuality, location, age };
+    dispatch(updateUser(data));
   };
 
   useEffect(() => {
+    API.get(`/uploads/avatar/${authUser.id}`).then((res) => {
+      console.log(res.data);
+      setUserPhotos(res.data.Contents);
+    });
     dispatch(getUser(authUser.id));
   }, [dispatch, authUser]);
-
+  console.log(userPhotos);
   return (
     <>
       <h1>
         {currentUser && currentUser.firstName}{' '}
         {currentUser && currentUser.lastName}
       </h1>
+      {userPhotos &&
+        userPhotos.length > 0 &&
+        userPhotos.map((photo) => (
+          <img
+            src={`https://duga-user-photo.s3.eu-north-1.amazonaws.com/${photo.Key}`}
+            alt="user"
+            width={200}
+          />
+        ))}
+      here
       <form onSubmit={onSubmit} encType="multipart/form-data">
         <input
           type="file"
@@ -47,7 +60,7 @@ const ProfilePage = () => {
           onChange={(e) => setAvatar(e.target.files[0])}
         />{' '}
         Tvoj avatar
-        {/* <input
+        <input
           type="text"
           placeholder="tvoj username"
           defaultValue={currentUser && currentUser.username}
@@ -81,7 +94,7 @@ const ProfilePage = () => {
           placeholder="Tvoja dob"
           defaultValue={currentUser && currentUser.age}
           onChange={(e) => setAge(e.target.value)}
-        /> */}
+        />
         <button type="submit"> Izmijeni </button>
       </form>
     </>
