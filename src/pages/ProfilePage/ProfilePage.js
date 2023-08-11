@@ -67,6 +67,7 @@ const ProfilePage = () => {
           name="avatar"
           onChange={(e) => setAvatar(e.target.files[0])}
         />{' '}
+        <input type="submit" value="Upload image" />
       </form>
       <form onSubmit={onUserDataSubmit}>
         Tvoj avatar
