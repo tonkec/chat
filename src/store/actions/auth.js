@@ -17,6 +17,8 @@ export const login = (params) => async (dispatch) => {
         isUserVerified = data.data.isVerified;
       }
 
+      console.log(isUserVerified);
+
       if (isUserVerified) {
         dispatch({ type: LOGIN, payload: data.data });
         return data;
