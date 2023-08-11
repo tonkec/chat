@@ -4,7 +4,13 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 const ProtectedRoute = () => {
   const isLoggedIn = useSelector((state) => state.authReducer.isLoggedIn);
-  return isLoggedIn ? <Outlet /> : <Navigate to="/login" />;
+  const isVerified = useSelector((state) => state.authReducer.isVerified);
+
+  return isLoggedIn && isVerified !== 'initial' && isVerified ? (
+    <Outlet />
+  ) : (
+    <Navigate to="/login" />
+  );
 };
 
 export default ProtectedRoute;
