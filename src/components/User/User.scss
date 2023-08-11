@@ -1,0 +1,44 @@
+.user-wrapper {
+  display: flex;
+}
+
+.user {
+  max-width: 800px;
+  margin-right: 60px;
+  img {
+    border-radius: 100%;
+    width: 100px;
+    height: 100px;
+  }
+
+  &-identity {
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+  }
+  &-name {
+    display: flex;
+    align-items: flex-start;
+    background-color: #fff;
+    margin-bottom: 30px;
+    padding: 20px;
+
+    h4 {
+      margin-top: 10px;
+      margin-bottom: 0;
+      margin-left: 10px;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 0;
+      margin-left: 10px;
+    }
+  }
+
+  &-bio {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+  }
+}

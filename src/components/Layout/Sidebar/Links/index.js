@@ -13,10 +13,6 @@ const links = [
     text: 'moje poruke',
   },
   {
-    to: 'posjetitelji',
-    text: 'moji posjetitelji',
-  },
-  {
     to: 'račun',
     text: 'moj račun',
   },

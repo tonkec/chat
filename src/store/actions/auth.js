@@ -1,4 +1,4 @@
-import AuthService from "../../services/authService";
+import AuthService from '../../services/authService';
 import {
   LOGIN,
   REGISTER,
@@ -8,7 +8,7 @@ import {
   RESET_PASSWORD,
   GET_RESET_PASSWORD_TOKEN,
   EMAIL_NOT_VERIFIED,
-} from "../types";
+} from '../types';
 export const login = (params) => async (dispatch) => {
   return AuthService.login(params)
     .then((data) => {
@@ -33,7 +33,6 @@ export const login = (params) => async (dispatch) => {
 };
 
 export const register = (params) => (dispatch) => {
-
   return AuthService.register(params)
     .then((data) => {
       dispatch({ type: REGISTER, payload: data.data });
@@ -62,7 +61,7 @@ export const forgotPassword = (email, navigate) => (dispatch) => {
   return AuthService.forgotPassword(email)
     .then((res) => {
       dispatch({ type: FORGOT_PASSWORD, payload: res.data });
-      navigate("/login");
+      navigate('/login');
     })
     .catch((e) => console.log(e));
 };
