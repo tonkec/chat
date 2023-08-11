@@ -19,8 +19,7 @@ import { useLocation } from 'react-router-dom';
 
 const Login = () => {
   const location = useLocation();
-
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState('');
@@ -82,6 +81,7 @@ const Login = () => {
     try {
       await dispatch(login({ email, password }));
       navigate('/');
+
       flashMessageContext.success(SUCCESSFUL_LOGIN);
     } catch (e) {
       if (e.response.status === 401) {
