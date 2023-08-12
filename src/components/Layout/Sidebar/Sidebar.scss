@@ -1,4 +1,4 @@
-@import '../../../assets/variables';
+@import "../../../assets/variables";
 
 .sidebar {
   top: 0;
@@ -10,4 +10,40 @@
   box-shadow: $sidebarBoxShadow;
   z-index: 9;
   padding-top: 35px;
+}
+
+.x-icon {
+  display: none;
+}
+.hamburger-icon {
+  display: none;
+}
+
+@media (max-width: 992px) {
+  .sidebar {
+    width: 0;
+  }
+  .sidebar.active {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    position: fixed;
+    background-color: $sidebarBackground;
+    width: $sidebarWidth;
+    box-shadow: $sidebarBoxShadow;
+    z-index: 9;
+    padding-top: 35px;
+  }
+  .x-icon {
+    order: -1;
+    display: block;
+    margin: 20px;
+    color: white;
+  }
+  .hamburger-icon {
+    order: -1;
+    display: block;
+    margin: 20px;
+    color: $sidebarBackground;
+  }
 }

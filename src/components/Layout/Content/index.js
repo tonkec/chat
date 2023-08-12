@@ -1,4 +1,4 @@
-import './Content.scss';
+import "./Content.scss";
 const Content = ({ component: Component, options }) => {
   return (
     <main className="content">

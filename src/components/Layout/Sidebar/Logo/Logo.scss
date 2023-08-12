@@ -2,3 +2,22 @@
   padding-left: 20px;
   padding-bottom: 50px;
 }
+
+@media (max-width: 992px) {
+  aside {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .logo-nav {
+    order: 1;
+    display: none;
+    overflow: hidden;
+    height: min-content;
+  }
+  .logo-nav.active {
+    display: list-item;
+    top: 10px;
+    padding-top: 15px;
+  }
+}

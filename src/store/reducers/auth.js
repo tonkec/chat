@@ -9,11 +9,20 @@ import {
   EMAIL_NOT_VERIFIED,
 } from '../types';
 
+const getIsVerified = () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user) {
+    return user.isVerified;
+  }
+
+  return 'initial';
+};
+
 export const initialState = {
   user: JSON.parse(localStorage.getItem('user')) || {},
   token: localStorage.getItem('token') || '',
   isLoggedIn: !!localStorage.getItem('user'),
-  isVerified: 'initial',
+  isVerified: getIsVerified(),
 };
 
 export const authReducer = (state = initialState, action) => {
