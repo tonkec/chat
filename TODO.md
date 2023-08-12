@@ -1,9 +1,7 @@
 ## Next on todo
 
-- online/offline dropdown is not working properly 14.08
-- refactor dispatching of everything
-- try catch interceptors
-- testovi za user profile avatar
+- delete user image from s3 13.08
+- primereact UI
 
 ## New Features
 
@@ -14,10 +12,3 @@
   - nedavne poruke
   - nedavna aktivnost
 - postavke
-- ui library? Chakra ui?
-
-## Code refactoring
-
-- dodat typescript
-- dodat style components
-- simplify auth

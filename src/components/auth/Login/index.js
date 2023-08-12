@@ -16,6 +16,8 @@ import isEmailValid from '../validators/emailValidator';
 import isPasswordValid from '../validators/passwordValidator';
 import './../Auth.scss';
 import { useLocation } from 'react-router-dom';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
 
 const Login = () => {
   const location = useLocation();
@@ -127,19 +129,23 @@ const Login = () => {
       )}
       <form onSubmit={onFormSubmit} className="form-auth">
         <h3 className="form-heading">Ulogiraj se!</h3>
-        <input
+        <InputText
           onChange={onEmailChange}
           required
           type="email"
           placeholder="Email"
+          className="p-inputtext-lg"
         />
-        <input
+
+        <InputText
           onChange={onPasswordChange}
           required
           type="password"
           placeholder="Lozinka"
+          className="p-inputtext-lg"
         />
-        <button disabled={isDisabled}>Login</button>
+
+        <Button label="Login" disabled={isDisabled} />
       </form>
 
       <div className="links-auth">

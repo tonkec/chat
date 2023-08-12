@@ -14,6 +14,8 @@ import {
 } from '../constants';
 import isNameValid from '../validators/nameValidator';
 import FlashMessageContext from '../../../context/FlashMessage/flashMessageContext';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
 import './../Auth.scss';
 
 const Register = () => {
@@ -119,7 +121,7 @@ const Register = () => {
     <AuthLayout>
       <form onSubmit={onSubmit} className="form-auth">
         <h2 className="form-heading">Pridruži se</h2>
-        <input
+        <InputText
           onChange={onNameChange}
           required
           type="text"
@@ -127,7 +129,7 @@ const Register = () => {
           data-testid="name"
         />
 
-        <input
+        <InputText
           onChange={onLastNameChange}
           required
           type="text"
@@ -135,7 +137,7 @@ const Register = () => {
           data-testid="lastName"
         />
 
-        <input
+        <InputText
           onChange={onEmailChange}
           onKeyDown={onEmailChange}
           required
@@ -144,7 +146,7 @@ const Register = () => {
           data-testid="email"
         />
 
-        <input
+        <InputText
           onChange={onPasswordChange}
           required
           type="password"
@@ -152,7 +154,7 @@ const Register = () => {
           data-testid="password"
         />
 
-        <button disabled={isDisabled}>Pridruži se</button>
+        <Button label="Pridruži se" disabled={isDisabled} />
       </form>
 
       <div className="links-auth">

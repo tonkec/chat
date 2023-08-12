@@ -14,6 +14,8 @@ import {
 import AuthLayout from '../../Layout/AuthLayout';
 import isPasswordValid from '../validators/passwordValidator';
 import FlashMessageContext from '../../../context/FlashMessage/flashMessageContext';
+import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
 import './../Auth.scss';
 
 const ResetPassword = () => {
@@ -103,23 +105,27 @@ const ResetPassword = () => {
       )}
       <form className="form-auth">
         <h3 className="form-heading">Promjena lozinke </h3>
-        <input
+        <InputText
           type="password"
           placeholder="Tvoja nova lozinka"
           onChange={onPasswordChange}
           required
           data-testid="password"
         />
-        <input
+
+        <InputText
           type="password"
           placeholder="Ponovi svoju novu lozinku"
           onChange={onConfirmationPasswordChange}
           required
           data-testid="confirmationPassword"
         />
-        <button onClick={onHandleSubmit} disabled={isDisabled}>
-          Promijeni lozinku
-        </button>
+
+        <Button
+          label="Promijeni lozinku"
+          onClick={onHandleSubmit}
+          disabled={isDisabled}
+        />
       </form>
     </AuthLayout>
   );
