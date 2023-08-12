@@ -16,3 +16,4 @@
 ## Code refactoring
 
 - dodat typescript
+- dodat style components

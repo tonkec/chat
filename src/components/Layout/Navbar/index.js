@@ -1,41 +1,51 @@
+import { useEffect } from 'react';
 import './Navbar.scss';
 import Dropdown from '../../Dropdown';
-import { AiOutlineDown } from 'react-icons/ai';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { setUserOffline, setUserOnline } from '../../../store/actions/user';
+import socketIOClient from 'socket.io-client';
+import { setSocket } from '../../../store/actions/chat';
+import { setOnlineUsers } from './../../../store/actions/user';
 
 const Navbar = () => {
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.authReducer.isLoggedIn);
   const currentUser = useSelector((state) => state.authReducer.user);
   const socket = useSelector((state) => state.chatReducer.socket);
-  const dropdownButtonContent = (
-    <span>
-      Tvoj status <AiOutlineDown />
-    </span>
+  const isCurrentUserOnline = JSON.parse(
+    localStorage.getItem('online') || false
   );
+
+  const shouldConnectToSocket = isLoggedIn && currentUser;
+
   const onOnline = () => {
     localStorage.setItem('online', true);
     dispatch(setUserOnline(currentUser));
-    socket.emit('set-user-online', currentUser);
   };
 
   const onOffline = () => {
     localStorage.setItem('online', false);
     dispatch(setUserOffline(currentUser));
-    socket.emit('set-user-offline', currentUser);
   };
 
-  const setItems = () => {
-    const isOnline = JSON.parse(localStorage.getItem('online'));
-    const displayText = isOnline ? 'Budi offline' : 'Budi online';
-    const actionOnClick = isOnline ? onOffline : onOnline;
-    return { displayText: displayText, actionOnClick: actionOnClick };
-  };
+  useEffect(() => {
+    if (shouldConnectToSocket) {
+      const socket = socketIOClient.connect(process.env.REACT_APP_BACKEND_PORT);
+      dispatch(setSocket(socket));
+      isCurrentUserOnline && socket.emit('login', currentUser);
+    }
+  }, [
+    isLoggedIn,
+    currentUser,
+    shouldConnectToSocket,
+    dispatch,
+    isCurrentUserOnline,
+  ]);
 
-  const items = [setItems()];
   return (
     <nav className="navbar">
-      <Dropdown items={items} buttonContent={dropdownButtonContent} />
+      <Dropdown onOfflineClick={onOffline} onOnlineClick={onOnline} />
     </nav>
   );
 };
