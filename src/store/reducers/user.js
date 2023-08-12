@@ -29,49 +29,7 @@ export const userReducer = (state = initialState, action) => {
       };
     }
     case SET_ONLINE_USERS: {
-      console.log(payload, 'payload SET_ONLINE_USERS');
-      const userExists = state.onlineUsers.find(
-        (user) => user.id === payload.id
-      );
-      if (!userExists) {
-        return {
-          ...state,
-          onlineUsers: [...state.onlineUsers, ...payload],
-        };
-      }
-      return state;
-    }
-
-    case SET_USER_OFFLINE: {
-      // remove user from store if it exists in the store
-      const userExists = state.onlineUsers.find(
-        (user) => user.id === payload.id
-      );
-      if (userExists) {
-        return {
-          ...state,
-          onlineUsers: state.onlineUsers.filter(
-            (user) => user.id !== payload.id
-          ),
-        };
-      }
-
-      return state;
-    }
-
-    case SET_USER_ONLINE: {
-      // add user to store if it is not already in the store
-      const userExists = state.onlineUsers.find(
-        (user) => user.id === payload.id
-      );
-      if (!userExists) {
-        return {
-          ...state,
-          onlineUsers: [...state.onlineUsers, payload],
-        };
-      }
-      console.log(state);
-      return state;
+      return { ...state, onlineUsers: payload };
     }
 
     default:
