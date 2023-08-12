@@ -54,10 +54,7 @@ const ProfilePage = () => {
 
   return (
     <>
-      <h1>
-        {currentUser && currentUser.firstName}{' '}
-        {currentUser && currentUser.lastName}
-      </h1>
+      <h1>{currentUser && currentUser.firstName} </h1>
       {userPhotos && userPhotos.length > 0 ? (
         userPhotos.map((photo) => (
           <img

@@ -16,11 +16,7 @@ const Dashboard = () => {
   const shouldConnectToSocket = isLoggedIn && currentUser;
   useEffect(() => {
     if (shouldConnectToSocket) {
-      const socket = socketIOClient.connect(process.env.REACT_APP_BACKEND_PORT);
-      isCurrentUserOnline && socket.emit('login', currentUser);
-      !isCurrentUserOnline && socket.emit('get-all-online-users');
-      socket.on('get-users', (users) => dispatch(setOnlineUsers(users)));
-      dispatch(setSocket(socket));
+      // fixed on another branch
     }
   }, [
     isLoggedIn,

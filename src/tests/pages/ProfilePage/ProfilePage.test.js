@@ -36,6 +36,18 @@ const App = () => (
   </Provider>
 );
 
+beforeAll(() => {
+  appStore.dispatch({
+    type: 'LOGIN',
+    payload: {
+      ...userFromApi,
+      token: 'sometoken',
+      isLoggedIn: true,
+      isVerified: true,
+    },
+  });
+});
+
 it('should render the Profile Page with all editable user data', async () => {
   const server = setupServer(
     rest.get(
@@ -50,9 +62,22 @@ it('should render the Profile Page with all editable user data', async () => {
           ctx.json(userFromApi)
         );
       }
+    ),
+    rest.get(
+      `${process.env.REACT_APP_BACKEND_PORT}/uploads/avatar/1`,
+      (req, res, ctx) => {
+        return res(
+          ctx.set({
+            Accept: 'application/json',
+            Authorization: `Bearer sometoken`,
+          }),
+          ctx.status(200),
+          ctx.json([])
+        );
+      }
     )
   );
   server.listen();
   render(<App />);
-  expect(await screen.findByText(userFromApi.username)).toBeInTheDocument();
+  expect(await screen.findByText(userFromApi.firstName)).toBeInTheDocument();
 });
