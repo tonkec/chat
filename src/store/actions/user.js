@@ -1,23 +1,9 @@
-import {
-  SET_ONLINE_USERS,
-  SET_USER_OFFLINE,
-  SET_USER_ONLINE,
-  GET_ALL_USERS,
-  GET_USER,
-} from '../types';
+import { SET_ONLINE_USERS, GET_ALL_USERS, GET_USER } from '../types';
 
 import UserService from '../../services/userService';
 
 export const setOnlineUsers = (users) => (dispatch) => {
   dispatch({ type: SET_ONLINE_USERS, payload: users });
-};
-
-export const setUserOffline = (user) => (dispatch) => {
-  dispatch({ type: SET_USER_OFFLINE, payload: user });
-};
-
-export const setUserOnline = (user) => (dispatch) => {
-  dispatch({ type: SET_USER_ONLINE, payload: user });
 };
 
 export const getAllUsers = () => (dispatch) => {

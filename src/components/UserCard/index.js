@@ -5,6 +5,7 @@ const UserCard = ({ user }) => {
     : `http://placekitten.com/200/600`;
 
   const firstName = user.firstName ?? 'default nickname';
+
   return (
     <div className="user-card" data-testid="user">
       <img src={avatar} alt="user avatar" />

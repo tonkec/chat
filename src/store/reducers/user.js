@@ -1,10 +1,4 @@
-import {
-  GET_ALL_USERS,
-  GET_USER,
-  SET_ONLINE_USERS,
-  SET_USER_OFFLINE,
-  SET_USER_ONLINE,
-} from '../types';
+import { GET_ALL_USERS, GET_USER, SET_ONLINE_USERS } from '../types';
 
 export const initialState = {
   onlineUsers: [],

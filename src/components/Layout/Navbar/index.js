@@ -1,31 +1,26 @@
 import { useEffect } from 'react';
 import './Navbar.scss';
 import Dropdown from '../../Dropdown';
-
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  setUserOffline,
-  setUserOnline,
-  setOnlineUsers,
-} from '../../../store/actions/user';
-import socketIOClient from 'socket.io-client';
-import {
-  onlineFriend,
-  setSocket,
-  offlineFriend,
-  onlineFriends,
-} from '../../../store/actions/chat';
-
+import { setOnlineUsers } from '../../../store/actions/user';
 import useSocket from '../../../hooks/socketConnect';
+
+function isEmpty(obj) {
+  for (const prop in obj) {
+    if (Object.hasOwn(obj, prop)) {
+      return false;
+    }
+  }
+
+  return true;
+}
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.authReducer.isLoggedIn);
   const currentUser = useSelector((state) => state.authReducer.user);
   const socket = useSelector((state) => state.chatReducer.socket);
-  const chats = useSelector((state) => state.chatReducer);
-  const user = useSelector((state) => state.userReducer);
-
+  useSocket(dispatch, currentUser);
   const isCurrentUserOnline = JSON.parse(
     localStorage.getItem('online') || false
   );
@@ -44,18 +39,20 @@ const Navbar = () => {
 
   useEffect(() => {
     if (shouldConnectToSocket) {
-      const socket = socketIOClient.connect(process.env.REACT_APP_BACKEND_PORT);
-      dispatch(setSocket(socket));
-      socket.on('save-users-to-store', (users) => {
-        dispatch(setOnlineUsers(users));
-      });
+      if (!isEmpty(socket)) {
+        if (isCurrentUserOnline) {
+          socket.emit('has-gone-online', currentUser);
+        } else {
+          socket.emit('has-gone-offline', currentUser);
+        }
+      }
     }
   }, [
-    currentUser,
     dispatch,
-    isLoggedIn,
-    isCurrentUserOnline,
     shouldConnectToSocket,
+    currentUser,
+    isCurrentUserOnline,
+    socket,
   ]);
 
   return (
