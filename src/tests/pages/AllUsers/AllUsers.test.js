@@ -7,7 +7,9 @@ import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
 import AllProfilesPage from '../../../pages/AllProfilesPage';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-global.setImmediate = jest.useRealTimers;
+// https://github.com/jestjs/jest/issues/6434
+global.setImmediate =
+  global.setImmediate || ((fn, ...args) => global.setTimeout(fn, 0, ...args));
 
 const usersFromApi = [
   {

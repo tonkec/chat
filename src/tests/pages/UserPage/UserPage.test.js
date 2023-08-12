@@ -7,6 +7,7 @@ import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
 import UserPage from '../../../pages/UserPage';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+// https://github.com/jestjs/jest/issues/6434
 global.setImmediate =
   global.setImmediate || ((fn, ...args) => global.setTimeout(fn, 0, ...args));
 
