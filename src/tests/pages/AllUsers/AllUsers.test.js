@@ -99,6 +99,8 @@ it('should get all the users', async () => {
   const users = await waitFor(() =>
     screen.getAllByTestId('user').map((user) => user.textContent)
   );
-  expect(users).toEqual(['antonija', 'veronika', 'petra']);
+  await waitFor(() => {
+    expect(users).toEqual(['antonija', 'veronika', 'petra']);
+  });
   server.close();
 });
