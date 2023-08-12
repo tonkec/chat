@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import './Navbar.scss';
 import Dropdown from '../../Dropdown';
 import { useSelector, useDispatch } from 'react-redux';
-import { setOnlineUsers } from '../../../store/actions/user';
 import useSocket from '../../../hooks/socketConnect';
 
 function isEmpty(obj) {
