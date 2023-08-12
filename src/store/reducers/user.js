@@ -4,6 +4,7 @@ import {
   SET_ONLINE_USERS,
   SET_USER_OFFLINE,
   SET_USER_ONLINE,
+  UPDATE_USER,
 } from '../types';
 
 export const initialState = {
@@ -62,6 +63,13 @@ export const userReducer = (state = initialState, action) => {
           }),
         };
       }
+    }
+
+    case UPDATE_USER: {
+      return {
+        ...state,
+        user: payload,
+      };
     }
 
     default:

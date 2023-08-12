@@ -12,3 +12,4 @@ export const SET_USER_ONLINE = 'SET_USER_ONLINE';
 export const SET_USER_OFFLINE = 'SET_USER_OFFLINE';
 export const GET_ALL_USERS = 'GET_ALL_USERS';
 export const GET_USER = 'GET_USER';
+export const UPDATE_USER = 'UPDATE_USER';
