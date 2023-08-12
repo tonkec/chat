@@ -7,7 +7,6 @@ import './Dashboard.scss';
 const Dashboard = () => {
   const currentUser = useSelector((state) => state.authReducer.user);
   const onlineUsers = useSelector((state) => state.userReducer.onlineUsers);
-
   return (
     <div className="dashboard">
       <h2>Tvoj Dashboard {currentUser.firstName}</h2>

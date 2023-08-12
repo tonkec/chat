@@ -10,3 +10,4 @@ export const EMAIL_NOT_VERIFIED = 'EMAIL_NOT_VERIFIED';
 export const SET_ONLINE_USERS = 'SET_ONLINE_USERS';
 export const GET_ALL_USERS = 'GET_ALL_USERS';
 export const GET_USER = 'GET_USER';
+export const UPDATE_USER = 'UPDATE_USER';

@@ -1,4 +1,9 @@
-import { GET_ALL_USERS, GET_USER, SET_ONLINE_USERS } from '../types';
+import {
+  GET_ALL_USERS,
+  GET_USER,
+  SET_ONLINE_USERS,
+  UPDATE_USER,
+} from '../types';
 
 export const initialState = {
   onlineUsers: [],
@@ -24,6 +29,13 @@ export const userReducer = (state = initialState, action) => {
     }
     case SET_ONLINE_USERS: {
       return { ...state, onlineUsers: payload };
+    }
+
+    case UPDATE_USER: {
+      return {
+        ...state,
+        user: payload,
+      };
     }
 
     default:

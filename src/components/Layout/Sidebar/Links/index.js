@@ -13,7 +13,7 @@ const links = [
     text: 'moje poruke',
   },
   {
-    to: 'račun',
+    to: 'profil',
     text: 'moj račun',
   },
 ];

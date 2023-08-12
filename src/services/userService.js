@@ -13,7 +13,17 @@ const UserService = {
   },
   getUser: (id) => {
     return api
-      .get(`users/${id}`)
+      .get(`/users/${id}`)
+      .then((res) => {
+        return res;
+      })
+      .catch((err) => {
+        throw err;
+      });
+  },
+  updateUser: (data) => {
+    return api
+      .post('/users/update-user', { data })
       .then((res) => {
         return res;
       })
