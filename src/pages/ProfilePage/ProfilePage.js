@@ -3,6 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUser, updateUser } from '../../store/actions/user';
 import FlashMessageContext from '../../context/FlashMessage/flashMessageContext';
 import API from '../../services/api';
+import { InputText } from 'primereact/inputtext';
+import { InputTextarea } from 'primereact/inputtextarea';
+import { Button } from 'primereact/button';
+import { Card } from 'primereact/card';
+import { Image } from 'primereact/image';
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
+
 const ProfilePage = () => {
   const flashMessageContext = useContext(FlashMessageContext);
   const dispatch = useDispatch();
@@ -56,64 +63,87 @@ const ProfilePage = () => {
     <>
       <h1>{currentUser && currentUser.firstName} </h1>
       {userPhotos && userPhotos.length > 0 ? (
-        userPhotos.map((photo) => (
-          <img
-            key={photo.Key}
-            src={`https://duga-user-photo.s3.eu-north-1.amazonaws.com/${photo.Key}`}
-            alt="user"
-            width={200}
-          />
-        ))
+        <ResponsiveMasonry
+          columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
+          style={{ maxWidth: 1000, marginBottom: 30 }}
+        >
+          <Masonry gutter={10}>
+            {userPhotos.map((photo) => (
+              <Image
+                key={photo.Key}
+                src={`https://duga-user-photo.s3.eu-north-1.amazonaws.com/${photo.Key}`}
+                alt="user"
+                width={'100%'}
+              />
+            ))}
+          </Masonry>
+        </ResponsiveMasonry>
       ) : (
         <p>No photos</p>
       )}
 
-      <form onSubmit={onAvatarSubmit} encType="multipart/form-data">
-        <input
-          type="file"
-          name="avatar"
-          onChange={(e) => setAvatar(e.target.files[0])}
-        />{' '}
-        <input type="submit" value="Upload image" />
-      </form>
-      <form onSubmit={onUserDataSubmit}>
-        <input
-          type="text"
-          placeholder="tvoj username"
-          defaultValue={currentUser && currentUser.username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <textarea
-          placeholder="tvoj bio"
-          defaultValue={currentUser && currentUser.bio}
-          onChange={(e) => setBio(e.target.value)}
-        ></textarea>
-        <input
-          type="text"
-          placeholder="tvoja seksualnost"
-          defaultValue={currentUser && currentUser.sexuality}
-          onChange={(e) => setSexuality(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="tvoj rod"
-          defaultValue={currentUser && currentUser.gender}
-          onChange={(e) => setGender(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Tvoja lokacija"
-          defaultValue={currentUser && currentUser.location}
-          onChange={(e) => setLocation(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Tvoja dob"
-          defaultValue={currentUser && currentUser.age}
-          onChange={(e) => setAge(e.target.value)}
-        />
-        <button type="submit"> Izmijeni </button>
-      </form>
+      <Card style={{ maxWidth: 600, marginBottom: 30 }}>
+        <form onSubmit={onAvatarSubmit} encType="multipart/form-data">
+          <InputText
+            type="file"
+            name="avatar"
+            onChange={(e) => setAvatar(e.target.files[0])}
+          />
+          <Button type="submit" label="Dodaj sliku" />
+        </form>
+      </Card>
+      <Card style={{ maxWidth: 600, marginBottom: 30 }}>
+        <form onSubmit={onUserDataSubmit}>
+          <InputText
+            type="text"
+            style={{ width: '100%', marginBottom: 15 }}
+            placeholder="tvoj username"
+            defaultValue={currentUser && currentUser.username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+
+          <InputTextarea
+            style={{ width: '100%', marginBottom: 15 }}
+            placeholder="tvoj bio"
+            defaultValue={currentUser && currentUser.bio}
+            onChange={(e) => setBio(e.target.value)}
+          />
+
+          <InputText
+            type="text"
+            style={{ width: '100%', marginBottom: 15 }}
+            placeholder="tvoja seksualnost"
+            defaultValue={currentUser && currentUser.sexuality}
+            onChange={(e) => setSexuality(e.target.value)}
+          />
+
+          <InputText
+            type="text"
+            style={{ width: '100%', marginBottom: 15 }}
+            placeholder="tvoj rod"
+            defaultValue={currentUser && currentUser.gender}
+            onChange={(e) => setGender(e.target.value)}
+          />
+
+          <InputText
+            type="text"
+            style={{ width: '100%', marginBottom: 15 }}
+            placeholder="Tvoja lokacija"
+            defaultValue={currentUser && currentUser.location}
+            onChange={(e) => setLocation(e.target.value)}
+          />
+
+          <InputText
+            type="text"
+            style={{ width: '100%', marginBottom: 15 }}
+            placeholder="Tvoja dob"
+            defaultValue={currentUser && currentUser.age}
+            onChange={(e) => setAge(e.target.value)}
+          />
+
+          <Button type="submit" label="Izmijeni" />
+        </form>
+      </Card>
     </>
   );
 };
