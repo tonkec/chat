@@ -7,6 +7,7 @@ import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
 import AllProfilesPage from '../../../pages/AllProfilesPage';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+global.setImmediate = jest.useRealTimers;
 
 const usersFromApi = [
   {
@@ -46,6 +47,18 @@ const usersFromApi = [
     updatedAt: '2023-03-09T12:33:47.032Z',
   },
 ];
+
+beforeAll(() => {
+  appStore.dispatch({
+    type: 'LOGIN',
+    payload: {
+      ...usersFromApi[0],
+      token: 'sometoken',
+      isLoggedIn: true,
+      isVerified: true,
+    },
+  });
+});
 
 const App = () => (
   <Provider store={appStore}>

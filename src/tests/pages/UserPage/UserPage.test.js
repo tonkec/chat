@@ -1,4 +1,4 @@
-import { screen, render } from '@testing-library/react';
+import { screen, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import FlashMessage from '../../../components/FlashMessage';
 import FlashMessageProvider from '../../../context/FlashMessage/flashMessageProvider';
@@ -21,6 +21,18 @@ const userFromApi = {
   updatedAt: '2023-03-28T08:19:29.175Z',
   location: 'Zagreb',
 };
+
+beforeAll(() => {
+  appStore.dispatch({
+    type: 'LOGIN',
+    payload: {
+      ...userFromApi,
+      token: 'sometoken',
+      isLoggedIn: true,
+      isVerified: true,
+    },
+  });
+});
 
 const App = () => (
   <Provider store={appStore}>
