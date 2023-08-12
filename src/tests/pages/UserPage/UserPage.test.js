@@ -7,7 +7,7 @@ import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
 import UserPage from '../../../pages/UserPage';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-
+global.setImmediate = jest.useRealTimers;
 const userFromApi = {
   avatar: 'http://placekitten.com/200/300',
   id: 1,
@@ -36,13 +36,6 @@ const App = () => (
 );
 
 it('should render the User page with bio placeholder', async () => {
-  jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'), // use actual for all non-hook parts
-    useParams: () => ({
-      id: '1',
-    }),
-    useRouteMatch: () => ({ url: '/user/1' }),
-  }));
   const server = setupServer(
     rest.get(
       `${process.env.REACT_APP_BACKEND_PORT}/users/1`,
@@ -60,5 +53,9 @@ it('should render the User page with bio placeholder', async () => {
   );
   server.listen();
   render(<App />);
-  expect(await screen.findByText('Bio:')).toBeInTheDocument();
+
+  // https://stackoverflow.com/a/71955750
+  await waitFor(async () => {
+    expect(await screen.findByText('Bio:')).toBeInTheDocument();
+  });
 });
