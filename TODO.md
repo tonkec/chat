@@ -19,4 +19,5 @@
 ## Code refactoring
 
 - dodat typescript
+- dodat style components
 - simplify auth

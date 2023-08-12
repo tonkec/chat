@@ -13,10 +13,14 @@ import {
   leaveCurrentChat,
   deleteCurrentChat,
 } from '../store/actions/chat';
+import { setOnlineUsers } from '../store/actions/user';
 
 function useSocket(dispatch, user) {
   useEffect(() => {
     const socket = socketIOClient.connect(process.env.REACT_APP_BACKEND_PORT);
+    socket.on('save-users-to-store', (users) => {
+      dispatch(setOnlineUsers(users));
+    });
     dispatch(fetchChats())
       .then((res) => {
         dispatch(setSocket(socket));
@@ -62,7 +66,7 @@ function useSocket(dispatch, user) {
           dispatch(deleteCurrentChat(chatId));
         });
 
-        // console.log(res);
+        console.log(res);
       })
       .catch((err) => err);
   }, [dispatch, user]);

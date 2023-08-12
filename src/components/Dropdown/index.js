@@ -1,21 +1,43 @@
 import { useState } from 'react';
-
+import { AiOutlineDown } from 'react-icons/ai';
 import './Dropdown.scss';
-const Dropdown = ({ items, buttonContent }) => {
+
+const Dropdown = ({ onOfflineClick, onOnlineClick }) => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isOnline, setIsOnline] = useState(
+    JSON.parse(localStorage.getItem('online') || false)
+  );
+
   return (
     <div className="dropdown">
       <button onClick={() => setShowDropdown(!showDropdown)}>
-        {buttonContent}
+        <span>
+          Tvoj status <AiOutlineDown />
+        </span>
       </button>
       {showDropdown && (
         <ul className="dropdown-list">
-          {items &&
-            items.map((item, i) => (
-              <li onClick={item.actionOnClick} key={i}>
-                {item.displayText}
-              </li>
-            ))}
+          {isOnline ? (
+            <li
+              className="dropdown-list-item"
+              onClick={() => {
+                onOfflineClick();
+                setIsOnline(!isOnline);
+              }}
+            >
+              Budi offline
+            </li>
+          ) : (
+            <li
+              className="dropdown-list-item"
+              onClick={() => {
+                onOnlineClick();
+                setIsOnline(!isOnline);
+              }}
+            >
+              Budi online
+            </li>
+          )}
         </ul>
       )}
     </div>

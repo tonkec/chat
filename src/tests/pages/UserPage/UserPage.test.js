@@ -1,4 +1,4 @@
-import { screen, render } from '@testing-library/react';
+import { screen, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import FlashMessage from '../../../components/FlashMessage';
 import FlashMessageProvider from '../../../context/FlashMessage/flashMessageProvider';
@@ -7,6 +7,9 @@ import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
 import UserPage from '../../../pages/UserPage';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+// https://github.com/jestjs/jest/issues/6434
+global.setImmediate =
+  global.setImmediate || ((fn, ...args) => global.setTimeout(fn, 0, ...args));
 
 const userFromApi = {
   avatar: 'http://placekitten.com/200/300',
@@ -21,6 +24,18 @@ const userFromApi = {
   updatedAt: '2023-03-28T08:19:29.175Z',
   location: 'Zagreb',
 };
+
+beforeAll(() => {
+  appStore.dispatch({
+    type: 'LOGIN',
+    payload: {
+      ...userFromApi,
+      token: 'sometoken',
+      isLoggedIn: true,
+      isVerified: true,
+    },
+  });
+});
 
 const App = () => (
   <Provider store={appStore}>
@@ -53,5 +68,9 @@ it('should render the User page with bio placeholder', async () => {
   );
   server.listen();
   render(<App />);
-  expect(await screen.findByText('Bio:')).toBeInTheDocument();
+
+  // https://stackoverflow.com/a/71955750
+  await waitFor(() => {
+    expect(screen.getByText('Bio:')).toBeInTheDocument();
+  });
 });

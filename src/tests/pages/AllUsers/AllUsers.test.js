@@ -7,6 +7,9 @@ import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
 import AllProfilesPage from '../../../pages/AllProfilesPage';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+// https://github.com/jestjs/jest/issues/6434
+global.setImmediate =
+  global.setImmediate || ((fn, ...args) => global.setTimeout(fn, 0, ...args));
 
 const usersFromApi = [
   {
@@ -47,6 +50,18 @@ const usersFromApi = [
   },
 ];
 
+beforeAll(() => {
+  appStore.dispatch({
+    type: 'LOGIN',
+    payload: {
+      ...usersFromApi[0],
+      token: 'sometoken',
+      isLoggedIn: true,
+      isVerified: true,
+    },
+  });
+});
+
 const App = () => (
   <Provider store={appStore}>
     <FlashMessageProvider>
@@ -86,6 +101,8 @@ it('should get all the users', async () => {
   const users = await waitFor(() =>
     screen.getAllByTestId('user').map((user) => user.textContent)
   );
-  expect(users).toEqual(['antonija', 'veronika', 'petra']);
+  await waitFor(() => {
+    expect(users).toEqual(['antonija', 'veronika', 'petra']);
+  });
   server.close();
 });

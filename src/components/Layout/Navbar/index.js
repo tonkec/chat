@@ -1,41 +1,62 @@
+import { useEffect } from 'react';
 import './Navbar.scss';
 import Dropdown from '../../Dropdown';
-import { AiOutlineDown } from 'react-icons/ai';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUserOffline, setUserOnline } from '../../../store/actions/user';
+import useSocket from '../../../hooks/socketConnect';
+
+function isEmpty(obj) {
+  for (const prop in obj) {
+    if (Object.hasOwn(obj, prop)) {
+      return false;
+    }
+  }
+
+  return true;
+}
 
 const Navbar = () => {
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.authReducer.isLoggedIn);
   const currentUser = useSelector((state) => state.authReducer.user);
   const socket = useSelector((state) => state.chatReducer.socket);
-  const dropdownButtonContent = (
-    <span>
-      Tvoj status <AiOutlineDown />
-    </span>
+  useSocket(dispatch, currentUser);
+  const isCurrentUserOnline = JSON.parse(
+    localStorage.getItem('online') || false
   );
+
+  const shouldConnectToSocket = isLoggedIn && currentUser;
+
   const onOnline = () => {
     localStorage.setItem('online', true);
-    dispatch(setUserOnline(currentUser));
-    socket.emit('set-user-online', currentUser);
+    socket.emit('has-gone-online', currentUser);
   };
 
   const onOffline = () => {
     localStorage.setItem('online', false);
-    dispatch(setUserOffline(currentUser));
-    socket.emit('set-user-offline', currentUser);
+    socket.emit('has-gone-offline', currentUser);
   };
 
-  const setItems = () => {
-    const isOnline = JSON.parse(localStorage.getItem('online'));
-    const displayText = isOnline ? 'Budi offline' : 'Budi online';
-    const actionOnClick = isOnline ? onOffline : onOnline;
-    return { displayText: displayText, actionOnClick: actionOnClick };
-  };
+  useEffect(() => {
+    if (shouldConnectToSocket) {
+      if (!isEmpty(socket)) {
+        if (isCurrentUserOnline) {
+          socket.emit('has-gone-online', currentUser);
+        } else {
+          socket.emit('has-gone-offline', currentUser);
+        }
+      }
+    }
+  }, [
+    dispatch,
+    shouldConnectToSocket,
+    currentUser,
+    isCurrentUserOnline,
+    socket,
+  ]);
 
-  const items = [setItems()];
   return (
     <nav className="navbar">
-      <Dropdown items={items} buttonContent={dropdownButtonContent} />
+      <Dropdown onOfflineClick={onOffline} onOnlineClick={onOnline} />
     </nav>
   );
 };

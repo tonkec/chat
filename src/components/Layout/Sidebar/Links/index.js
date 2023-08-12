@@ -24,7 +24,7 @@ const Links = () => {
 
   const dispatch = useDispatch();
   const onLogoutClick = () => {
-    socket.emit('set-user-offline', currentUser);
+    socket.emit('has-gone-offline', currentUser);
     dispatch(logout());
   };
   return (
