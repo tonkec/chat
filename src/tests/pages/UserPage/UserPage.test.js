@@ -7,7 +7,9 @@ import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
 import UserPage from '../../../pages/UserPage';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-global.setImmediate = jest.useRealTimers;
+global.setImmediate =
+  global.setImmediate || ((fn, ...args) => global.setTimeout(fn, 0, ...args));
+
 const userFromApi = {
   avatar: 'http://placekitten.com/200/300',
   id: 1,
@@ -67,7 +69,7 @@ it('should render the User page with bio placeholder', async () => {
   render(<App />);
 
   // https://stackoverflow.com/a/71955750
-  await waitFor(async () => {
-    expect(await screen.findByText('Bio:')).toBeInTheDocument();
+  await waitFor(() => {
+    expect(screen.getByText('Bio:')).toBeInTheDocument();
   });
 });
