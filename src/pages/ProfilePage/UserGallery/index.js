@@ -79,7 +79,7 @@ export default function UserGallery({ images }) {
           thumbnail={thumbnailTemplate}
         />
       ) : (
-        <p>No images</p>
+        <p>Nemaš slika</p>
       )}
     </div>
   );

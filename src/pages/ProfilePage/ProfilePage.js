@@ -8,6 +8,7 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
 import UserGallery from './UserGallery';
+import { TabView, TabPanel } from 'primereact/tabview';
 
 const ProfilePage = () => {
   const flashMessageContext = useContext(FlashMessageContext);
@@ -69,69 +70,88 @@ const ProfilePage = () => {
   return (
     <>
       <h1>{currentUser && currentUser.firstName} </h1>
-      <UserGallery images={userPhotos} />
-      <Card style={{ maxWidth: 600, marginBottom: 30, marginTop: 30 }}>
-        <form onSubmit={onAvatarSubmit} encType="multipart/form-data">
-          <InputText
-            type="file"
-            name="avatar"
-            onChange={(e) => setAvatar(e.target.files[0])}
-          />
-          <Button type="submit" label="Dodaj sliku" />
-        </form>
-      </Card>
-      <Card style={{ maxWidth: 600, marginBottom: 30 }}>
-        <form onSubmit={onUserDataSubmit}>
-          <InputText
-            type="text"
-            style={{ width: '100%', marginBottom: 15 }}
-            placeholder="tvoj username"
-            defaultValue={currentUser && currentUser.username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+      <div className="grid">
+        <div className="col-12 md:col-6 lg:col-3">
+          <Card>
+            <form onSubmit={onUserDataSubmit}>
+              <label htmlFor="username">Username</label>
+              <InputText
+                type="text"
+                style={{ width: '100%', marginBottom: 15 }}
+                placeholder="tvoj username"
+                defaultValue={currentUser && currentUser.username}
+                onChange={(e) => setUsername(e.target.value)}
+                id="username"
+              />
 
-          <InputTextarea
-            style={{ width: '100%', marginBottom: 15 }}
-            placeholder="tvoj bio"
-            defaultValue={currentUser && currentUser.bio}
-            onChange={(e) => setBio(e.target.value)}
-          />
+              <label htmlFor="bio">Bio</label>
+              <InputTextarea
+                style={{ width: '100%', marginBottom: 15 }}
+                placeholder="tvoj bio"
+                defaultValue={currentUser && currentUser.bio}
+                onChange={(e) => setBio(e.target.value)}
+                id="bio"
+              />
 
-          <InputText
-            type="text"
-            style={{ width: '100%', marginBottom: 15 }}
-            placeholder="tvoja seksualnost"
-            defaultValue={currentUser && currentUser.sexuality}
-            onChange={(e) => setSexuality(e.target.value)}
-          />
+              <label htmlFor="sexuality">Seksualnost</label>
+              <InputText
+                type="text"
+                style={{ width: '100%', marginBottom: 15 }}
+                placeholder="tvoja seksualnost"
+                defaultValue={currentUser && currentUser.sexuality}
+                onChange={(e) => setSexuality(e.target.value)}
+                id="sexuality"
+              />
 
-          <InputText
-            type="text"
-            style={{ width: '100%', marginBottom: 15 }}
-            placeholder="tvoj rod"
-            defaultValue={currentUser && currentUser.gender}
-            onChange={(e) => setGender(e.target.value)}
-          />
+              <label htmlFor="gender">Rod</label>
+              <InputText
+                type="text"
+                style={{ width: '100%', marginBottom: 15 }}
+                placeholder="tvoj rod"
+                defaultValue={currentUser && currentUser.gender}
+                onChange={(e) => setGender(e.target.value)}
+                id="gender"
+              />
 
-          <InputText
-            type="text"
-            style={{ width: '100%', marginBottom: 15 }}
-            placeholder="Tvoja lokacija"
-            defaultValue={currentUser && currentUser.location}
-            onChange={(e) => setLocation(e.target.value)}
-          />
+              <label htmlFor="location">Lokacija</label>
+              <InputText
+                type="text"
+                style={{ width: '100%', marginBottom: 15 }}
+                placeholder="Tvoja lokacija"
+                defaultValue={currentUser && currentUser.location}
+                onChange={(e) => setLocation(e.target.value)}
+                id="location"
+              />
 
-          <InputText
-            type="text"
-            style={{ width: '100%', marginBottom: 15 }}
-            placeholder="Tvoja dob"
-            defaultValue={currentUser && currentUser.age}
-            onChange={(e) => setAge(e.target.value)}
-          />
+              <label htmlFor="age">Dob</label>
+              <InputText
+                type="text"
+                style={{ width: '100%', marginBottom: 15 }}
+                placeholder="Tvoja dob"
+                defaultValue={currentUser && currentUser.age}
+                onChange={(e) => setAge(e.target.value)}
+                id="age"
+              />
 
-          <Button type="submit" label="Izmijeni" />
-        </form>
-      </Card>
+              <Button type="submit" label="Izmijeni" />
+            </form>
+          </Card>
+        </div>
+
+        <div className="col-12 md:col-6 lg:col-6">
+          <Card>
+            <UserGallery images={userPhotos} />
+            <form onSubmit={onAvatarSubmit} encType="multipart/form-data">
+              <InputText
+                type="file"
+                name="avatar"
+                onChange={(e) => setAvatar(e.target.files[0])}
+              />
+              <Button type="submit" label="Dodaj sliku" />
+            </form>
+          </Card>
+        </div>
+      </div>
     </>
   );
 };
