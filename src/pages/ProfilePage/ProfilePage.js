@@ -8,7 +8,7 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
 import UserGallery from './UserGallery';
-import { TabView, TabPanel } from 'primereact/tabview';
+import { FileUpload } from 'primereact/fileupload';
 
 const ProfilePage = () => {
   const flashMessageContext = useContext(FlashMessageContext);
@@ -21,17 +21,16 @@ const ProfilePage = () => {
   const [gender, setGender] = useState(authUser.gender);
   const [location, setLocation] = useState(authUser.location);
   const [age, setAge] = useState(authUser.age);
-  const [avatar, setAvatar] = useState(authUser.avatar);
   const [userPhotos, setUserPhotos] = useState([]);
 
   const onAvatarSubmit = (e) => {
-    e.preventDefault();
     const formData = new FormData();
-    formData.append('avatar', avatar);
+    formData.append('avatar', e.files[0]);
     formData.append('userId', currentUser.id);
 
     API.post(`/uploads/avatar`, formData, {})
       .then((res) => {
+        e.options.clear();
         flashMessageContext.success('Image uploaded');
       })
       .catch((err) => {
@@ -71,7 +70,7 @@ const ProfilePage = () => {
     <>
       <h1>{currentUser && currentUser.firstName} </h1>
       <div className="grid">
-        <div className="col-12 md:col-6 lg:col-3">
+        <div className="col-12 md:col-8 lg:col-6 xl:col-4">
           <Card>
             <form onSubmit={onUserDataSubmit}>
               <label htmlFor="username">Username</label>
@@ -138,17 +137,23 @@ const ProfilePage = () => {
           </Card>
         </div>
 
-        <div className="col-12 md:col-6 lg:col-6">
+        <div className="col-12 md:col-8 lg:col-6 xl:col-4">
           <Card>
-            <UserGallery images={userPhotos} />
-            <form onSubmit={onAvatarSubmit} encType="multipart/form-data">
-              <InputText
-                type="file"
-                name="avatar"
-                onChange={(e) => setAvatar(e.target.files[0])}
-              />
-              <Button type="submit" label="Dodaj sliku" />
-            </form>
+            <div
+              className="flex align-items-center flex-column"
+              style={{ maxWidth: 600, margin: '0 auto' }}
+            >
+              <UserGallery images={userPhotos} />
+              <div style={{ width: '100%' }}>
+                <FileUpload
+                  name="avatar"
+                  customUpload
+                  chooseLabel="Dodaj sliku"
+                  mode="basic"
+                  uploadHandler={onAvatarSubmit}
+                />
+              </div>
+            </div>
           </Card>
         </div>
       </div>

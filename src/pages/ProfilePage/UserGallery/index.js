@@ -46,7 +46,12 @@ export default function UserGallery({ images }) {
           alt={item.alt}
           style={{ maxWidth: '100%' }}
         />
-        <Button label="Delete" onClick={() => onImageDelete(item)} />
+        <Button
+          label="Izbriši sliku"
+          onClick={() => onImageDelete(item)}
+          size="small"
+          style={{ position: 'absolute', top: '10px', right: '10px' }}
+        />
       </div>
     );
   };
@@ -68,19 +73,21 @@ export default function UserGallery({ images }) {
   };
 
   return (
-    <div className="card">
+    <>
       {galleryImages.length > 0 ? (
         <Galleria
           value={galleryImages}
           responsiveOptions={responsiveOptions}
           numVisible={5}
-          style={{ maxWidth: '600px' }}
           item={itemTemplate}
           thumbnail={thumbnailTemplate}
+          showThumbnails={false}
+          showItemNavigators
+          circular
         />
       ) : (
-        <p>Nemaš slika</p>
+        <p className="text-left w-full">Dodaj svoju prvu sliku</p>
       )}
-    </div>
+    </>
   );
 }
