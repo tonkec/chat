@@ -1,8 +1,13 @@
 import { Galleria } from 'primereact/galleria';
 import './Gallery.scss';
+import { Button } from 'primereact/button';
+import API from '../../../services/api';
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 
 export default function UserGallery({ images }) {
-  console.log(images, 'IMAGES');
+  const [galleryImages, setGalleryImages] = useState([]);
+  const currentUser = useSelector((state) => state.userReducer.user);
   const responsiveOptions = [
     {
       breakpoint: '991px',
@@ -18,13 +23,31 @@ export default function UserGallery({ images }) {
     },
   ];
 
+  const onImageDelete = (item) => {
+    API.post(`/uploads/delete-avatar/`, { item, userId: currentUser.id })
+      .then((res) => {
+        setGalleryImages(
+          galleryImages.filter((image) => image.Key !== item.Key)
+        );
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    const initialImages = images.length > 0 ? images : [];
+    setGalleryImages(initialImages);
+  }, [images]);
+
   const itemTemplate = (item) => {
     return (
-      <img
-        src={`https://duga-user-photo.s3.eu-north-1.amazonaws.com/${item.Key}`}
-        alt={item.alt}
-        style={{ width: '100%', display: 'block' }}
-      />
+      <div className="item-template">
+        <img
+          src={`https://duga-user-photo.s3.eu-north-1.amazonaws.com/${item.Key}`}
+          alt={item.alt}
+          style={{ maxWidth: '100%' }}
+        />
+        <Button label="Delete" onClick={() => onImageDelete(item)} />
+      </div>
     );
   };
 
@@ -46,14 +69,18 @@ export default function UserGallery({ images }) {
 
   return (
     <div className="card">
-      <Galleria
-        value={images}
-        responsiveOptions={responsiveOptions}
-        numVisible={5}
-        style={{ maxWidth: '600px' }}
-        item={itemTemplate}
-        thumbnail={thumbnailTemplate}
-      />
+      {galleryImages.length > 0 ? (
+        <Galleria
+          value={galleryImages}
+          responsiveOptions={responsiveOptions}
+          numVisible={5}
+          style={{ maxWidth: '600px' }}
+          item={itemTemplate}
+          thumbnail={thumbnailTemplate}
+        />
+      ) : (
+        <p>No images</p>
+      )}
     </div>
   );
 }

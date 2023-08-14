@@ -1,6 +1,5 @@
 ## Next on todo
 
-- delete user image from s3 13.08
 - description of the image?
 - loaderi za slike na profile page
 - set profile picture

@@ -30,7 +30,9 @@ const ProfilePage = () => {
     formData.append('userId', currentUser.id);
 
     API.post(`/uploads/avatar`, formData, {})
-      .then((res) => flashMessageContext.success('Image uploaded'))
+      .then((res) => {
+        flashMessageContext.success('Image uploaded');
+      })
       .catch((err) => {
         console.log(err);
         flashMessageContext.error('Image upload failed');
@@ -46,18 +48,17 @@ const ProfilePage = () => {
   useEffect(() => {
     API.get(`/uploads/avatar/${authUser.id}`)
       .then((res) => {
-        console.log(res.data, 'DATA');
         const filteredData = res.data.filter((item) => {
           if (item.Key.includes('thumbnail')) {
             return false;
           }
           return item;
         });
+
         setUserPhotos(filteredData);
       })
       .catch((err) => {
         console.log(err);
-        flashMessageContext.error('Failed to get user photos');
       });
   }, [authUser.id, flashMessageContext]);
 
@@ -68,12 +69,7 @@ const ProfilePage = () => {
   return (
     <>
       <h1>{currentUser && currentUser.firstName} </h1>
-      {userPhotos && userPhotos.length > 0 ? (
-        <UserGallery images={userPhotos} />
-      ) : (
-        <p>No photos</p>
-      )}
-
+      <UserGallery images={userPhotos} />
       <Card style={{ maxWidth: 600, marginBottom: 30, marginTop: 30 }}>
         <form onSubmit={onAvatarSubmit} encType="multipart/form-data">
           <InputText
