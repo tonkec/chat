@@ -7,8 +7,7 @@ import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
-import { Image } from 'primereact/image';
-import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
+import UserGallery from './UserGallery';
 
 const ProfilePage = () => {
   const flashMessageContext = useContext(FlashMessageContext);
@@ -47,7 +46,14 @@ const ProfilePage = () => {
   useEffect(() => {
     API.get(`/uploads/avatar/${authUser.id}`)
       .then((res) => {
-        setUserPhotos(res.data.Contents);
+        console.log(res.data, 'DATA');
+        const filteredData = res.data.filter((item) => {
+          if (item.Key.includes('thumbnail')) {
+            return false;
+          }
+          return item;
+        });
+        setUserPhotos(filteredData);
       })
       .catch((err) => {
         console.log(err);
@@ -63,26 +69,12 @@ const ProfilePage = () => {
     <>
       <h1>{currentUser && currentUser.firstName} </h1>
       {userPhotos && userPhotos.length > 0 ? (
-        <ResponsiveMasonry
-          columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
-          style={{ maxWidth: 1000, marginBottom: 30 }}
-        >
-          <Masonry gutter={10}>
-            {userPhotos.map((photo) => (
-              <Image
-                key={photo.Key}
-                src={`https://duga-user-photo.s3.eu-north-1.amazonaws.com/${photo.Key}`}
-                alt="user"
-                width={'100%'}
-              />
-            ))}
-          </Masonry>
-        </ResponsiveMasonry>
+        <UserGallery images={userPhotos} />
       ) : (
         <p>No photos</p>
       )}
 
-      <Card style={{ maxWidth: 600, marginBottom: 30 }}>
+      <Card style={{ maxWidth: 600, marginBottom: 30, marginTop: 30 }}>
         <form onSubmit={onAvatarSubmit} encType="multipart/form-data">
           <InputText
             type="file"

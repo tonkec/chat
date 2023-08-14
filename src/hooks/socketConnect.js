@@ -66,7 +66,7 @@ function useSocket(dispatch, user) {
           dispatch(deleteCurrentChat(chatId));
         });
 
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => err);
   }, [dispatch, user]);
