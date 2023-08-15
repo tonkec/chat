@@ -38,10 +38,8 @@ test('it should disable button if email is invalid', async () => {
   const inputEmail = screen.getByTestId('email');
   await userEvent.type(inputEmail, '1');
   expect(
-    screen.getByRole('button', {
-      name: /Zatraži novu lozinku/i,
-    })
-  ).toHaveAttribute('disabled');
+    screen.getByText(/Zatraži novu lozinku/i).closest('button')
+  ).toBeDisabled();
   expect(screen.getByText('Invalid email')).toBeTruthy();
 });
 
@@ -67,7 +65,7 @@ test('it should redirect to login if email is valid', async () => {
   render(<App />);
   const inputEmail = screen.getByTestId('email');
   userEvent.type(inputEmail, 'antonija1023@gmail.com');
-  userEvent.click(screen.getByRole('button', { name: 'Zatraži novu lozinku' }));
+  userEvent.click(screen.getByText('Zatraži novu lozinku'));
   expect(await screen.findByText('Ulogiraj se!')).toBeInTheDocument();
   server.close();
 });

@@ -59,7 +59,7 @@ const ForgotPassword = () => {
         <Button
           disabled={isDisabled}
           onClick={onHandleSubmit}
-          label="Zatrazi novu lozinku"
+          label="Zatraži novu lozinku"
         />
       </form>
     </AuthLayout>
