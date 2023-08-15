@@ -137,23 +137,16 @@ const ProfilePage = () => {
           </Card>
         </div>
 
-        <div className="col-12 md:col-8 lg:col-6 xl:col-4">
+        <div className="col-12 md:col-8 lg:col-6 xl:col-5">
           <Card>
-            <div
-              className="flex align-items-center flex-column"
-              style={{ maxWidth: 600, margin: '0 auto' }}
-            >
-              <UserGallery images={userPhotos} />
-              <div style={{ width: '100%' }}>
-                <FileUpload
-                  name="avatar"
-                  customUpload
-                  chooseLabel="Dodaj sliku"
-                  mode="basic"
-                  uploadHandler={onAvatarSubmit}
-                />
-              </div>
-            </div>
+            <UserGallery images={userPhotos} />
+            <FileUpload
+              name="avatar"
+              customUpload
+              chooseLabel="Dodaj sliku"
+              mode="basic"
+              uploadHandler={onAvatarSubmit}
+            />
           </Card>
         </div>
       </div>
