@@ -1,5 +1,11 @@
 @import './assets/typography.scss';
 @import './assets/all.scss';
+@import 'primereact/resources/themes/fluent-light/theme.css';
+
+//core
+@import 'primereact/resources/primereact.min.css';
+
+@import 'primeflex/primeflex.scss';
 * {
   box-sizing: border-box;
 }

@@ -6,14 +6,18 @@ import store from './store';
 import { Provider } from 'react-redux';
 import FlashMessage from './components/FlashMessage';
 import FlashMessageProvider from './context/FlashMessage/flashMessageProvider';
+import { PrimeReactProvider } from 'primereact/api';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <FlashMessageProvider>
-        <FlashMessage />
-        <App />
-      </FlashMessageProvider>
+      <PrimeReactProvider>
+        <FlashMessageProvider>
+          <FlashMessage />
+          <App />
+        </FlashMessageProvider>
+      </PrimeReactProvider>
     </Provider>
   </React.StrictMode>
 );

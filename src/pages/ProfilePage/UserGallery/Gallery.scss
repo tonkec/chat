@@ -1,0 +1,15 @@
+.flicking-panel {
+  align-items: flex-end;
+  border-radius: 5px;
+  display: flex;
+  justify-content: flex-start;
+  margin-right: 10px;
+  position: relative;
+  width: 90%;
+
+  button {
+    position: absolute;
+    right: 0;
+    bottom: 7px;
+  }
+}

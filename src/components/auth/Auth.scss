@@ -11,20 +11,6 @@
   input {
     display: block;
     width: 100%;
-    border: none;
-    border-radius: 5px;
-    padding: 15px 20px;
-    margin: 10px auto;
-  }
-
-  button {
-    display: block;
-    background-color: #79aadb;
-    width: 100%;
-    border: none;
-    border-radius: 5px;
-    padding: 15px 10px;
-    cursor: pointer;
   }
 
   button:disabled {

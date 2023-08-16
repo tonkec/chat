@@ -6,6 +6,8 @@ import AuthLayout from '../../Layout/AuthLayout';
 import { EMAIL_INVALID, SOMETHING_WENT_WRONG } from '../constants';
 import FlashMessageContext from '../../../context/FlashMessage/flashMessageContext';
 import isEmailValid from '../validators/emailValidator';
+import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
 import './../Auth.scss';
 
 const ForgotPassword = () => {
@@ -46,16 +48,19 @@ const ForgotPassword = () => {
     <AuthLayout>
       <form className="form-auth">
         <h3 className="form-heading">Zaboravljena lozinka</h3>
-        <input
+        <InputText
           type="email"
           placeholder="Tvoj email"
           required
           onChange={onEmailChange}
           data-testid="email"
         />
-        <button onClick={onHandleSubmit} disabled={isDisabled}>
-          Zatraži novu lozinku
-        </button>
+
+        <Button
+          disabled={isDisabled}
+          onClick={onHandleSubmit}
+          label="Zatraži novu lozinku"
+        />
       </form>
     </AuthLayout>
   );
