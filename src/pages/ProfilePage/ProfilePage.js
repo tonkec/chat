@@ -4,11 +4,12 @@ import { getUser } from '../../store/actions/user';
 import FlashMessageContext from '../../context/FlashMessage/flashMessageContext';
 import API from '../../services/api';
 import UserGallery from './UserGallery';
-import { FileUpload } from 'primereact/fileupload';
+
 import { Button } from 'primereact/button';
 
 import './ProfilePage.scss';
 import ProfilePageForm from './ProfilePageForm/';
+import UploadPhotoModal from './UploadPhotoModal/';
 
 const ProfilePage = () => {
   const flashMessageContext = useContext(FlashMessageContext);
@@ -17,22 +18,7 @@ const ProfilePage = () => {
   const currentUser = useSelector((state) => state.userReducer.user);
   const [userPhotos, setUserPhotos] = useState([]);
   const [isEditable, setIsEditable] = useState(false);
-
-  const onAvatarSubmit = (e) => {
-    const formData = new FormData();
-    formData.append('avatar', e.files[0]);
-    formData.append('userId', currentUser.id);
-
-    API.post(`/uploads/avatar`, formData, {})
-      .then((res) => {
-        e.options.clear();
-        flashMessageContext.success('Image uploaded');
-      })
-      .catch((err) => {
-        console.log(err);
-        flashMessageContext.error('Image upload failed');
-      });
-  };
+  const [isNewUploadModalVisible, setIsNewUploadModalVisible] = useState(false);
 
   useEffect(() => {
     API.get(`/uploads/avatar/${authUser.id}`)
@@ -112,18 +98,21 @@ const ProfilePage = () => {
               <div className="card flex flex-column align-items-end">
                 <UserGallery images={userPhotos} />
 
-                <FileUpload
-                  name="avatar"
-                  customUpload
-                  chooseLabel="Dodaj sliku"
-                  mode="basic"
-                  uploadHandler={onAvatarSubmit}
-                  style={{ marginTop: 20 }}
+                <Button
+                  label="Dodaj novu fotku"
+                  onClick={() => setIsNewUploadModalVisible(true)}
                 />
               </div>
             </div>
           </div>
         </div>
+      )}
+
+      {isNewUploadModalVisible && (
+        <UploadPhotoModal
+          isOpen={isNewUploadModalVisible}
+          onHide={() => setIsNewUploadModalVisible(false)}
+        />
       )}
     </>
   );

@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import FlashMessage from './components/FlashMessage';
 import FlashMessageProvider from './context/FlashMessage/flashMessageProvider';
 import { PrimeReactProvider } from 'primereact/api';
+import 'primeicons/primeicons.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

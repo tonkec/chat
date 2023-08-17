@@ -4,10 +4,9 @@ import API from '../../../services/api';
 import { useSelector } from 'react-redux';
 import Flicking from '@egjs/react-flicking';
 import { Dialog } from 'primereact/dialog';
-
+import ImageModal from '../ImageModal';
 import '@egjs/react-flicking/dist/flicking.css';
 import './Gallery.scss';
-import ImageModal from '../ImageModal';
 
 export default function UserGallery({ images }) {
   const [galleryImages, setGalleryImages] = useState([]);
