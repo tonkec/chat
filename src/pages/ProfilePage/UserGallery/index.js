@@ -87,7 +87,6 @@ export default function UserGallery({ images }) {
         onHide={() => setIsImageModalVisible(false)}
         image={currentImage}
       />
-      ;
     </>
   );
 }
