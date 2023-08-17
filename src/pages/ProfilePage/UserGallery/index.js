@@ -27,7 +27,7 @@ export default function UserGallery({ images }) {
   }, [images]);
 
   return (
-    <Flicking align="center" renderOnlyVisible={true}>
+    <Flicking renderOnlyVisible={true}>
       {galleryImages.length > 0 &&
         galleryImages.map((image, index) => (
           <div className="flicking-panel" key={index}>
