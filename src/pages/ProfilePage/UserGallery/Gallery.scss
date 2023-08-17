@@ -10,6 +10,11 @@
   button {
     position: absolute;
     right: 0;
-    bottom: 7px;
+    bottom: 10px;
+  }
+
+  .gallery-image-container {
+    position: relative;
+    cursor: pointer;
   }
 }

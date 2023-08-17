@@ -1,27 +1,22 @@
 import { useEffect, useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser, updateUser } from '../../store/actions/user';
+import { getUser } from '../../store/actions/user';
 import FlashMessageContext from '../../context/FlashMessage/flashMessageContext';
 import API from '../../services/api';
-import { InputText } from 'primereact/inputtext';
-import { InputTextarea } from 'primereact/inputtextarea';
-import { Button } from 'primereact/button';
-import { Card } from 'primereact/card';
 import UserGallery from './UserGallery';
 import { FileUpload } from 'primereact/fileupload';
+import { Button } from 'primereact/button';
+
+import './ProfilePage.scss';
+import ProfilePageForm from './ProfilePageForm/';
 
 const ProfilePage = () => {
   const flashMessageContext = useContext(FlashMessageContext);
   const dispatch = useDispatch();
   const authUser = useSelector((state) => state.authReducer.user);
   const currentUser = useSelector((state) => state.userReducer.user);
-  const [username, setUsername] = useState(authUser.username);
-  const [bio, setBio] = useState(authUser.bio);
-  const [sexuality, setSexuality] = useState(authUser.sexuality);
-  const [gender, setGender] = useState(authUser.gender);
-  const [location, setLocation] = useState(authUser.location);
-  const [age, setAge] = useState(authUser.age);
   const [userPhotos, setUserPhotos] = useState([]);
+  const [isEditable, setIsEditable] = useState(false);
 
   const onAvatarSubmit = (e) => {
     const formData = new FormData();
@@ -37,12 +32,6 @@ const ProfilePage = () => {
         console.log(err);
         flashMessageContext.error('Image upload failed');
       });
-  };
-
-  const onUserDataSubmit = (e) => {
-    e.preventDefault();
-    const data = { username, bio, gender, sexuality, location, age };
-    dispatch(updateUser(data));
   };
 
   useEffect(() => {
@@ -68,88 +57,74 @@ const ProfilePage = () => {
 
   return (
     <>
-      <h1>{currentUser && currentUser.firstName} </h1>
-      <div className="grid">
-        <div className="col-12 md:col-8 lg:col-6 xl:col-4">
-          <Card>
-            <form onSubmit={onUserDataSubmit}>
-              <label htmlFor="username">Username</label>
-              <InputText
-                type="text"
-                style={{ width: '100%', marginBottom: 15 }}
-                placeholder="tvoj username"
-                defaultValue={currentUser && currentUser.username}
-                onChange={(e) => setUsername(e.target.value)}
-                id="username"
-              />
+      {currentUser && (
+        <div className="profile">
+          <div className="grid" style={{ marginBottom: 50 }}>
+            <div className="col-6 col-offset-6 flex justify-content-end">
+              <Button
+                severity="info"
+                label="Izmijeni"
+                onClick={() => setIsEditable(!isEditable)}
+              ></Button>
+            </div>
+          </div>
+          <div className="grid">
+            <div className="sm:col-8 lg:col-6">
+              <div className="card">
+                <div className="grid">
+                  <div
+                    className="avatar col-12 md:col-4"
+                    style={{ backgroundImage: `url(${currentUser.avatar})` }}
+                  ></div>
 
-              <label htmlFor="bio">Bio</label>
-              <InputTextarea
-                style={{ width: '100%', marginBottom: 15 }}
-                placeholder="tvoj bio"
-                defaultValue={currentUser && currentUser.bio}
-                onChange={(e) => setBio(e.target.value)}
-                id="bio"
-              />
+                  <div className="md:col-8">
+                    <h3 style={{ marginLeft: 20 }}>
+                      {currentUser.firstName} {currentUser.lastName}
+                    </h3>
+                    <p style={{ marginLeft: 20 }}>
+                      {currentUser.age} {currentUser.sexuality}{' '}
+                      {currentUser.gender} {currentUser.location}
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-              <label htmlFor="sexuality">Seksualnost</label>
-              <InputText
-                type="text"
-                style={{ width: '100%', marginBottom: 15 }}
-                placeholder="tvoja seksualnost"
-                defaultValue={currentUser && currentUser.sexuality}
-                onChange={(e) => setSexuality(e.target.value)}
-                id="sexuality"
-              />
+              {isEditable ? (
+                <div className="card">
+                  <ProfilePageForm
+                    onSubmit={() => setIsEditable(!isEditable)}
+                  />
+                </div>
+              ) : (
+                <>
+                  <div className="card">
+                    <h4>About me</h4>
+                    {currentUser.bio}
+                  </div>
 
-              <label htmlFor="gender">Rod</label>
-              <InputText
-                type="text"
-                style={{ width: '100%', marginBottom: 15 }}
-                placeholder="tvoj rod"
-                defaultValue={currentUser && currentUser.gender}
-                onChange={(e) => setGender(e.target.value)}
-                id="gender"
-              />
+                  <div className="card">
+                    <h4>Interests</h4>
+                  </div>
+                </>
+              )}
+            </div>
+            <div className="sm:col-8 lg:col-6">
+              <div className="card flex flex-column align-items-end">
+                <UserGallery images={userPhotos} />
 
-              <label htmlFor="location">Lokacija</label>
-              <InputText
-                type="text"
-                style={{ width: '100%', marginBottom: 15 }}
-                placeholder="Tvoja lokacija"
-                defaultValue={currentUser && currentUser.location}
-                onChange={(e) => setLocation(e.target.value)}
-                id="location"
-              />
-
-              <label htmlFor="age">Dob</label>
-              <InputText
-                type="text"
-                style={{ width: '100%', marginBottom: 15 }}
-                placeholder="Tvoja dob"
-                defaultValue={currentUser && currentUser.age}
-                onChange={(e) => setAge(e.target.value)}
-                id="age"
-              />
-
-              <Button type="submit" label="Izmijeni" />
-            </form>
-          </Card>
+                <FileUpload
+                  name="avatar"
+                  customUpload
+                  chooseLabel="Dodaj sliku"
+                  mode="basic"
+                  uploadHandler={onAvatarSubmit}
+                  style={{ marginTop: 20 }}
+                />
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div className="col-12 md:col-8 lg:col-6 xl:col-5">
-          <Card>
-            <UserGallery images={userPhotos} />
-            <FileUpload
-              name="avatar"
-              customUpload
-              chooseLabel="Dodaj sliku"
-              mode="basic"
-              uploadHandler={onAvatarSubmit}
-            />
-          </Card>
-        </div>
-      </div>
+      )}
     </>
   );
 };
