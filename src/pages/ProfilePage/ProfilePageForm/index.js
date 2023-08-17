@@ -7,8 +7,6 @@ import { Button } from 'primereact/button';
 
 const ProfilePageForm = ({ onSubmit }) => {
   const dispatch = useDispatch();
-
-  const authUser = useSelector((state) => state.authReducer.user);
   const currentUser = useSelector((state) => state.userReducer.user);
   const [username, setUsername] = useState(currentUser.username);
   const [bio, setBio] = useState(currentUser.bio);
@@ -18,11 +16,8 @@ const ProfilePageForm = ({ onSubmit }) => {
   const [age, setAge] = useState(currentUser.age);
 
   const onUserDataSubmit = (e) => {
-    console.log(authUser, 'authUser');
-    console.log('currentUser', currentUser);
     e.preventDefault();
     const data = { username, bio, gender, sexuality, location, age };
-    console.log(data);
 
     dispatch(updateUser(data));
     onSubmit();
@@ -46,6 +41,7 @@ const ProfilePageForm = ({ onSubmit }) => {
         placeholder="tvoj bio"
         defaultValue={currentUser && currentUser.bio}
         onChange={(e) => setBio(e.target.value)}
+        rows={10}
         id="bio"
       />
 
