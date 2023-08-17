@@ -50,6 +50,8 @@ export default function DataSubmitter() {
     });
 
     formData.append('userId', currentUser.id);
+    // check if object is not empty
+    formData.append('text', JSON.stringify(text));
 
     API.post(`/uploads/avatar`, formData, {})
       .then((res) => {
