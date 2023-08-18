@@ -1,21 +1,20 @@
 import React, { useRef, useState } from 'react';
 import { Toast } from 'primereact/toast';
 import { FileUpload } from 'primereact/fileupload';
-import { ProgressBar } from 'primereact/progressbar';
-import { Button } from 'primereact/button';
 import { Tooltip } from 'primereact/tooltip';
-import { Tag } from 'primereact/tag';
 import API from '../../../services/api';
 import { useSelector } from 'react-redux';
-import { InputText } from 'primereact/inputtext';
+import { chooseOptions, uploadOptions, cancelOptions } from './options';
+import HeaderTemplate from './HeaderTemplate';
+import EmptyTemplate from './EmptyTemplate';
+import ItemTemplate from './ItemTemplate';
 
 export default function DataSubmitter() {
-  const [text, setText] = useState([]);
   const currentUser = useSelector((state) => state.userReducer.user);
-
   const toast = useRef(null);
-  const [totalSize, setTotalSize] = useState(0);
   const fileUploadRef = useRef(null);
+  const [text, setText] = useState([]);
+  const [totalSize, setTotalSize] = useState(0);
 
   const onTemplateSelect = (e) => {
     let _totalSize = totalSize;
@@ -43,19 +42,44 @@ export default function DataSubmitter() {
     });
   };
 
-  const saveFileToS3 = (e) => {
+  const prepareData = (e) => {
+    const emptyDescriptions = text.filter((item) => {
+      if (item.description === '' || item.description === null) {
+        return item;
+      }
+
+      return false;
+    });
+
+    if (emptyDescriptions.length > 0 || text.length === 0) {
+      toast.current.show({
+        severity: 'error',
+        summary: 'Greška',
+        detail: 'Sve slike moraju imati opis',
+      });
+      return;
+    }
+
+    saveImagesToS3(e);
+  };
+
+  const saveImagesToS3 = (e) => {
     const formData = new FormData();
     e.files.map((file, index) => {
       return formData.append(`avatar`, file);
     });
-
     formData.append('userId', currentUser.id);
-    // check if object is not empty
     formData.append('text', JSON.stringify(text));
 
     API.post(`/uploads/avatar`, formData, {})
       .then((res) => {
-        console.log(res);
+        toast.current.show({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'File Uploaded',
+        });
+        setText([]);
+        fileUploadRef.current.clear();
       })
       .catch((err) => {
         console.log(err);
@@ -71,116 +95,19 @@ export default function DataSubmitter() {
     setTotalSize(0);
   };
 
-  const headerTemplate = (options) => {
-    const { className, chooseButton, uploadButton, cancelButton } = options;
-    const value = totalSize / 10000;
-    const formatedValue =
-      fileUploadRef && fileUploadRef.current
-        ? fileUploadRef.current.formatSize(totalSize)
-        : '0 B';
+  const onDescriptionChange = (e, file) => {
+    setText((prevState) => {
+      const newState = [...prevState];
+      const index = newState.findIndex((item) => item.imageId === file.name);
 
-    return (
-      <div
-        className={className}
-        style={{
-          backgroundColor: 'transparent',
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        {chooseButton}
-        {uploadButton}
-        {cancelButton}
-        <div className="flex align-items-center gap-3 ml-auto">
-          <span>{formatedValue} / 1 MB</span>
-          <ProgressBar
-            value={value}
-            showValue={false}
-            style={{ width: '10rem', height: '12px' }}
-          ></ProgressBar>
-        </div>
-      </div>
-    );
-  };
+      if (index === -1) {
+        newState.push({ imageId: file.name, description: e.target.value });
+      } else {
+        newState[index].description = e.target.value;
+      }
 
-  const itemTemplate = (file, props) => {
-    return (
-      <div className="flex align-items-center flex-wrap">
-        <div className="flex align-items-center" style={{ width: '40%' }}>
-          <img
-            alt={file.name}
-            role="presentation"
-            src={file.objectURL}
-            width={100}
-          />
-          <span className="flex flex-column text-left ml-3">
-            {file.name}
-            <small>{new Date().toLocaleDateString()}</small>
-          </span>
-        </div>
-        <Tag
-          value={props.formatSize}
-          severity="warning"
-          className="px-3 py-2"
-        />
-        <InputText
-          placeholder="Opis slike"
-          style={{ marginLeft: 20 }}
-          onChange={(e) => {
-            setText((prevState) => [
-              ...prevState,
-              { imageId: file.name, description: e.target.value },
-            ]);
-          }}
-        />
-        <Button
-          type="button"
-          icon="pi pi-times"
-          className="p-button-outlined p-button-rounded p-button-danger ml-auto"
-          onClick={() => onTemplateRemove(file, props.onRemove)}
-        />
-      </div>
-    );
-  };
-
-  const emptyTemplate = () => {
-    return (
-      <div className="flex align-items-center flex-column">
-        <i
-          className="pi pi-image mt-3 p-5"
-          style={{
-            fontSize: '5em',
-            borderRadius: '50%',
-            backgroundColor: 'var(--surface-b)',
-            color: 'var(--surface-d)',
-          }}
-        ></i>
-        <span
-          style={{ fontSize: '1.2em', color: 'var(--text-color-secondary)' }}
-          className="my-5"
-        >
-          Dovuci fotku ovdje
-        </span>
-      </div>
-    );
-  };
-
-  const chooseOptions = {
-    icon: 'pi pi-fw pi-images',
-    iconOnly: true,
-    className: 'custom-choose-btn p-button-rounded p-button-outlined',
-  };
-  const uploadOptions = {
-    icon: 'pi pi-fw pi-cloud-upload',
-    iconOnly: true,
-    className:
-      'custom-upload-btn p-button-success p-button-rounded p-button-outlined',
-  };
-  const cancelOptions = {
-    icon: 'pi pi-fw pi-times',
-    iconOnly: true,
-    className:
-      'custom-cancel-btn p-button-danger p-button-rounded p-button-outlined',
+      return newState;
+    });
   };
 
   return (
@@ -200,13 +127,26 @@ export default function DataSubmitter() {
         onSelect={onTemplateSelect}
         onError={onTemplateClear}
         onClear={onTemplateClear}
-        headerTemplate={headerTemplate}
-        itemTemplate={itemTemplate}
-        emptyTemplate={emptyTemplate}
+        headerTemplate={(options) => (
+          <HeaderTemplate
+            options={options}
+            fileUploadRef={fileUploadRef}
+            totalSize={totalSize}
+          />
+        )}
+        itemTemplate={(file, options) => (
+          <ItemTemplate
+            file={file}
+            options={options}
+            onTemplateRemove={onTemplateRemove}
+            onDescriptionChange={onDescriptionChange}
+          />
+        )}
+        emptyTemplate={() => <EmptyTemplate />}
         chooseOptions={chooseOptions}
         uploadOptions={uploadOptions}
         cancelOptions={cancelOptions}
-        uploadHandler={saveFileToS3}
+        uploadHandler={prepareData}
       />
     </div>
   );
