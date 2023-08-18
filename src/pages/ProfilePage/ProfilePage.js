@@ -1,15 +1,13 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../store/actions/user';
 import FlashMessageContext from '../../context/FlashMessage/flashMessageContext';
 import API from '../../services/api';
 import UserGallery from './UserGallery';
-
 import { Button } from 'primereact/button';
-
-import './ProfilePage.scss';
 import ProfilePageForm from './ProfilePageForm/';
 import UploadPhotoModal from './UploadPhotoModal/';
+import './ProfilePage.scss';
 
 const ProfilePage = () => {
   const flashMessageContext = useContext(FlashMessageContext);
@@ -20,22 +18,27 @@ const ProfilePage = () => {
   const [isEditable, setIsEditable] = useState(false);
   const [isNewUploadModalVisible, setIsNewUploadModalVisible] = useState(false);
 
-  useEffect(() => {
-    API.get(`/uploads/avatar/${authUser.id}`)
-      .then((res) => {
-        const filteredData = res.data.filter((item) => {
-          if (item.Key.includes('thumbnail')) {
-            return false;
-          }
-          return item;
-        });
+  const fetchUserPhotos = useCallback(async () => {
+    try {
+      const response = await API.get(`/uploads/avatar/${authUser.id}`);
+      const withoutThumbnails = response.data.filter((item) => {
+        console.log(item);
+        if (item.Key.includes('thumbnail')) {
+          return false;
+        }
 
-        setUserPhotos(filteredData);
-      })
-      .catch((err) => {
-        console.log(err);
+        return true;
       });
-  }, [authUser.id, flashMessageContext]);
+
+      setUserPhotos(withoutThumbnails);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [authUser.id]);
+
+  useEffect(() => {
+    fetchUserPhotos();
+  }, [authUser.id, flashMessageContext, fetchUserPhotos]);
 
   useEffect(() => {
     dispatch(getUser(authUser.id));
@@ -112,6 +115,7 @@ const ProfilePage = () => {
         <UploadPhotoModal
           isOpen={isNewUploadModalVisible}
           onHide={() => setIsNewUploadModalVisible(false)}
+          fetchUserPhotos={fetchUserPhotos}
         />
       )}
     </>

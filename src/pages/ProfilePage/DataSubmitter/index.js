@@ -9,7 +9,7 @@ import HeaderTemplate from './HeaderTemplate';
 import EmptyTemplate from './EmptyTemplate';
 import ItemTemplate from './ItemTemplate';
 
-export default function DataSubmitter() {
+export default function DataSubmitter({ onHide, fetchUserPhotos }) {
   const currentUser = useSelector((state) => state.userReducer.user);
   const toast = useRef(null);
   const fileUploadRef = useRef(null);
@@ -65,7 +65,7 @@ export default function DataSubmitter() {
 
   const saveImagesToS3 = (e) => {
     const formData = new FormData();
-    e.files.map((file, index) => {
+    e.files.map((file) => {
       return formData.append(`avatar`, file);
     });
     formData.append('userId', currentUser.id);
@@ -80,6 +80,10 @@ export default function DataSubmitter() {
         });
         setText([]);
         fileUploadRef.current.clear();
+        setTimeout(() => {
+          onHide();
+        }, 2000);
+        fetchUserPhotos();
       })
       .catch((err) => {
         console.log(err);

@@ -4,7 +4,7 @@ import API from '../../../services/api';
 import { useSelector } from 'react-redux';
 import Flicking from '@egjs/react-flicking';
 import { Dialog } from 'primereact/dialog';
-import ImageModal from '../ImageModal';
+import ViewImageModal from '../ViewImageModal';
 import '@egjs/react-flicking/dist/flicking.css';
 import './Gallery.scss';
 
@@ -81,7 +81,7 @@ export default function UserGallery({ images }) {
           />
         )}
       </Dialog>
-      <ImageModal
+      <ViewImageModal
         isOpen={isImageModalVisible}
         onHide={() => setIsImageModalVisible(false)}
         image={currentImage}

@@ -1,7 +1,7 @@
 import { Dialog } from 'primereact/dialog';
-import './ImageModal.scss';
+import './ViewImageModal.scss';
 
-const ImageModal = ({ isOpen, onHide, image }) => {
+const ViewImageModal = ({ isOpen, onHide, image }) => {
   return (
     image && (
       <Dialog
@@ -20,4 +20,4 @@ const ImageModal = ({ isOpen, onHide, image }) => {
   );
 };
 
-export default ImageModal;
+export default ViewImageModal;
