@@ -59,8 +59,7 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
       toast.current.show({
         severity: 'error',
         summary: 'Greška',
-        detail:
-          'Opis slike mora imati minimalno jedan znak, a ne više od 150 znakova.',
+        detail: 'Opis slike mora imati izmedju 1 i 150 karaktera.',
       });
       return;
     }
