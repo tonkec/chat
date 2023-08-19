@@ -95,14 +95,21 @@ const ProfilePage = () => {
 
                 <Button
                   label="Dodaj novu fotku"
-                  onClick={() => setIsNewUploadModalVisible(true)}
+                  onClick={() => {
+                    if (userPhotos.length >= 5) {
+                      flashMessageContext.error(
+                        'Maksimalan broj fotografija je 5'
+                      );
+                      return;
+                    }
+                    setIsNewUploadModalVisible(true);
+                  }}
                 />
               </div>
             </div>
           </div>
         </div>
       )}
-
       {isNewUploadModalVisible && (
         <UploadPhotoModal
           isOpen={isNewUploadModalVisible}
