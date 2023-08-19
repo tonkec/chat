@@ -86,8 +86,8 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
         fileUploadRef.current.clear();
         setTimeout(() => {
           onHide();
+          fetchUserPhotos();
         }, 2000);
-        fetchUserPhotos();
       })
       .catch((err) => {
         console.log(err);
