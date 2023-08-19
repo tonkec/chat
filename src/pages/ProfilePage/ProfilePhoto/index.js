@@ -1,9 +1,9 @@
 import { FileUpload } from 'primereact/fileupload';
 const ProfilePhoto = ({ profilePhotoUrl, onUpload }) => {
   return profilePhotoUrl.trim() === '' ? (
-    <div className=" col-12 md:col-4">
+    <div className="col-12 md:col-4">
       <div
-        className="avatar col-12 md:col-4"
+        className="avatar"
         style={{
           backgroundImage: `url(http://placekitten.com/g/200/300)`,
         }}
@@ -18,7 +18,7 @@ const ProfilePhoto = ({ profilePhotoUrl, onUpload }) => {
       />
     </div>
   ) : (
-    <div className=" col-12 md:col-4">
+    <div className="col-12 md:col-4">
       <div
         className="avatar"
         style={{

@@ -44,8 +44,6 @@ export default function PhotoGallery({ images }) {
           spaceBetween={10}
           slidesPerView={2}
           navigation
-          onSwiper={(swiper) => console.log(swiper)}
-          onSlideChange={() => console.log('slide change')}
         >
           {galleryImages.map((image, index) => (
             <SwiperSlide key={index} style={{ position: 'relative' }}>
