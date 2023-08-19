@@ -15,7 +15,6 @@ const ViewImageModal = ({ isOpen, onHide, image }) => {
             backgroundImage: `url(https://duga-user-photo.s3.eu-north-1.amazonaws.com/${image.url})`,
           }}
         >
-          {' '}
           <p
             style={{
               margin: 0,

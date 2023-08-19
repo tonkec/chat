@@ -56,6 +56,7 @@ export default function PhotoGallery({ images }) {
                   setIsImageModalVisible(true);
                 }}
               />
+
               <p style={{ marginBottom: 20 }}>{image.description}</p>
               <Button
                 style={{ position: 'absolute', top: 0, right: 0 }}
