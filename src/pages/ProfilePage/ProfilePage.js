@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../store/actions/user';
 import FlashMessageContext from '../../context/FlashMessage/flashMessageContext';
 import API from '../../services/api';
-import UserGallery from './UserGallery';
+import PhotoGallery from './PhotoGallery';
 import { Button } from 'primereact/button';
 import ProfilePageForm from './ProfilePageForm/';
 import MultipleUploadPhotoModal from './MultipleUploadPhotoModal';
@@ -123,9 +123,10 @@ const ProfilePage = () => {
               )}
             </div>
             <div className="sm:col-8 lg:col-6">
-              <div className="card flex flex-column align-items-end">
-                <UserGallery images={userPhotos} />
+              <div className="card">
+                <PhotoGallery images={userPhotos} />
                 <Button
+                  style={{ marginTop: 20 }}
                   label="Dodaj novu fotku"
                   onClick={() => {
                     if (userPhotos.length >= 5) {
