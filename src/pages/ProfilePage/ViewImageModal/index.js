@@ -12,9 +12,21 @@ const ViewImageModal = ({ isOpen, onHide, image }) => {
         <div
           className="background-image"
           style={{
-            backgroundImage: `url(https://duga-user-photo.s3.eu-north-1.amazonaws.com/${image.Key})`,
+            backgroundImage: `url(https://duga-user-photo.s3.eu-north-1.amazonaws.com/${image.url})`,
           }}
-        ></div>
+        >
+          {' '}
+          <p
+            style={{
+              margin: 0,
+              backgroundColor: '#fff',
+              color: '#000',
+              padding: '10px 20px',
+            }}
+          >
+            {image.description}
+          </p>
+        </div>
       </Dialog>
     )
   );

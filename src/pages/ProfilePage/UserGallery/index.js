@@ -42,8 +42,8 @@ export default function UserGallery({ images }) {
             <div className="flicking-panel" key={index}>
               <div className="gallery-image-container">
                 <img
-                  src={`https://duga-user-photo.s3.eu-north-1.amazonaws.com/${image.Key}`}
-                  alt="user gallery"
+                  src={`https://duga-user-photo.s3.eu-north-1.amazonaws.com/${image.url}`}
+                  alt={image.description}
                   style={{ width: '100%' }}
                   onClick={() => {
                     setCurrentImage(image);

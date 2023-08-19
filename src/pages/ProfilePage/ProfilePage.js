@@ -21,16 +21,8 @@ const ProfilePage = () => {
   const fetchUserPhotos = useCallback(async () => {
     try {
       const response = await API.get(`/uploads/avatar/${authUser.id}`);
-      const withoutThumbnails = response.data.filter((item) => {
-        console.log(item);
-        if (item.Key.includes('thumbnail')) {
-          return false;
-        }
 
-        return true;
-      });
-
-      setUserPhotos(withoutThumbnails);
+      setUserPhotos(response.data.images);
     } catch (error) {
       console.log(error);
     }
