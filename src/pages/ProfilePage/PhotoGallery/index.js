@@ -2,14 +2,15 @@ import { useEffect, useState } from 'react';
 import { Button } from 'primereact/button';
 import API from '../../../services/api';
 import { useSelector } from 'react-redux';
-import Flicking from '@egjs/react-flicking';
 import { Dialog } from 'primereact/dialog';
+import ViewImageModal from '../ViewImageModal';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/scss/navigation';
+import './PhotoGallery.scss';
 
-import '@egjs/react-flicking/dist/flicking.css';
-import './Gallery.scss';
-import ImageModal from '../ImageModal';
-
-export default function UserGallery({ images }) {
+export default function PhotoGallery({ images }) {
   const [galleryImages, setGalleryImages] = useState([]);
   const [isWarningModalVisible, setIsWarningModalVisible] = useState(false);
   const [isImageModalVisible, setIsImageModalVisible] = useState(false);
@@ -21,7 +22,7 @@ export default function UserGallery({ images }) {
     API.post(`/uploads/delete-avatar/`, { item, userId: currentUser.id })
       .then((res) => {
         const filteredImages = galleryImages.filter(
-          (image) => image.Key !== item.Key
+          (image) => image.url !== item.url
         );
 
         setGalleryImages(filteredImages);
@@ -37,32 +38,39 @@ export default function UserGallery({ images }) {
 
   return (
     <>
-      <Flicking renderOnlyVisible={true}>
-        {galleryImages.length > 0 &&
-          galleryImages.map((image, index) => (
-            <div className="flicking-panel" key={index}>
-              <div className="gallery-image-container">
-                <img
-                  src={`https://duga-user-photo.s3.eu-north-1.amazonaws.com/${image.Key}`}
-                  alt="user gallery"
-                  style={{ width: '100%' }}
-                  onClick={() => {
-                    setCurrentImage(image);
-                    setIsImageModalVisible(true);
-                  }}
-                />
-                <Button
-                  label="Delete"
-                  className="p-button-danger"
-                  onClick={() => {
-                    setIsWarningModalVisible(true);
-                    setCurrentImage(image);
-                  }}
-                />
-              </div>
-            </div>
+      {galleryImages.length > 0 && (
+        <Swiper
+          modules={[Navigation]}
+          spaceBetween={10}
+          slidesPerView={2}
+          navigation
+        >
+          {galleryImages.map((image, index) => (
+            <SwiperSlide key={index} style={{ position: 'relative' }}>
+              <img
+                src={`https://duga-user-photo.s3.eu-north-1.amazonaws.com/${image.url}`}
+                alt={image.description}
+                style={{ width: '100%' }}
+                onClick={() => {
+                  setCurrentImage(image);
+                  setIsImageModalVisible(true);
+                }}
+              />
+
+              <p style={{ marginBottom: 20 }}>{image.description}</p>
+              <Button
+                style={{ position: 'absolute', top: 0, right: 0 }}
+                label="Delete"
+                className="p-button-danger"
+                onClick={() => {
+                  setIsWarningModalVisible(true);
+                  setCurrentImage(image);
+                }}
+              />
+            </SwiperSlide>
           ))}
-      </Flicking>
+        </Swiper>
+      )}
       <Dialog
         header="Jesi li siguran_na"
         visible={isWarningModalVisible}
@@ -82,7 +90,7 @@ export default function UserGallery({ images }) {
           />
         )}
       </Dialog>
-      <ImageModal
+      <ViewImageModal
         isOpen={isImageModalVisible}
         onHide={() => setIsImageModalVisible(false)}
         image={currentImage}

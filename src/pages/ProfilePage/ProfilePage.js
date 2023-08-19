@@ -1,14 +1,14 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../store/actions/user';
 import FlashMessageContext from '../../context/FlashMessage/flashMessageContext';
 import API from '../../services/api';
-import UserGallery from './UserGallery';
-import { FileUpload } from 'primereact/fileupload';
+import PhotoGallery from './PhotoGallery';
 import { Button } from 'primereact/button';
-
-import './ProfilePage.scss';
 import ProfilePageForm from './ProfilePageForm/';
+import MultipleUploadPhotoModal from './MultipleUploadPhotoModal';
+import './ProfilePage.scss';
+import ProfilePhoto from './ProfilePhoto';
 
 const ProfilePage = () => {
   const flashMessageContext = useContext(FlashMessageContext);
@@ -17,39 +17,57 @@ const ProfilePage = () => {
   const currentUser = useSelector((state) => state.userReducer.user);
   const [userPhotos, setUserPhotos] = useState([]);
   const [isEditable, setIsEditable] = useState(false);
+  const [isNewUploadModalVisible, setIsNewUploadModalVisible] = useState(false);
+  const [profilePhotoUrl, setProfilePhotoUrl] = useState('');
 
-  const onAvatarSubmit = (e) => {
+  const fetchUserPhotos = useCallback(async () => {
+    try {
+      const response = await API.get(`/uploads/avatar/${authUser.id}`);
+      const withoutProfilePhoto = response.data.images.filter(
+        (image) => image.isProfilePhoto !== true
+      );
+      const profilePhoto = response.data.images.filter(
+        (image) => image.isProfilePhoto === true
+      );
+
+      if (profilePhoto.length > 0) {
+        setProfilePhotoUrl(profilePhoto[0].url);
+      }
+      setUserPhotos(withoutProfilePhoto);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [authUser.id]);
+
+  const onUploadProfilePhoto = async (e) => {
+    const file = e.files[0];
     const formData = new FormData();
-    formData.append('avatar', e.files[0]);
-    formData.append('userId', currentUser.id);
+    formData.append('photo', file);
+    formData.append('userId', authUser.id);
+    formData.append('isProfilePhoto', true);
 
-    API.post(`/uploads/avatar`, formData, {})
-      .then((res) => {
-        e.options.clear();
-        flashMessageContext.success('Image uploaded');
-      })
-      .catch((err) => {
-        console.log(err);
-        flashMessageContext.error('Image upload failed');
-      });
+    try {
+      const response = await API.post('/uploads/profile-photo', formData, {});
+
+      if (response.status === 200) {
+        flashMessageContext.success('Fotografija uspješno dodana');
+        fetchUserPhotos();
+      }
+
+      if (response.status !== 200) {
+        flashMessageContext.error('Došlo je do greške');
+      }
+
+      e.files = [];
+    } catch (error) {
+      flashMessageContext.error('Došlo je do greške');
+      console.log(error);
+    }
   };
 
   useEffect(() => {
-    API.get(`/uploads/avatar/${authUser.id}`)
-      .then((res) => {
-        const filteredData = res.data.filter((item) => {
-          if (item.Key.includes('thumbnail')) {
-            return false;
-          }
-          return item;
-        });
-
-        setUserPhotos(filteredData);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [authUser.id, flashMessageContext]);
+    fetchUserPhotos();
+  }, [authUser.id, flashMessageContext, fetchUserPhotos]);
 
   useEffect(() => {
     dispatch(getUser(authUser.id));
@@ -72,10 +90,10 @@ const ProfilePage = () => {
             <div className="sm:col-8 lg:col-6">
               <div className="card">
                 <div className="grid">
-                  <div
-                    className="avatar col-12 md:col-4"
-                    style={{ backgroundImage: `url(${currentUser.avatar})` }}
-                  ></div>
+                  <ProfilePhoto
+                    profilePhotoUrl={profilePhotoUrl}
+                    onUpload={onUploadProfilePhoto}
+                  />
 
                   <div className="md:col-8">
                     <h3 style={{ marginLeft: 20 }}>
@@ -101,29 +119,36 @@ const ProfilePage = () => {
                     <h4>About me</h4>
                     {currentUser.bio}
                   </div>
-
-                  <div className="card">
-                    <h4>Interests</h4>
-                  </div>
                 </>
               )}
             </div>
             <div className="sm:col-8 lg:col-6">
-              <div className="card flex flex-column align-items-end">
-                <UserGallery images={userPhotos} />
-
-                <FileUpload
-                  name="avatar"
-                  customUpload
-                  chooseLabel="Dodaj sliku"
-                  mode="basic"
-                  uploadHandler={onAvatarSubmit}
+              <div className="card">
+                <PhotoGallery images={userPhotos} />
+                <Button
                   style={{ marginTop: 20 }}
+                  label="Dodaj novu fotku"
+                  onClick={() => {
+                    if (userPhotos.length >= 5) {
+                      flashMessageContext.error(
+                        'Maksimalan broj fotografija je 5'
+                      );
+                      return;
+                    }
+                    setIsNewUploadModalVisible(true);
+                  }}
                 />
               </div>
             </div>
           </div>
         </div>
+      )}
+      {isNewUploadModalVisible && (
+        <MultipleUploadPhotoModal
+          isOpen={isNewUploadModalVisible}
+          onHide={() => setIsNewUploadModalVisible(false)}
+          fetchUserPhotos={fetchUserPhotos}
+        />
       )}
     </>
   );
