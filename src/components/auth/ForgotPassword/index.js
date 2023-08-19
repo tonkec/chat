@@ -57,6 +57,7 @@ const ForgotPassword = () => {
         />
 
         <Button
+          style={{ width: '100%' }}
           disabled={isDisabled}
           onClick={onHandleSubmit}
           label="Zatraži novu lozinku"

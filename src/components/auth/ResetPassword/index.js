@@ -122,6 +122,7 @@ const ResetPassword = () => {
         />
 
         <Button
+          style={{ width: '100%' }}
           label="Promijeni lozinku"
           onClick={onHandleSubmit}
           disabled={isDisabled}

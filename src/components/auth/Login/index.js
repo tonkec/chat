@@ -145,7 +145,7 @@ const Login = () => {
           className="p-inputtext-lg"
         />
 
-        <Button label="Login" disabled={isDisabled} />
+        <Button style={{ width: '100%' }} label="Login" disabled={isDisabled} />
       </form>
 
       <div className="links-auth">
