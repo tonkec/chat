@@ -20,7 +20,7 @@ export default function UserGallery({ images }) {
     API.post(`/uploads/delete-avatar/`, { item, userId: currentUser.id })
       .then((res) => {
         const filteredImages = galleryImages.filter(
-          (image) => image.Key !== item.Key
+          (image) => image.url !== item.url
         );
 
         setGalleryImages(filteredImages);
