@@ -154,7 +154,11 @@ const Register = () => {
           data-testid="password"
         />
 
-        <Button label="Pridruži se" disabled={isDisabled} />
+        <Button
+          style={{ width: '100%' }}
+          label="Pridruži se"
+          disabled={isDisabled}
+        />
       </form>
 
       <div className="links-auth">
