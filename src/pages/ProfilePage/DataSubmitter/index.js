@@ -43,19 +43,24 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
   };
 
   const prepareData = (e) => {
-    const emptyDescriptions = text.filter((item) => {
-      if (item.description === '' || item.description === null) {
+    const invalidDescriptions = text.filter((item) => {
+      if (
+        item.description === '' ||
+        item.description === null ||
+        item.description.length > 150
+      ) {
         return item;
       }
 
       return false;
     });
 
-    if (emptyDescriptions.length > 0 || text.length === 0) {
+    if (invalidDescriptions.length > 0 || text.length === 0) {
       toast.current.show({
         severity: 'error',
         summary: 'Greška',
-        detail: 'Sve slike moraju imati opis',
+        detail:
+          'Opis slike mora imati minimalno jedan znak, a ne više od 150 znakova.',
       });
       return;
     }
