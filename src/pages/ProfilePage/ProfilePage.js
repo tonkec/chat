@@ -8,7 +8,7 @@ import { Button } from 'primereact/button';
 import ProfilePageForm from './ProfilePageForm/';
 import MultipleUploadPhotoModal from './MultipleUploadPhotoModal';
 import './ProfilePage.scss';
-import { FileUpload } from 'primereact/fileupload';
+import ProfilePhoto from './ProfilePhoto';
 
 const ProfilePage = () => {
   const flashMessageContext = useContext(FlashMessageContext);
@@ -57,7 +57,10 @@ const ProfilePage = () => {
       if (response.status !== 200) {
         flashMessageContext.error('Došlo je do greške');
       }
+
+      e.files = [];
     } catch (error) {
+      flashMessageContext.error('Došlo je do greške');
       console.log(error);
     }
   };
@@ -87,37 +90,10 @@ const ProfilePage = () => {
             <div className="sm:col-8 lg:col-6">
               <div className="card">
                 <div className="grid">
-                  {profilePhotoUrl.trim() === '' ? (
-                    <div
-                      className="avatar col-12 md:col-4"
-                      style={{
-                        backgroundImage: `url(http://placekitten.com/g/200/300)`,
-                      }}
-                    >
-                      <FileUpload
-                        mode="basic"
-                        accept="image/*"
-                        name="profilePhoto"
-                        customUpload
-                        uploadHandler={onUploadProfilePhoto}
-                      />
-                    </div>
-                  ) : (
-                    <div
-                      className="avatar col-12 md:col-4"
-                      style={{
-                        backgroundImage: `url(https://duga-user-photo.s3.eu-north-1.amazonaws.com/${profilePhotoUrl})`,
-                      }}
-                    >
-                      <FileUpload
-                        mode="basic"
-                        accept="image/*"
-                        name="profilePhoto"
-                        customUpload
-                        uploadHandler={onUploadProfilePhoto}
-                      />
-                    </div>
-                  )}
+                  <ProfilePhoto
+                    profilePhotoUrl={profilePhotoUrl}
+                    onUpload={onUploadProfilePhoto}
+                  />
 
                   <div className="md:col-8">
                     <h3 style={{ marginLeft: 20 }}>
@@ -143,17 +119,12 @@ const ProfilePage = () => {
                     <h4>About me</h4>
                     {currentUser.bio}
                   </div>
-
-                  <div className="card">
-                    <h4>Interests</h4>
-                  </div>
                 </>
               )}
             </div>
             <div className="sm:col-8 lg:col-6">
               <div className="card flex flex-column align-items-end">
                 <UserGallery images={userPhotos} />
-
                 <Button
                   label="Dodaj novu fotku"
                   onClick={() => {
