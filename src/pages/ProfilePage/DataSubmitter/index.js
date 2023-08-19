@@ -70,7 +70,7 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
   const saveImagesToS3 = (e) => {
     const formData = new FormData();
     e.files.map((file) => {
-      return formData.append(`avatar`, file);
+      return formData.append('avatar', file);
     });
     formData.append('userId', currentUser.id);
     formData.append('text', JSON.stringify(text));

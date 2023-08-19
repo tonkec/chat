@@ -6,8 +6,9 @@ import API from '../../services/api';
 import UserGallery from './UserGallery';
 import { Button } from 'primereact/button';
 import ProfilePageForm from './ProfilePageForm/';
-import UploadPhotoModal from './UploadPhotoModal/';
+import MultipleUploadPhotoModal from './MultipleUploadPhotoModal';
 import './ProfilePage.scss';
+import { FileUpload } from 'primereact/fileupload';
 
 const ProfilePage = () => {
   const flashMessageContext = useContext(FlashMessageContext);
@@ -17,16 +18,49 @@ const ProfilePage = () => {
   const [userPhotos, setUserPhotos] = useState([]);
   const [isEditable, setIsEditable] = useState(false);
   const [isNewUploadModalVisible, setIsNewUploadModalVisible] = useState(false);
+  const [profilePhotoUrl, setProfilePhotoUrl] = useState('');
 
   const fetchUserPhotos = useCallback(async () => {
     try {
       const response = await API.get(`/uploads/avatar/${authUser.id}`);
+      const withoutProfilePhoto = response.data.images.filter(
+        (image) => image.isProfilePhoto !== true
+      );
+      const profilePhoto = response.data.images.filter(
+        (image) => image.isProfilePhoto === true
+      );
 
-      setUserPhotos(response.data.images);
+      if (profilePhoto.length > 0) {
+        setProfilePhotoUrl(profilePhoto[0].url);
+      }
+      setUserPhotos(withoutProfilePhoto);
     } catch (error) {
       console.log(error);
     }
   }, [authUser.id]);
+
+  const onUploadProfilePhoto = async (e) => {
+    const file = e.files[0];
+    const formData = new FormData();
+    formData.append('photo', file);
+    formData.append('userId', authUser.id);
+    formData.append('isProfilePhoto', true);
+
+    try {
+      const response = await API.post('/uploads/profile-photo', formData, {});
+
+      if (response.status === 200) {
+        flashMessageContext.success('Fotografija uspješno dodana');
+        fetchUserPhotos();
+      }
+
+      if (response.status !== 200) {
+        flashMessageContext.error('Došlo je do greške');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     fetchUserPhotos();
@@ -53,10 +87,37 @@ const ProfilePage = () => {
             <div className="sm:col-8 lg:col-6">
               <div className="card">
                 <div className="grid">
-                  <div
-                    className="avatar col-12 md:col-4"
-                    style={{ backgroundImage: `url(${currentUser.avatar})` }}
-                  ></div>
+                  {profilePhotoUrl.trim() === '' ? (
+                    <div
+                      className="avatar col-12 md:col-4"
+                      style={{
+                        backgroundImage: `url(http://placekitten.com/g/200/300)`,
+                      }}
+                    >
+                      <FileUpload
+                        mode="basic"
+                        accept="image/*"
+                        name="profilePhoto"
+                        customUpload
+                        uploadHandler={onUploadProfilePhoto}
+                      />
+                    </div>
+                  ) : (
+                    <div
+                      className="avatar col-12 md:col-4"
+                      style={{
+                        backgroundImage: `url(https://duga-user-photo.s3.eu-north-1.amazonaws.com/${profilePhotoUrl})`,
+                      }}
+                    >
+                      <FileUpload
+                        mode="basic"
+                        accept="image/*"
+                        name="profilePhoto"
+                        customUpload
+                        uploadHandler={onUploadProfilePhoto}
+                      />
+                    </div>
+                  )}
 
                   <div className="md:col-8">
                     <h3 style={{ marginLeft: 20 }}>
@@ -111,7 +172,7 @@ const ProfilePage = () => {
         </div>
       )}
       {isNewUploadModalVisible && (
-        <UploadPhotoModal
+        <MultipleUploadPhotoModal
           isOpen={isNewUploadModalVisible}
           onHide={() => setIsNewUploadModalVisible(false)}
           fetchUserPhotos={fetchUserPhotos}
