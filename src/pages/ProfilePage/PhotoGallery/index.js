@@ -4,16 +4,13 @@ import API from '../../../services/api';
 import { useSelector } from 'react-redux';
 import { Dialog } from 'primereact/dialog';
 import ViewImageModal from '../ViewImageModal';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { ProgressSpinner } from 'primereact/progressspinner';
-import 'swiper/css';
-import 'swiper/scss/navigation';
+
 import './PhotoGallery.scss';
 
 export default function PhotoGallery({ images }) {
-  const [galleryImages, setGalleryImages] = useState([]);
+  const [galleryImages, setGalleryImages] = useState(images);
   const [isWarningModalVisible, setIsWarningModalVisible] = useState(false);
   const [isImageModalVisible, setIsImageModalVisible] = useState(false);
 
@@ -40,44 +37,48 @@ export default function PhotoGallery({ images }) {
 
   return (
     <>
-      {galleryImages.length > 0 && (
-        <Swiper
-          modules={[Navigation]}
-          spaceBetween={10}
-          slidesPerView={2}
-          navigation
-        >
-          {galleryImages.map((image, index) => (
-            <SwiperSlide key={index} style={{ position: 'relative' }}>
-              <LazyLoadImage
-                src={`https://duga-user-photo.s3.eu-north-1.amazonaws.com/${image.url}`}
-                alt={image.description}
-                onClick={() => {
-                  setIsImageModalVisible(true);
-                  setCurrentImage(image);
-                }}
-                placeholder={
-                  <div>
-                    <ProgressSpinner />
-                  </div>
-                }
-                style={{ width: '100%', height: '100%' }}
-              />
-
-              <p style={{ marginBottom: 20 }}>{image.description}</p>
-              <Button
-                style={{ position: 'absolute', top: 0, right: 0 }}
-                label="Delete"
-                className="p-button-danger"
-                onClick={() => {
-                  setIsWarningModalVisible(true);
-                  setCurrentImage(image);
-                }}
-              />
-            </SwiperSlide>
+      <div className="grid">
+        {galleryImages.length > 0 &&
+          galleryImages.map((image) => (
+            <div
+              className="col-12 lg:col-6"
+              key={image.url}
+              style={{ padding: 0 }}
+            >
+              <div className="card">
+                <div className="card-image">
+                  <LazyLoadImage
+                    src={`https://duga-user-photo.s3.eu-north-1.amazonaws.com/${image.url}`}
+                    alt={image.description}
+                    placeholder={
+                      <div>
+                        <ProgressSpinner />
+                      </div>
+                    }
+                    style={{ width: '100%', height: '100%' }}
+                    onClick={() => {
+                      setCurrentImage(image);
+                      setIsImageModalVisible(true);
+                    }}
+                  />
+                </div>
+                <div className="card-content">
+                  <p>{image.description}</p>
+                </div>
+                <div className="card-actions">
+                  <Button
+                    icon="pi pi-trash"
+                    className="p-button-danger"
+                    onClick={() => {
+                      setCurrentImage(image);
+                      setIsWarningModalVisible(true);
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
           ))}
-        </Swiper>
-      )}
+      </div>
       <Dialog
         header="Jesi li siguran_na"
         visible={isWarningModalVisible}
