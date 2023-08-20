@@ -16,6 +16,12 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
   const [text, setText] = useState([]);
   const [totalSize, setTotalSize] = useState(0);
 
+  const onRenameFile = (file) => {
+    return new File([file], `user-photo-${currentUser.id}`, {
+      type: file.type,
+    });
+  };
+
   const onTemplateSelect = (e) => {
     let _totalSize = totalSize;
     let files = e.files;
@@ -70,7 +76,8 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
   const saveImagesToS3 = (e) => {
     const formData = new FormData();
     e.files.map((file) => {
-      return formData.append('avatar', file);
+      const renamedFile = onRenameFile(file);
+      return formData.append('avatar', renamedFile);
     });
     formData.append('userId', currentUser.id);
     formData.append('text', JSON.stringify(text));
@@ -90,6 +97,11 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
         }, 2000);
       })
       .catch((err) => {
+        toast.current.show({
+          severity: 'error',
+          summary: 'Greška',
+          detail: 'Došlo je do greške prilikom slanja slike.',
+        });
         console.log(err);
       });
   };
@@ -105,11 +117,17 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
 
   const onDescriptionChange = (e, file) => {
     setText((prevState) => {
+      const renamedFile = onRenameFile(file);
       const newState = [...prevState];
-      const index = newState.findIndex((item) => item.imageId === file.name);
+      const index = newState.findIndex(
+        (item) => item.imageId === renamedFile.name
+      );
 
       if (index === -1) {
-        newState.push({ imageId: file.name, description: e.target.value });
+        newState.push({
+          imageId: renamedFile.name,
+          description: e.target.value,
+        });
       } else {
         newState[index].description = e.target.value;
       }
