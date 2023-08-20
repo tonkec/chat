@@ -6,6 +6,8 @@ import { Dialog } from 'primereact/dialog';
 import ViewImageModal from '../ViewImageModal';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { ProgressSpinner } from 'primereact/progressspinner';
 import 'swiper/css';
 import 'swiper/scss/navigation';
 import './PhotoGallery.scss';
@@ -47,14 +49,19 @@ export default function PhotoGallery({ images }) {
         >
           {galleryImages.map((image, index) => (
             <SwiperSlide key={index} style={{ position: 'relative' }}>
-              <img
+              <LazyLoadImage
                 src={`https://duga-user-photo.s3.eu-north-1.amazonaws.com/${image.url}`}
                 alt={image.description}
-                style={{ width: '100%' }}
                 onClick={() => {
-                  setCurrentImage(image);
                   setIsImageModalVisible(true);
+                  setCurrentImage(image);
                 }}
+                placeholder={
+                  <div>
+                    <ProgressSpinner />
+                  </div>
+                }
+                style={{ width: '100%', height: '100%' }}
               />
 
               <p style={{ marginBottom: 20 }}>{image.description}</p>
