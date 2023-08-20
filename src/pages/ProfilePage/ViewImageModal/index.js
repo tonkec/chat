@@ -1,4 +1,6 @@
 import { Dialog } from 'primereact/dialog';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { ProgressSpinner } from 'primereact/progressspinner';
 import './ViewImageModal.scss';
 
 const ViewImageModal = ({ isOpen, onHide, image }) => {
@@ -7,25 +9,22 @@ const ViewImageModal = ({ isOpen, onHide, image }) => {
       <Dialog
         visible={isOpen}
         onHide={onHide}
-        style={{ width: '70vw', height: '70vh' }}
+        style={{ width: '30vw', height: '70vh' }}
       >
-        <div
-          className="background-image"
-          style={{
-            backgroundImage: `url(https://duga-user-photo.s3.eu-north-1.amazonaws.com/${image.url})`,
-          }}
-        >
-          <p
-            style={{
-              margin: 0,
-              backgroundColor: '#fff',
-              color: '#000',
-              padding: '10px 20px',
-            }}
-          >
-            {image.description}
-          </p>
-        </div>
+        <LazyLoadImage
+          src={`https://duga-user-photo.s3.eu-north-1.amazonaws.com/${image.url}`}
+          alt={image.description}
+          placeholder={
+            <div>
+              <ProgressSpinner />
+            </div>
+          }
+          style={{ width: '25vw', margin: '0 auto', display: 'block' }}
+        />
+
+        <p style={{ margin: '0 auto', textAlign: 'center' }}>
+          {image.description}
+        </p>
       </Dialog>
     )
   );
