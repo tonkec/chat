@@ -72,7 +72,7 @@ it('should render the Profile Page with all editable user data', async () => {
             Authorization: `Bearer sometoken`,
           }),
           ctx.status(200),
-          ctx.json([])
+          ctx.json({ images: [] })
         );
       }
     )
