@@ -6,6 +6,7 @@ import { UserProfileDetails } from '../../../components/validations/profileValid
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
+import { Message } from 'primereact/message';
 
 const ProfilePageForm = ({ onSubmit }) => {
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ const ProfilePageForm = ({ onSubmit }) => {
     });
     console.log(errors);
     return (
-      <form onSubmit={handleSubmit} autoComplete="off" >
+      <form onSubmit={handleSubmit} autoComplete="off" style={{display: 'flex', flexDirection: 'column', }}>
         <label htmlFor="name">Username</label>
         <InputText
           type="text"
@@ -63,7 +64,9 @@ const ProfilePageForm = ({ onSubmit }) => {
           value={values.name}
           id="name"
         />
-        {errors.name && touched.name && <p style={{ color: '#fc8181', fontSize: '1vw',textAlign: 'left', marginTop: '0.25rem'}}>{errors.name}</p>}
+        {/* {errors.name && touched.name && <p style={{ color: '#fc8181', fontSize: '1vw',textAlign: 'left', marginTop: '0.25rem'}}>{errors.name}</p>}
+        <label htmlFor="bio">Bio</label> */}
+        {errors.name && touched.name && <Message severity='error' text={errors.name.message} />}
         <label htmlFor="bio">Bio</label>
         <InputTextarea
           style={errors.bio && touched.bio ? {borderColor: '#fc8181', width: '100%', marginBottom: '0.1vw'}  : { width: '100%', marginBottom: 15 }}
@@ -74,7 +77,7 @@ const ProfilePageForm = ({ onSubmit }) => {
           rows={10}
           id="bio"
         />
-        {errors.bio && touched.bio && <p style={{ color: '#fc8181', fontSize: '1vw',textAlign: 'left', marginTop: '0.25rem'}}>{errors.bio.message}</p>}
+        {errors.bio && touched.bio && <Message severity='error' text={errors.bio.message} />}
     
     
         <label htmlFor="sex">Seksualnost</label>
@@ -87,7 +90,7 @@ const ProfilePageForm = ({ onSubmit }) => {
           value={values.sex}
           id="sex"
         />
-        {errors.sex && touched.sex && <p style={{ color: '#fc8181', fontSize: '1vw',textAlign: 'left', marginTop: '0.25rem'}}>{errors.sex}</p>}
+        {errors.sex && touched.sex && <Message severity='error' text={errors.sex} />}
         
         <label htmlFor="rod">Rod</label>
         <InputText
@@ -99,7 +102,7 @@ const ProfilePageForm = ({ onSubmit }) => {
           value={values.rod}
           id="rod"
         />
-  {errors.rod && touched.rod && <p style={{ color: '#fc8181', fontSize: '1vw',textAlign: 'left', marginTop: '0.25rem'}}>{errors.rod}</p>}
+  {errors.rod && touched.rod && <Message severity='error' text={errors.rod} />}
         
         <label htmlFor="lokacija">Lokacija</label>
         <InputText
@@ -111,7 +114,7 @@ const ProfilePageForm = ({ onSubmit }) => {
           value={values.lokacija}
           id="lokacija"
         />
-  {errors.lokacija && touched.lokacija && <p style={{ color: '#fc8181', fontSize: '1vw',textAlign: 'left', marginTop: '0.25rem'}}>{errors.lokacija}</p>}
+  {errors.lokacija && touched.lokacija && <Message severity='error' text={errors.lokacija} />}
         
         <label htmlFor="dob">Dob</label>
         <InputText
@@ -123,7 +126,7 @@ const ProfilePageForm = ({ onSubmit }) => {
           value={values.dob}
           id="dob"
         />
-  {errors.dob && touched.dob && <p style={{ color: '#fc8181', fontSize: '1vw',textAlign: 'left', marginTop: '0.25rem'}}>{errors.dob}</p>}
+  {errors.dob && touched.dob && <Message severity='error' text={errors.dob} />}
         
         <Button type="submit" label="Izmijeni" />
       </form>

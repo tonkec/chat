@@ -4,7 +4,7 @@ const rodRules = /^[a-zA-Z]+$/;
 
 export const UserProfileDetails = yup.object().shape({
     name: yup.string().required("Morate unijeti ime")
-    .min(4, {message: 'Ime ne moze sadrzati manje od 4 karaktera'})
+    .min(3, {message: 'Ime ne moze sadrzati manje od 3 karaktera'})
     .max(24, {message: 'Ime ne moze imati vise od 24 karaktera'}),
     bio: yup.string()
     .min(150, {message: 'Opis mora imati 150 karaktera!'})

@@ -102,7 +102,6 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
           summary: 'Greška',
           detail: 'Došlo je do greške prilikom slanja slike.',
         });
-        console.log(err);
       });
   };
 
