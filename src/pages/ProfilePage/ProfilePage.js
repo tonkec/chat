@@ -117,7 +117,7 @@ const ProfilePage = () => {
             </div>
             <div className="sm:col-8 lg:col-6">
               <div className="card" style={{ padding: 0 }}>
-                <PhotoGallery images={userPhotos} />
+                <PhotoGallery userId={currentUser.id} images={userPhotos} />
                 <Button
                   style={{ marginTop: 20 }}
                   label="Dodaj novu fotku"

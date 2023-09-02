@@ -6,7 +6,7 @@ const ProfilePhoto = ({ profilePhotoUrl, onUpload }) => {
   return profilePhotoUrl.trim() === '' ? (
     <div className="col-12 md:col-4">
       <LazyLoadImage
-        src={`url(http://placekitten.com/g/200/300)`}
+        src={`http://placekitten.com/g/200/300`}
         alt="profile photo"
         style={{ width: '100%' }}
         placeholder={

@@ -4,47 +4,49 @@ import { useParams } from 'react-router-dom';
 import { getUser } from '../../store/actions/user';
 import './User.scss';
 import PhotosService from '../../services/photosService';
+import PhotoGallery from '../../pages/ProfilePage/PhotoGallery';
 
 export const User = () => {
   const [userPhotos, setUserPhotos] = useState([]);
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.userReducer.user);
-  const { id: userId } = useParams();
+  const userFromDb = useSelector((state) => state.userReducer.user);
+  const { id: paramsId } = useParams();
 
   useEffect(() => {
-    PhotosService.getPhotos(userId)
+    PhotosService.getPhotos(paramsId)
       .then((response) => {
         setUserPhotos(response.allImages);
       })
       .catch((e) => {
         console.log(e);
       });
-  }, [dispatch, userId]);
+  }, [dispatch, paramsId]);
 
   useEffect(() => {
-    dispatch(getUser(userId));
-  }, [dispatch, userId]);
+    dispatch(getUser(paramsId));
+  }, [dispatch, paramsId]);
   return (
-    user && (
+    userFromDb && (
       <div className="user-wrapper">
         <div className="user">
           <div className="user-name">
-            <img src={user.avatar} alt="user avatar" />
+            <img src={userFromDb.avatar} alt="user avatar" />
             <div>
-              <h4>{user.firstName}</h4>
+              <h4>{userFromDb.firstName}</h4>
               <p>
-                {user.location}, {user.age}
+                {userFromDb.location}, {userFromDb.age}
               </p>
             </div>
           </div>
 
           <div className="user-identity">
             <div>
-              <span>{user.sexuality}</span>, <span>{user.gender}</span>
+              <span>{userFromDb.sexuality}</span>,{' '}
+              <span>{userFromDb.gender}</span>
             </div>
           </div>
           <p className="user-bio">
-            <b>Bio:</b> <br /> {user.bio}
+            <b>Bio:</b> <br /> {userFromDb.bio}
           </p>
         </div>
 
@@ -52,13 +54,7 @@ export const User = () => {
           <div className="user-photos">
             <h3>Fotografije</h3>
             <div className="user-photos-wrapper">
-              {userPhotos.map((photo) => (
-                <img
-                  key={photo.id}
-                  src={`${process.env.REACT_APP_S3_BUCKET_URL}/${photo.url}`}
-                  alt="user photo"
-                />
-              ))}
+              <PhotoGallery userId={paramsId} images={userPhotos} />
             </div>
           </div>
         )}
