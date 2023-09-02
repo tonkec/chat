@@ -9,6 +9,7 @@ import ProfilePageForm from './ProfilePageForm/';
 import MultipleUploadPhotoModal from './MultipleUploadPhotoModal';
 import './ProfilePage.scss';
 import ProfilePhoto from './ProfilePhoto';
+import PhotosService from '../../services/photosService';
 
 const ProfilePage = () => {
   const flashMessageContext = useContext(FlashMessageContext);
@@ -21,22 +22,14 @@ const ProfilePage = () => {
   const [profilePhotoUrl, setProfilePhotoUrl] = useState('');
 
   const fetchUserPhotos = useCallback(async () => {
-    try {
-      const response = await API.get(`/uploads/avatar/${authUser.id}`);
-      const withoutProfilePhoto = response.data.images.filter(
-        (image) => image.isProfilePhoto !== true
-      );
-      const profilePhoto = response.data.images.filter(
-        (image) => image.isProfilePhoto === true
-      );
-
-      if (profilePhoto.length > 0) {
-        setProfilePhotoUrl(profilePhoto[0].url);
-      }
-      setUserPhotos(withoutProfilePhoto);
-    } catch (error) {
-      console.log(error);
-    }
+    PhotosService.getPhotos(authUser.id)
+      .then((response) => {
+        setUserPhotos(response.allImages);
+        setProfilePhotoUrl(response.profilePhoto[0].url);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }, [authUser.id]);
 
   const onUploadProfilePhoto = async (e) => {
