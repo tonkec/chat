@@ -55,7 +55,7 @@ export const User = () => {
               {userPhotos.map((photo) => (
                 <img
                   key={photo.id}
-                  src={`https://duga-user-photo.s3.eu-north-1.amazonaws.com/${photo.url}`}
+                  src={`${process.env.REACT_APP_S3_BUCKET_URL}/${photo.url}`}
                   alt="user photo"
                 />
               ))}

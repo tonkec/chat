@@ -27,7 +27,7 @@ const ProfilePhoto = ({ profilePhotoUrl, onUpload }) => {
   ) : (
     <div className="col-12 md:col-4">
       <LazyLoadImage
-        src={`https://duga-user-photo.s3.eu-north-1.amazonaws.com/${profilePhotoUrl}`}
+        src={`${process.env.REACT_APP_S3_BUCKET_URL}/${profilePhotoUrl}`}
         alt="profile photo"
         style={{ width: '100%' }}
         placeholder={
