@@ -1,89 +1,158 @@
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../../store/actions/user';
+import { useFormik } from 'formik';
+import { UserProfileDetails } from '../../../components/validations/profileValidation';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
+import { Message } from 'primereact/message';
 
 const ProfilePageForm = ({ onSubmit }) => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.userReducer.user);
-  const [username, setUsername] = useState(currentUser.username);
-  const [bio, setBio] = useState(currentUser.bio);
-  const [sexuality, setSexuality] = useState(currentUser.sexuality);
-  const [gender, setGender] = useState(currentUser.gender);
-  const [location, setLocation] = useState(currentUser.location);
-  const [age, setAge] = useState(currentUser.age);
 
-  const onUserDataSubmit = (e) => {
-    e.preventDefault();
-    const data = { username, bio, gender, sexuality, location, age };
+  const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
+    useFormik({
+      initialValues: {
+        name: currentUser.username || '',
+        bio: currentUser.bio || '',
+        sex: currentUser.sexuality || '',
+        rod: currentUser.gender || '',
+        lokacija: currentUser.location || '',
+        dob: currentUser.age || '',
+      },
+      validationSchema: UserProfileDetails,
+      onSubmit: (values) => {
+        const e = window.event;
+        e.preventDefault();
 
-    dispatch(updateUser(data));
-    onSubmit();
-  };
+        const data = {
+          username: values.name,
+          bio: values.bio,
+          gender: values.sex,
+          sexuality: values.rod,
+          location: values.lokacija,
+          age: values.dob,
+        };
+
+        dispatch(updateUser(data));
+        onSubmit();
+      },
+    });
 
   return (
-    <form onSubmit={onUserDataSubmit}>
-      <label htmlFor="username">Username</label>
+    <form
+      onSubmit={handleSubmit}
+      autoComplete="off"
+      style={{ display: 'flex', flexDirection: 'column' }}
+    >
+      <label htmlFor="name">Username</label>
       <InputText
         type="text"
-        style={{ width: '100%', marginBottom: 15 }}
+        style={
+          errors.name && touched.name
+            ? { borderColor: '#fc8181', width: '100%', marginBottom: '0.1vw' }
+            : { width: '100%', marginBottom: 15, borderolor: '' }
+        }
         placeholder="tvoj username"
-        defaultValue={currentUser && currentUser.username}
-        onChange={(e) => setUsername(e.target.value)}
-        id="username"
+        onChange={handleChange}
+        onBlur={handleBlur}
+        value={values.name}
+        id="name"
       />
 
+      {errors.name && touched.name && (
+        <Message severity="error" text={errors.name.message} />
+      )}
       <label htmlFor="bio">Bio</label>
       <InputTextarea
-        style={{ width: '100%', marginBottom: 15 }}
+        style={
+          errors.bio && touched.bio
+            ? { borderColor: '#fc8181', width: '100%', marginBottom: '0.1vw' }
+            : { width: '100%', marginBottom: 15 }
+        }
         placeholder="tvoj bio"
-        defaultValue={currentUser && currentUser.bio}
-        onChange={(e) => setBio(e.target.value)}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        value={values.bio}
         rows={10}
         id="bio"
       />
+      {errors.bio && touched.bio && (
+        <Message severity="error" text={errors.bio.message} />
+      )}
 
-      <label htmlFor="sexuality">Seksualnost</label>
+      <label htmlFor="sex">Seksualnost</label>
       <InputText
         type="text"
-        style={{ width: '100%', marginBottom: 15 }}
+        style={
+          errors.sex && touched.sex
+            ? { borderColor: '#fc8181', width: '100%', marginBottom: '0.1vw' }
+            : { width: '100%', marginBottom: 15 }
+        }
         placeholder="tvoja seksualnost"
-        defaultValue={currentUser && currentUser.sexuality}
-        onChange={(e) => setSexuality(e.target.value)}
-        id="sexuality"
+        onChange={handleChange}
+        onBlur={handleBlur}
+        value={values.sex}
+        id="sex"
       />
+      {errors.sex && touched.sex && (
+        <Message severity="error" text={errors.sex} />
+      )}
 
-      <label htmlFor="gender">Rod</label>
+      <label htmlFor="rod">Rod</label>
       <InputText
         type="text"
-        style={{ width: '100%', marginBottom: 15 }}
+        style={
+          errors.rod && touched.rod
+            ? { borderColor: '#fc8181', width: '100%', marginBottom: '0.1vw' }
+            : { width: '100%', marginBottom: 15 }
+        }
         placeholder="tvoj rod"
-        defaultValue={currentUser && currentUser.gender}
-        onChange={(e) => setGender(e.target.value)}
-        id="gender"
+        onChange={handleChange}
+        onBlur={handleBlur}
+        value={values.rod}
+        id="rod"
       />
+      {errors.rod && touched.rod && (
+        <Message severity="error" text={errors.rod} />
+      )}
 
-      <label htmlFor="location">Lokacija</label>
+      <label htmlFor="lokacija">Lokacija</label>
       <InputText
         type="text"
-        style={{ width: '100%', marginBottom: 15 }}
+        style={
+          errors.lokacija && touched.lokacija
+            ? { borderColor: '#fc8181', width: '100%', marginBottom: '0.1vw' }
+            : { width: '100%', marginBottom: 15 }
+        }
         placeholder="Tvoja lokacija"
-        defaultValue={currentUser && currentUser.location}
-        onChange={(e) => setLocation(e.target.value)}
-        id="location"
+        onChange={handleChange}
+        onBlur={handleBlur}
+        value={values.lokacija}
+        id="lokacija"
       />
+      {errors.lokacija && touched.lokacija && (
+        <Message severity="error" text={errors.lokacija} />
+      )}
 
-      <label htmlFor="age">Dob</label>
+      <label htmlFor="dob">Dob</label>
       <InputText
-        type="text"
-        style={{ width: '100%', marginBottom: 15 }}
+        type="number"
+        style={
+          errors.dob && touched.dob
+            ? { borderColor: '#fc8181', width: '100%', marginBottom: '0.1vw' }
+            : { width: '100%', marginBottom: 15 }
+        }
         placeholder="Tvoja dob"
-        defaultValue={currentUser && currentUser.age}
-        onChange={(e) => setAge(e.target.value)}
-        id="age"
+        onChange={handleChange}
+        onBlur={handleBlur}
+        value={values.dob}
+        id="dob"
       />
+      {errors.dob && touched.dob && (
+        <Message severity="error" text={errors.dob} />
+      )}
 
       <Button type="submit" label="Izmijeni" />
     </form>

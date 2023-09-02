@@ -112,6 +112,7 @@ const Register = () => {
         await dispatch(register({ email, password, firstName, lastName }));
         navigate('/login');
       } catch (e) {
+        
         flashMessageContext.error(SOMETHING_WENT_WRONG);
       }
       return;
