@@ -8,6 +8,7 @@ import PhotoGallery from '../../pages/ProfilePage/PhotoGallery';
 
 export const User = () => {
   const [userPhotos, setUserPhotos] = useState([]);
+  const [avatar, setAvatar] = useState('http://placekitten.com/200/200');
   const dispatch = useDispatch();
   const userFromDb = useSelector((state) => state.userReducer.user);
   const { id: paramsId } = useParams();
@@ -16,6 +17,9 @@ export const User = () => {
     PhotosService.getPhotos(paramsId)
       .then((response) => {
         setUserPhotos(response.allImages);
+        setAvatar(
+          `${process.env.REACT_APP_S3_BUCKET_URL}/${response.profilePhoto[0].url}`
+        );
       })
       .catch((e) => {
         console.log(e);
@@ -30,7 +34,7 @@ export const User = () => {
       <div className="user-wrapper">
         <div className="user">
           <div className="user-name">
-            <img src={userFromDb.avatar} alt="user avatar" />
+            <img src={avatar} alt="user avatar" />
             <div>
               <h4>{userFromDb.firstName}</h4>
               <p>
@@ -41,7 +45,7 @@ export const User = () => {
 
           <div className="user-identity">
             <div>
-              <span>{userFromDb.sexuality}</span>,{' '}
+              Sexuality:<span>{userFromDb.sexuality}</span>, Gender:{' '}
               <span>{userFromDb.gender}</span>
             </div>
           </div>
