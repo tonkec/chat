@@ -7,9 +7,11 @@ const UserCard = ({ user }) => {
   useEffect(() => {
     PhotosService.getPhotos(user.id)
       .then((response) => {
-        setAvatar(
-          `${process.env.REACT_APP_S3_BUCKET_URL}/${response.profilePhoto[0].url}`
-        );
+        if (response.profilePhoto.length > 0) {
+          setAvatar(
+            `${process.env.REACT_APP_S3_BUCKET_URL}/${response.profilePhoto[0].url}`
+          );
+        }
       })
       .catch((e) => {
         console.log(e);
