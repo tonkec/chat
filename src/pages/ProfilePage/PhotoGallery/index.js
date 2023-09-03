@@ -8,6 +8,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { ProgressSpinner } from 'primereact/progressspinner';
 
 import './PhotoGallery.scss';
+import PhotoLikes from './PhotoLikes';
 
 export default function PhotoGallery({ images, userId }) {
   const [galleryImages, setGalleryImages] = useState(images);
@@ -42,11 +43,7 @@ export default function PhotoGallery({ images, userId }) {
       <div className="grid">
         {galleryImages.length > 0 &&
           galleryImages.map((image) => (
-            <div
-              className="col-12 lg:col-6"
-              key={image.url}
-              style={{ padding: 0 }}
-            >
+            <div className="col-12 lg:col-6" key={image.url}>
               <div className="card">
                 <div className="card-image">
                   <LazyLoadImage
@@ -67,6 +64,7 @@ export default function PhotoGallery({ images, userId }) {
                 <div className="card-content">
                   <p>{image.description}</p>
                 </div>
+                <PhotoLikes photo={image} />
                 <div className="card-actions">
                   {isEditable && (
                     <Button
