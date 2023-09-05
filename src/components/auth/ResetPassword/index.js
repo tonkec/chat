@@ -12,7 +12,6 @@ import {
   SOMETHING_WENT_WRONG,
 } from '../constants';
 import AuthLayout from '../../Layout/AuthLayout';
-import isPasswordValid from '../validators/passwordValidator';
 import FlashMessageContext from '../../../context/FlashMessage/flashMessageContext';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
