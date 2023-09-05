@@ -5,7 +5,7 @@ const PhotoLikesService = {
     return api
       .get(`/likes/all-likes/${photoId}`)
       .then((res) => {
-        console.log(res);
+        return res;
       })
       .catch((e) => console.log(e));
   },

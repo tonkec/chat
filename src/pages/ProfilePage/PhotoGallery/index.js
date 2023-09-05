@@ -9,6 +9,8 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 
 import './PhotoGallery.scss';
 import PhotoLikes from './PhotoLikes';
+import UpvoteButton from './Upvote';
+import DownvoteButton from './Downvote';
 
 export default function PhotoGallery({ images, userId }) {
   const [galleryImages, setGalleryImages] = useState(images);
@@ -65,6 +67,8 @@ export default function PhotoGallery({ images, userId }) {
                   <p>{image.description}</p>
                 </div>
                 <PhotoLikes photo={image} />
+                <UpvoteButton photo={image} userId={userId} />
+                <DownvoteButton photo={image} userId={userId} />
                 <div className="card-actions">
                   {isEditable && (
                     <Button
