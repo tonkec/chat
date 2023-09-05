@@ -12,7 +12,7 @@ const ViewImageModal = ({ isOpen, onHide, image }) => {
         style={{ width: '30vw', height: '70vh' }}
       >
         <LazyLoadImage
-          src={`https://duga-user-photo.s3.eu-north-1.amazonaws.com/${image.url}`}
+          src={`${process.env.REACT_APP_S3_BUCKET_URL}/${image.url}`}
           alt={image.description}
           placeholder={
             <div>

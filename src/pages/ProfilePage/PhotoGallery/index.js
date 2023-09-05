@@ -9,16 +9,18 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 
 import './PhotoGallery.scss';
 
-export default function PhotoGallery({ images }) {
+export default function PhotoGallery({ images, userId }) {
   const [galleryImages, setGalleryImages] = useState(images);
   const [isWarningModalVisible, setIsWarningModalVisible] = useState(false);
   const [isImageModalVisible, setIsImageModalVisible] = useState(false);
 
   const [currentImage, setCurrentImage] = useState(null);
-  const currentUser = useSelector((state) => state.userReducer.user);
+  const userFromDb = useSelector((state) => state.userReducer.user);
+  const loggedInUser = useSelector((state) => state.authReducer.user);
+  const isEditable = loggedInUser.id === parseInt(userId);
 
   const onImageDelete = (item) => {
-    API.post(`/uploads/delete-avatar/`, { item, userId: currentUser.id })
+    API.post(`/uploads/delete-avatar/`, { item, userId: userFromDb.id })
       .then((res) => {
         const filteredImages = galleryImages.filter(
           (image) => image.url !== item.url
@@ -48,7 +50,7 @@ export default function PhotoGallery({ images }) {
               <div className="card">
                 <div className="card-image">
                   <LazyLoadImage
-                    src={`https://duga-user-photo.s3.eu-north-1.amazonaws.com/${image.url}`}
+                    src={`${process.env.REACT_APP_S3_BUCKET_URL}/${image.url}`}
                     alt={image.description}
                     placeholder={
                       <div>
@@ -66,14 +68,16 @@ export default function PhotoGallery({ images }) {
                   <p>{image.description}</p>
                 </div>
                 <div className="card-actions">
-                  <Button
-                    icon="pi pi-trash"
-                    className="p-button-danger"
-                    onClick={() => {
-                      setCurrentImage(image);
-                      setIsWarningModalVisible(true);
-                    }}
-                  />
+                  {isEditable && (
+                    <Button
+                      icon="pi pi-trash"
+                      className="p-button-danger"
+                      onClick={() => {
+                        setCurrentImage(image);
+                        setIsWarningModalVisible(true);
+                      }}
+                    />
+                  )}
                 </div>
               </div>
             </div>
