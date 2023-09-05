@@ -3,162 +3,107 @@ import { register } from '../../../store/actions/auth';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import AuthLayout from '../../Layout/AuthLayout';
-import isEmailValid from '../validators/emailValidator';
-import isPasswordValid from '../validators/passwordValidator';
 import {
-  EMAIL_INVALID,
-  NAME_EMPTY,
-  LAST_NAME_EMPTY,
-  PASSWORD_MIN_CHARACTERS,
   SOMETHING_WENT_WRONG,
 } from '../constants';
-import isNameValid from '../validators/nameValidator';
 import FlashMessageContext from '../../../context/FlashMessage/flashMessageContext';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import './../Auth.scss';
+import { RegistrationSchema } from '../../validations/profileValidation';
+import { Message } from 'primereact/message';
+import {Formik, useFormik} from 'formik';
 
 const Register = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const flashMessageContext = useContext(FlashMessageContext);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [error, setError] = useState('');
-  const [isDisabled, setDisabled] = useState(true);
 
-  const handleValidInput = (action, value) => {
-    switch (action) {
-      case 'email': {
-        setEmail(value);
-        break;
-      }
-      case 'password': {
-        setPassword(value);
-        break;
-      }
-      case 'firstName': {
-        setFirstName(value);
-        break;
-      }
-      case 'lastName': {
-        setLastName(value);
-        break;
-      }
+  const { values, handleBlur, handleChange, handleSubmit, errors, touched, resetForm} = useFormik({
+    initialValues: {
+      name: '',
+      lastName: '',
+      mail: '',
+      password: '',
 
-      default: {
-        console.log('Invalid value for validation type');
-      }
-    }
-    flashMessageContext.close();
-    setError(null);
-    setDisabled(false);
-  };
 
-  const handleInvalidInput = (error) => {
-    flashMessageContext.error(error);
-    setError(error);
-    setDisabled(true);
-  };
-
-  const onNameChange = (e) => {
-    const value = e.target.value;
-    const validName = isNameValid(value);
-    if (validName) {
-      handleValidInput('firstName', value);
-      return;
-    }
-    handleInvalidInput(NAME_EMPTY);
-  };
-
-  const onLastNameChange = (e) => {
-    const value = e.target.value;
-    const validLastName = isNameValid(value);
-    if (validLastName) {
-      handleValidInput('lastName', value);
-      return;
-    }
-    handleInvalidInput(LAST_NAME_EMPTY);
-  };
-
-  const onEmailChange = (e) => {
-    const value = e.target.value;
-    const validEmail = isEmailValid(value);
-    if (validEmail) {
-      handleValidInput('email', value);
-      return;
-    }
-    handleInvalidInput(EMAIL_INVALID);
-  };
-
-  const onPasswordChange = (e) => {
-    const value = e.target.value;
-    const validPassword = isPasswordValid(value);
-    if (validPassword) {
-      handleValidInput('password', value);
-      return;
-    }
-    handleInvalidInput(PASSWORD_MIN_CHARACTERS);
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    const errorIsEmpty = error === null && !isDisabled;
-    if (errorIsEmpty) {
+    },
+    validationSchema: RegistrationSchema,
+    onSubmit: async(values, {resetForm}) => {
+      const e = window.event;
+      e.preventDefault();
+    const email = values.mail
+    const password = values.password
+    const firstName = values.name
+    const lastName = values.lastName
       try {
         await dispatch(register({ email, password, firstName, lastName }));
         navigate('/login');
       } catch (e) {
-        
         flashMessageContext.error(SOMETHING_WENT_WRONG);
       }
       return;
+    
+  
+
     }
-  };
+  });
   return (
     <AuthLayout>
-      <form onSubmit={onSubmit} className="form-auth">
+      <form onSubmit={handleSubmit} className="form-auth">
         <h2 className="form-heading">Pridruži se</h2>
         <InputText
-          onChange={onNameChange}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.name}
           required
           type="text"
           placeholder="Tvoje ime"
           data-testid="name"
+          id='name'
         />
-
+      {errors.name && touched.name && <Message severity='error' text={errors.name} style={{width: '100%'}}/>}
         <InputText
-          onChange={onLastNameChange}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.lastName}
           required
           type="text"
           placeholder="Tvoje prezime"
           data-testid="lastName"
+          id='lastName'
         />
+      {errors.lastName && touched.lastName && <Message severity='error' text={errors.lastName} style={{width: '100%'}}/>}
 
         <InputText
-          onChange={onEmailChange}
-          onKeyDown={onEmailChange}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.mail}
           required
           type="email"
           placeholder="Tvoj mail"
           data-testid="email"
+          id='mail'
         />
+      {errors.mail && touched.mail && <Message severity='error' text={errors.mail} style={{width: '100%'}}/>}
 
         <InputText
-          onChange={onPasswordChange}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.password}
           required
           type="password"
           placeholder="Tvoja lozinka"
           data-testid="password"
+          id='password'
         />
+      {errors.password && touched.password && <Message severity='error' text={errors.password} style={{width: '100%'}}/>}
 
         <Button
           style={{ width: '100%' }}
           label="Pridruži se"
-          disabled={isDisabled}
+          type='submit'
         />
       </form>
 
