@@ -1,32 +1,26 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect} from 'react';
 import { login } from '../../../store/actions/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import AuthLayout from '../../Layout/AuthLayout';
-import {
-  EMAIL_NOT_VERIFIED,
-  INVALID_CREDENTIALS,
-  SUCCESSFUL_LOGIN,
-  PASSWORD_MIN_CHARACTERS,
-  EMAIL_INVALID,
-  SOMETHING_WENT_WRONG,
-} from '../constants';
-import FlashMessageContext from '../../../context/FlashMessage/flashMessageContext';
 import './../Auth.scss';
 import { useLocation } from 'react-router-dom';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import {MailVerificationSchema} from '../../validations/profileValidation'
-import {Formik, useFormik} from 'formik';
+import {useFormik} from 'formik';
 import { Message } from 'primereact/message';
 
 const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const [errStatus, setErrStatus] = useState({
+    err: false,
+    errText: '',
+  });
  
-  const flashMessageContext = useContext(FlashMessageContext);
+
   const isVerified = useSelector((state) => {
     return state.authReducer.isVerified;
   });
@@ -44,7 +38,10 @@ const Login = () => {
     }
 
     if (!isVerified) {
-      flashMessageContext.error(EMAIL_NOT_VERIFIED);
+      setErrStatus({
+        err: true,
+        errText: 'Molimo vas da prvo verifikujete email adresu!'
+      });
       return;
     }
   };
@@ -53,13 +50,14 @@ const Login = () => {
     isUserVerified();
   }, []);
 
-  const { values, handleBlur, handleChange, handleSubmit, errors, touched, resetForm} = useFormik({
+  const { values, handleBlur, handleChange, handleSubmit, errors, touched} = useFormik({
     initialValues: {
       mail: '',
       password: ''
     },
     validationSchema: MailVerificationSchema,
     onSubmit: async(values, {resetForm}) => {
+      
       const e = window.event;
       e.preventDefault();
       const email = values.mail
@@ -68,12 +66,18 @@ const Login = () => {
         await dispatch(login({ email, password}));
         navigate('/');
   
-        flashMessageContext.success(SUCCESSFUL_LOGIN);
       } catch (e) {
         if (e.response.status === 401) {
-          flashMessageContext.error(INVALID_CREDENTIALS);
+          setErrStatus({
+            err: true,
+            errText: 'Molim vas unesite podatke sa kojima je nalog vec registrovan!'
+          });
+          
         } else {
-          flashMessageContext.error(SOMETHING_WENT_WRONG);
+          setErrStatus({
+            err: true,
+            errText: 'Doslo je do greske na serveru!'
+          });
         }
       }
       
@@ -81,6 +85,8 @@ const Login = () => {
 
     }
   });
+
+  useEffect(() => setErrStatus({err: false, errText: ''}),[values.password, values.mail]);
 
   return (
     <AuthLayout>
@@ -114,6 +120,8 @@ const Login = () => {
         />
     {errors.password && touched.password && <Message severity='error' text={errors.password} style={{width: '100%', backgroundColor: '#ffffff', marginBottom: '0.5vw'}}/>}
         <Button style={{ width: '100%' }} label="Login" type='submit'/>
+        {errStatus.err && <Message severity='error' text={errStatus.errText} style={{width: '100%', backgroundColor: '#ffffff', marginBottom: '0.5vw'}}/>}
+       
       </form>
 
       <div className="links-auth">

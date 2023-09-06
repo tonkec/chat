@@ -1,7 +1,8 @@
 import { Dialog } from 'primereact/dialog';
 import DataSubmitter from '../DataSubmitter';
 
-const MultipleUploadPhotoModal = ({ isOpen, onHide, fetchUserPhotos }) => {
+const MultipleUploadPhotoModal = ({ isOpen, onHide, fetchUserPhotos}) => {
+  
   return (
     <Dialog
       visible={isOpen}

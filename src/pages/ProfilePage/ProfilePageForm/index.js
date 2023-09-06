@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../../store/actions/user';
-import {Formik, useFormik} from 'formik';
+import {useFormik} from 'formik';
 import { UserProfileDetails } from '../../../components/validations/profileValidation';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
@@ -15,7 +15,7 @@ const ProfilePageForm = ({ onSubmit }) => {
   
 
 
-    const { values, handleBlur, handleChange, handleSubmit, errors, touched, resetForm} = useFormik({
+    const { values, handleBlur, handleChange, handleSubmit, errors, touched} = useFormik({
       initialValues: {
         name: currentUser.username || '',
         bio: currentUser.bio || '',
@@ -25,7 +25,7 @@ const ProfilePageForm = ({ onSubmit }) => {
         dob: currentUser.age ||''
       },
       validationSchema: UserProfileDetails,
-      onSubmit: (values, {resetForm}) => {
+      onSubmit: (values) => {
         const e = window.event;
         e.preventDefault();
         
@@ -64,8 +64,7 @@ const ProfilePageForm = ({ onSubmit }) => {
           value={values.name}
           id="name"
         />
-        {/* {errors.name && touched.name && <p style={{ color: '#fc8181', fontSize: '1vw',textAlign: 'left', marginTop: '0.25rem'}}>{errors.name}</p>}
-        <label htmlFor="bio">Bio</label> */}
+       
         {errors.name && touched.name && <Message severity='error' text={errors.name.message} />}
         <label htmlFor="bio">Bio</label>
         <InputTextarea

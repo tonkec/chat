@@ -1,7 +1,6 @@
 import { useEffect, useState, useContext, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../store/actions/user';
-import FlashMessageContext from '../../context/FlashMessage/flashMessageContext';
 import API from '../../services/api';
 import PhotoGallery from './PhotoGallery';
 import { Button } from 'primereact/button';
@@ -9,9 +8,9 @@ import ProfilePageForm from './ProfilePageForm/';
 import MultipleUploadPhotoModal from './MultipleUploadPhotoModal';
 import './ProfilePage.scss';
 import ProfilePhoto from './ProfilePhoto';
+import { Message } from 'primereact/message';
 
 const ProfilePage = () => {
-  const flashMessageContext = useContext(FlashMessageContext);
   const dispatch = useDispatch();
   const authUser = useSelector((state) => state.authReducer.user);
   const currentUser = useSelector((state) => state.userReducer.user);
@@ -19,7 +18,14 @@ const ProfilePage = () => {
   const [isEditable, setIsEditable] = useState(false);
   const [isNewUploadModalVisible, setIsNewUploadModalVisible] = useState(false);
   const [profilePhotoUrl, setProfilePhotoUrl] = useState('');
-
+  const [errStatus, setErrStatus] = useState({
+    err: false,
+    errText: '',
+  });
+  const [successStatus, setSuccessStatus] = useState({
+    succses: false,
+    succsessText: '',
+  });
   const fetchUserPhotos = useCallback(async () => {
     try {
       const response = await API.get(`/uploads/avatar/${authUser.id}`);
@@ -49,29 +55,35 @@ const ProfilePage = () => {
     try {
       const response = await API.post('/uploads/profile-photo', formData, {});
 
+     
       if (response.status === 200) {
-        flashMessageContext.success('Fotografija uspješno dodana');
+        setSuccessStatus({
+          succses: true,
+          succsessText: 'Fotografija uspjesno dodata'
+        })
         fetchUserPhotos();
       }
 
       if (response.status !== 200) {
-        flashMessageContext.error('Došlo je do greške');
+        setErrStatus({err: true, errText: 'Doslo je do greske?!'})
       }
 
       e.files = [];
     } catch (error) {
-      flashMessageContext.error('Došlo je do greške');
+      setErrStatus({err: true, errText: 'Doslo je do greske?!'})
       console.log(error);
     }
   };
 
   useEffect(() => {
     fetchUserPhotos();
-  }, [authUser.id, flashMessageContext, fetchUserPhotos]);
+  }, [authUser.id, errStatus, successStatus, fetchUserPhotos]);
 
   useEffect(() => {
     dispatch(getUser(authUser.id));
   }, [dispatch, authUser]);
+
+ 
 
   return (
     <>
@@ -89,6 +101,7 @@ const ProfilePage = () => {
           <div className="grid">
             <div className="sm:col-8 lg:col-6">
               <div className="card">
+                  {errStatus.err && <Message severity='error' text={errStatus.errText} style={{width: '100%'}}/>}
                 <div className="grid">
                   <ProfilePhoto
                     profilePhotoUrl={profilePhotoUrl}
@@ -124,18 +137,19 @@ const ProfilePage = () => {
             </div>
             <div className="sm:col-8 lg:col-6">
               <div className="card" style={{ padding: 0 }}>
+                {successStatus.succses && <Message severity='success' text={successStatus.succsessText} />}
                 <PhotoGallery images={userPhotos} />
+                {errStatus.err && <Message severity='error' text={errStatus.errText} />}
                 <Button
                   style={{ marginTop: 20 }}
                   label="Dodaj novu fotku"
                   onClick={() => {
                     if (userPhotos.length >= 5) {
-                      flashMessageContext.error(
-                        'Maksimalan broj fotografija je 5'
-                      );
+                      setErrStatus({err: true, errText: 'Maksimalan broj fotki je 5'})
                       return;
                     }
                     setIsNewUploadModalVisible(true);
+
                   }}
                 />
               </div>
@@ -144,11 +158,15 @@ const ProfilePage = () => {
         </div>
       )}
       {isNewUploadModalVisible && (
+        <>
+
         <MultipleUploadPhotoModal
           isOpen={isNewUploadModalVisible}
-          onHide={() => setIsNewUploadModalVisible(false)}
+          onHide={() => {setIsNewUploadModalVisible(false)}}
           fetchUserPhotos={fetchUserPhotos}
         />
+        
+        </>
       )}
     </>
   );
