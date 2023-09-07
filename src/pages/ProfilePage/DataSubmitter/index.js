@@ -15,6 +15,7 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
   const fileUploadRef = useRef(null);
   const [text, setText] = useState([]);
   const [totalSize, setTotalSize] = useState(0);
+  const [errObj, setErrObj] = useState({err: false, errText: ''})
 
   const onRenameFile = (file) => {
     return new File([file], `user-photo-${currentUser.id}`, {
@@ -39,7 +40,7 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
     e.files.forEach((file) => {
       _totalSize += file.size || 0;
     });
-
+   
     setTotalSize(_totalSize);
     toast.current.show({
       severity: 'info',
@@ -62,6 +63,7 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
     });
 
     if (invalidDescriptions.length > 0 || text.length === 0) {
+      setErrObj({err: true, errText: 'Opis slike mora imati izmedju 1 i 150 karaktera.'})
       toast.current.show({
         severity: 'error',
         summary: 'Greška',
@@ -84,11 +86,7 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
 
     API.post(`/uploads/avatar`, formData, {})
       .then((res) => {
-        toast.current.show({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'File Uploaded',
-        });
+        
         setText([]);
         fileUploadRef.current.clear();
         setTimeout(() => {
@@ -97,6 +95,7 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
         }, 2000);
       })
       .catch((err) => {
+        
         toast.current.show({
           severity: 'error',
           summary: 'Greška',
@@ -107,6 +106,7 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
 
   const onTemplateRemove = (file, callback) => {
     setTotalSize(totalSize - file.size);
+    setErrObj({err: false, errText: ''})
     callback();
   };
 
@@ -142,7 +142,8 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
       <Tooltip target=".custom-choose-btn" content="Choose" position="bottom" />
       <Tooltip target=".custom-upload-btn" content="Upload" position="bottom" />
       <Tooltip target=".custom-cancel-btn" content="Clear" position="bottom" />
-
+      <h1 style={{fontSize: '10vw'}}>Krcina</h1>
+      
       <FileUpload
         ref={fileUploadRef}
         maxFileSize={1000000}
@@ -165,6 +166,7 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
             options={options}
             onTemplateRemove={onTemplateRemove}
             onDescriptionChange={onDescriptionChange}
+            errObj={errObj}
           />
         )}
         emptyTemplate={() => <EmptyTemplate />}

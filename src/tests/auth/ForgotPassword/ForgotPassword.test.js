@@ -1,7 +1,5 @@
 import { screen, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import FlashMessage from '../../../components/FlashMessage';
-import FlashMessageProvider from '../../../context/FlashMessage/flashMessageProvider';
 import appStore from '../../../store/index';
 import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from '../../../router/ProtectedRoute';
@@ -14,8 +12,7 @@ import { setupServer } from 'msw/node';
 
 const App = () => (
   <Provider store={appStore}>
-    <FlashMessageProvider>
-      <FlashMessage />
+    
       <Router initialEntries={['/', '/login', `/forgot-password`]}>
         <Routes>
           <Route exact path="/" element={<ProtectedRoute />}>
@@ -25,7 +22,6 @@ const App = () => (
           <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
       </Router>
-    </FlashMessageProvider>
   </Provider>
 );
 test('renders the forgot password page', () => {

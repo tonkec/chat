@@ -1,7 +1,5 @@
 import { screen, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import FlashMessage from '../../../components/FlashMessage';
-import FlashMessageProvider from '../../../context/FlashMessage/flashMessageProvider';
 import appStore from '../../../store/index';
 import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
 import { rest } from 'msw';
@@ -25,14 +23,11 @@ const userFromApi = {
 
 const App = () => (
   <Provider store={appStore}>
-    <FlashMessageProvider>
-      <FlashMessage />
       <Router initialEntries={['/profil']}>
         <Routes>
           <Route path="/profil" element={<ProfilePage />} />
         </Routes>
       </Router>
-    </FlashMessageProvider>
   </Provider>
 );
 

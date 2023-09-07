@@ -20,9 +20,9 @@ export const UserProfileDetails = yup.object().shape({
     .required('Morate navesti rod').matches(rodRules, {message: 'Rod ne mogu biti brojevi!'}),
     lokacija: yup
     .string(),
-    dob: yup.
-    number().
-    required("Morate unijeti starosnu dob")
+    dob: yup
+    .number()
+    .required("Morate unijeti starosnu dob")
     .positive()
     .integer()
 })

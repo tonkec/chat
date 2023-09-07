@@ -3,24 +3,20 @@ import { register } from '../../../store/actions/auth';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import AuthLayout from '../../Layout/AuthLayout';
-import {
-  SOMETHING_WENT_WRONG,
-} from '../constants';
-import FlashMessageContext from '../../../context/FlashMessage/flashMessageContext';
+
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import './../Auth.scss';
 import { RegistrationSchema } from '../../validations/profileValidation';
 import { Message } from 'primereact/message';
-import {Formik, useFormik} from 'formik';
+import {useFormik} from 'formik';
 
 const Register = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
-  const flashMessageContext = useContext(FlashMessageContext);
+  const [serverError, setServerError] = useState({err: false, errText: ''});
 
-
-  const { values, handleBlur, handleChange, handleSubmit, errors, touched, resetForm} = useFormik({
+  const { values, handleBlur, handleChange, handleSubmit, errors, touched} = useFormik({
     initialValues: {
       name: '',
       lastName: '',
@@ -30,7 +26,7 @@ const Register = () => {
 
     },
     validationSchema: RegistrationSchema,
-    onSubmit: async(values, {resetForm}) => {
+    onSubmit: async(values) => {
       const e = window.event;
       e.preventDefault();
     const email = values.mail
@@ -41,7 +37,7 @@ const Register = () => {
         await dispatch(register({ email, password, firstName, lastName }));
         navigate('/login');
       } catch (e) {
-        flashMessageContext.error(SOMETHING_WENT_WRONG);
+        setServerError({err: true, errText: 'Greska na serveru!'})
       }
       return;
     
@@ -106,7 +102,7 @@ const Register = () => {
           type='submit'
         />
       </form>
-
+      {serverError.err && <Message severity='error' text={serverError.errText} />}
       <div className="links-auth">
         <Link to="/login">Ulogiraj se</Link>
       </div>

@@ -1,7 +1,6 @@
 import { useEffect, useState, useContext, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../store/actions/user';
-import FlashMessageContext from '../../context/FlashMessage/flashMessageContext';
 import API from '../../services/api';
 import PhotoGallery from './PhotoGallery';
 import { Button } from 'primereact/button';
@@ -11,7 +10,6 @@ import './ProfilePage.scss';
 import ProfilePhoto from './ProfilePhoto';
 
 const ProfilePage = () => {
-  const flashMessageContext = useContext(FlashMessageContext);
   const dispatch = useDispatch();
   const authUser = useSelector((state) => state.authReducer.user);
   const currentUser = useSelector((state) => state.userReducer.user);
@@ -50,24 +48,22 @@ const ProfilePage = () => {
       const response = await API.post('/uploads/profile-photo', formData, {});
 
       if (response.status === 200) {
-        flashMessageContext.success('Fotografija uspješno dodana');
+        
         fetchUserPhotos();
       }
 
       if (response.status !== 200) {
-        flashMessageContext.error('Došlo je do greške');
       }
 
       e.files = [];
     } catch (error) {
-      flashMessageContext.error('Došlo je do greške');
       console.log(error);
     }
   };
 
   useEffect(() => {
     fetchUserPhotos();
-  }, [authUser.id, flashMessageContext, fetchUserPhotos]);
+  }, [authUser.id, fetchUserPhotos]);
 
   useEffect(() => {
     dispatch(getUser(authUser.id));
@@ -130,9 +126,6 @@ const ProfilePage = () => {
                   label="Dodaj novu fotku"
                   onClick={() => {
                     if (userPhotos.length >= 5) {
-                      flashMessageContext.error(
-                        'Maksimalan broj fotografija je 5'
-                      );
                       return;
                     }
                     setIsNewUploadModalVisible(true);

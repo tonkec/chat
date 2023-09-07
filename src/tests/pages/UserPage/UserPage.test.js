@@ -1,7 +1,5 @@
 import { screen, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import FlashMessage from '../../../components/FlashMessage';
-import FlashMessageProvider from '../../../context/FlashMessage/flashMessageProvider';
 import appStore from '../../../store/index';
 import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
 import UserPage from '../../../pages/UserPage';
@@ -39,14 +37,11 @@ beforeAll(() => {
 
 const App = () => (
   <Provider store={appStore}>
-    <FlashMessageProvider>
-      <FlashMessage />
       <Router initialEntries={['/user/1']}>
         <Routes>
           <Route path="/user/:id" element={<UserPage />} />
         </Routes>
       </Router>
-    </FlashMessageProvider>
   </Provider>
 );
 

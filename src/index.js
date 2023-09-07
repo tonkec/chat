@@ -4,8 +4,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './store';
 import { Provider } from 'react-redux';
-import FlashMessage from './components/FlashMessage';
-import FlashMessageProvider from './context/FlashMessage/flashMessageProvider';
 import { PrimeReactProvider } from 'primereact/api';
 import 'primeicons/primeicons.css';
 
@@ -14,10 +12,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <PrimeReactProvider>
-        <FlashMessageProvider>
-          <FlashMessage />
           <App />
-        </FlashMessageProvider>
       </PrimeReactProvider>
     </Provider>
   </React.StrictMode>

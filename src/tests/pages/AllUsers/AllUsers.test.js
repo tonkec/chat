@@ -1,7 +1,5 @@
 import { screen, render, waitFor } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import FlashMessage from '../../../components/FlashMessage';
-import FlashMessageProvider from '../../../context/FlashMessage/flashMessageProvider';
 import appStore from '../../../store/index';
 import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
 import AllProfilesPage from '../../../pages/AllProfilesPage';
@@ -64,14 +62,11 @@ beforeAll(() => {
 
 const App = () => (
   <Provider store={appStore}>
-    <FlashMessageProvider>
-      <FlashMessage />
       <Router initialEntries={['/', '/svi-profili']}>
         <Routes>
           <Route path="/svi-profili" element={<AllProfilesPage />} />
         </Routes>
       </Router>
-    </FlashMessageProvider>
   </Provider>
 );
 

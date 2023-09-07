@@ -5,32 +5,25 @@ import {
   resetPassword,
   getResetPasswordToken,
 } from '../../../store/actions/auth';
-import {
-  PASSWORD_MIN_CHARACTERS,
-  PASSWORDS_MISMATCH,
-  WRONG_TOKEN,
-  SOMETHING_WENT_WRONG,
-} from '../constants';
+
 import AuthLayout from '../../Layout/AuthLayout';
-import FlashMessageContext from '../../../context/FlashMessage/flashMessageContext';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import './../Auth.scss';
 import { PasswordChangeSchema } from '../../validations/profileValidation';
 import { Message } from 'primereact/message';
-import {Formik, useFormik} from 'formik';
+import { useFormik} from 'formik';
 
 const ResetPassword = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const flashMessageContext = useContext(FlashMessageContext);
   let [searchParams, setSearchParams] = useSearchParams();
   const email = searchParams.get('email');
   const token = searchParams.get('token');
-
+  const [serverError, setServerError] = useState({err: false, errText: ''})
   
 
-  const { values, handleBlur, handleChange, handleSubmit, errors, touched, resetForm} = useFormik({
+  const { values, handleBlur, handleChange, handleSubmit, errors, touched} = useFormik({
     initialValues: {
       password: '',
       passwordConfirmation: ''
@@ -38,13 +31,14 @@ const ResetPassword = () => {
 
     },
     validationSchema: PasswordChangeSchema,
-    onSubmit: async(values, {resetForm}) => {
+    onSubmit: async(values) => {
       const e = window.event;
       e.preventDefault();
       const hasToken = token !== null && token.trim() !== '';
-      const message = !hasToken && WRONG_TOKEN;
+      const message = !hasToken;
       const password = values.password
-      message && flashMessageContext.error(message);
+      message && setServerError({err: true, errText: message})
+
       if (!token) {
         return;
       }
@@ -54,7 +48,7 @@ const ResetPassword = () => {
         dispatch(resetPassword(password, email));
         navigate('/login');
       } catch (e) {
-        flashMessageContext.error(SOMETHING_WENT_WRONG);
+        setServerError({err: true, errText: 'Greska na serveru!'})
       }
   
 
@@ -101,6 +95,7 @@ const ResetPassword = () => {
           
         />
       </form>
+      {serverError.err && <Message severity='error' text={serverError.errText} />}
     </AuthLayout>
   );
 };

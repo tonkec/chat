@@ -1,7 +1,5 @@
 import { screen, render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import FlashMessage from '../../../components/FlashMessage';
-import FlashMessageProvider from '../../../context/FlashMessage/flashMessageProvider';
 import appStore from '../../../store/index';
 import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from '../../../router/ProtectedRoute';
@@ -14,8 +12,6 @@ import { setupServer } from 'msw/node';
 const renderApp = (token, email) => {
   const App = () => (
     <Provider store={appStore}>
-      <FlashMessageProvider>
-        <FlashMessage />
         <Router
           initialEntries={[
             '/',
@@ -31,7 +27,6 @@ const renderApp = (token, email) => {
             <Route path="/reset-password" element={<ResetPassword />} />
           </Routes>
         </Router>
-      </FlashMessageProvider>
     </Provider>
   );
   render(<App />);
