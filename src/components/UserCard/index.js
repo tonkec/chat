@@ -7,6 +7,7 @@ const UserCard = ({ user }) => {
   useEffect(() => {
     PhotosService.getPhotos(user.id)
       .then((response) => {
+        console.log(response, "Evo ga!")
         if (response.profilePhoto.length > 0) {
           setAvatar(
             `${process.env.REACT_APP_S3_BUCKET_URL}/${response.profilePhoto[0].url}`

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { Button } from 'primereact/button';
 import API from '../../../services/api';
 import { useSelector } from 'react-redux';
@@ -13,6 +13,8 @@ import UpvoteButton from './Upvote';
 import DownvoteButton from './Downvote';
 
 export default function PhotoGallery({ images, userId }) {
+ 
+
   const [galleryImages, setGalleryImages] = useState(images);
   const [isWarningModalVisible, setIsWarningModalVisible] = useState(false);
   const [isImageModalVisible, setIsImageModalVisible] = useState(false);
@@ -66,7 +68,7 @@ export default function PhotoGallery({ images, userId }) {
                 <div className="card-content">
                   <p>{image.description}</p>
                 </div>
-                <PhotoLikes photo={image} />
+                <PhotoLikes photo={image}  />
                 <UpvoteButton photo={image} userId={userId} />
                 <DownvoteButton photo={image} userId={userId} />
                 <div className="card-actions">

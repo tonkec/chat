@@ -8,6 +8,7 @@ import FlashMessage from './components/FlashMessage';
 import FlashMessageProvider from './context/FlashMessage/flashMessageProvider';
 import { PrimeReactProvider } from 'primereact/api';
 import 'primeicons/primeicons.css';
+import { RealTimeDataTrackerContextProvider } from './context/realTimeDataTrackerContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,7 +17,11 @@ root.render(
       <PrimeReactProvider>
         <FlashMessageProvider>
           <FlashMessage />
+          <RealTimeDataTrackerContextProvider>
+
           <App />
+          </RealTimeDataTrackerContextProvider>
+
         </FlashMessageProvider>
       </PrimeReactProvider>
     </Provider>

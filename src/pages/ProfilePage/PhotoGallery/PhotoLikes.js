@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import PhotoLikesService from '../../../services/photolikesService';
+import { RealTimeDataTrackerContext } from '../../../context/realTimeDataTrackerContext';
 
 const PhotoLikes = ({ photo }) => {
-  const [likesCount, setLikesCount] = useState([]);
+
+  const {likesCount, setLikesCount} = useContext(RealTimeDataTrackerContext);
   useEffect(() => {
     PhotoLikesService.getAllLikes(photo.id)
       .then((res) => {
