@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../../../store/actions/auth';
+import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../../../../store/actions/auth'
 
-import './Links.scss';
+import './Links.scss'
 const links = [
   {
     to: 'svi-profili',
@@ -16,17 +16,17 @@ const links = [
     to: 'profil',
     text: 'moj račun',
   },
-];
+]
 
 const Links = () => {
-  const socket = useSelector((state) => state.chatReducer.socket);
-  const currentUser = useSelector((state) => state.authReducer.user);
+  const socket = useSelector(state => state.chatReducer.socket)
+  const currentUser = useSelector(state => state.authReducer.user)
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   const onLogoutClick = () => {
-    socket.emit('has-gone-offline', currentUser);
-    dispatch(logout());
-  };
+    socket.emit('has-gone-offline', currentUser)
+    dispatch(logout())
+  }
   return (
     <nav>
       <ul>
@@ -43,7 +43,7 @@ const Links = () => {
         </li>
       </ul>
     </nav>
-  );
-};
+  )
+}
 
-export default Links;
+export default Links

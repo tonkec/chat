@@ -1,7 +1,7 @@
-import { Dialog } from 'primereact/dialog';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import './ViewImageModal.scss';
+import { Dialog } from 'primereact/dialog'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
+import { ProgressSpinner } from 'primereact/progressspinner'
+import './ViewImageModal.scss'
 
 const ViewImageModal = ({ isOpen, onHide, image }) => {
   return (
@@ -27,7 +27,7 @@ const ViewImageModal = ({ isOpen, onHide, image }) => {
         </p>
       </Dialog>
     )
-  );
-};
+  )
+}
 
-export default ViewImageModal;
+export default ViewImageModal

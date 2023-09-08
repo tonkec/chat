@@ -1,6 +1,6 @@
-import Content from '../Content';
-import Sidebar from '../Sidebar';
-import Navbar from '../Navbar';
+import Content from '../Content'
+import Sidebar from '../Sidebar'
+import Navbar from '../Navbar'
 const Main = ({ component, options = {} }) => {
   return (
     <div>
@@ -8,7 +8,7 @@ const Main = ({ component, options = {} }) => {
       <Navbar />
       <Content component={component} options={options} />
     </div>
-  );
-};
+  )
+}
 
-export default Main;
+export default Main

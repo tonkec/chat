@@ -1,11 +1,11 @@
-import { ProgressBar } from 'primereact/progressbar';
+import { ProgressBar } from 'primereact/progressbar'
 const HeaderTemplate = ({ options, totalSize, fileUploadRef }) => {
-  const { className, chooseButton, uploadButton, cancelButton } = options;
-  const value = totalSize / 10000;
+  const { className, chooseButton, uploadButton, cancelButton } = options
+  const value = totalSize / 10000
   const formatedValue =
     fileUploadRef && fileUploadRef.current
       ? fileUploadRef.current.formatSize(totalSize)
-      : '0 B';
+      : '0 B'
 
   return (
     <div
@@ -19,7 +19,7 @@ const HeaderTemplate = ({ options, totalSize, fileUploadRef }) => {
       {chooseButton}
       {uploadButton}
       {cancelButton}
-      <div className="flex align-items-center gap-3 ml-auto">
+      <div className='flex align-items-center gap-3 ml-auto'>
         <span>{formatedValue} / 1 MB</span>
         <ProgressBar
           value={value}
@@ -28,7 +28,7 @@ const HeaderTemplate = ({ options, totalSize, fileUploadRef }) => {
         ></ProgressBar>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default HeaderTemplate;
+export default HeaderTemplate

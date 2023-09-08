@@ -1,147 +1,147 @@
-import React, { useRef, useState } from 'react';
-import { Toast } from 'primereact/toast';
-import { FileUpload } from 'primereact/fileupload';
-import { Tooltip } from 'primereact/tooltip';
-import API from '../../../services/api';
-import { useSelector } from 'react-redux';
-import { chooseOptions, uploadOptions, cancelOptions } from './options';
-import HeaderTemplate from './HeaderTemplate';
-import EmptyTemplate from './EmptyTemplate';
-import ItemTemplate from './ItemTemplate';
+import React, { useRef, useState } from 'react'
+import { Toast } from 'primereact/toast'
+import { FileUpload } from 'primereact/fileupload'
+import { Tooltip } from 'primereact/tooltip'
+import API from '../../../services/api'
+import { useSelector } from 'react-redux'
+import { chooseOptions, uploadOptions, cancelOptions } from './options'
+import HeaderTemplate from './HeaderTemplate'
+import EmptyTemplate from './EmptyTemplate'
+import ItemTemplate from './ItemTemplate'
 
 export default function DataSubmitter({ onHide, fetchUserPhotos }) {
-  const currentUser = useSelector((state) => state.userReducer.user);
-  const toast = useRef(null);
-  const fileUploadRef = useRef(null);
-  const [text, setText] = useState([]);
-  const [totalSize, setTotalSize] = useState(0);
+  const currentUser = useSelector(state => state.userReducer.user)
+  const toast = useRef(null)
+  const fileUploadRef = useRef(null)
+  const [text, setText] = useState([])
+  const [totalSize, setTotalSize] = useState(0)
 
-  const onRenameFile = (file) => {
+  const onRenameFile = file => {
     return new File([file], `user-photo-${currentUser.id}`, {
       type: file.type,
-    });
-  };
+    })
+  }
 
-  const onTemplateSelect = (e) => {
-    let _totalSize = totalSize;
-    let files = e.files;
+  const onTemplateSelect = e => {
+    let _totalSize = totalSize
+    let files = e.files
 
-    Object.keys(files).forEach((key) => {
-      _totalSize += files[key].size || 0;
-    });
+    Object.keys(files).forEach(key => {
+      _totalSize += files[key].size || 0
+    })
 
-    setTotalSize(_totalSize);
-  };
+    setTotalSize(_totalSize)
+  }
 
-  const onTemplateUpload = (e) => {
-    let _totalSize = 0;
+  const onTemplateUpload = e => {
+    let _totalSize = 0
 
-    e.files.forEach((file) => {
-      _totalSize += file.size || 0;
-    });
+    e.files.forEach(file => {
+      _totalSize += file.size || 0
+    })
 
-    setTotalSize(_totalSize);
+    setTotalSize(_totalSize)
     toast.current.show({
       severity: 'info',
       summary: 'Success',
       detail: 'File Uploaded',
-    });
-  };
+    })
+  }
 
-  const prepareData = (e) => {
-    const invalidDescriptions = text.filter((item) => {
+  const prepareData = e => {
+    const invalidDescriptions = text.filter(item => {
       if (
         item.description === '' ||
         item.description === null ||
         item.description.length > 150
       ) {
-        return item;
+        return item
       }
 
-      return false;
-    });
+      return false
+    })
 
     if (invalidDescriptions.length > 0 || text.length === 0) {
       toast.current.show({
         severity: 'error',
         summary: 'Greška',
         detail: 'Opis slike mora imati izmedju 1 i 150 karaktera.',
-      });
-      return;
+      })
+      return
     }
 
-    saveImagesToS3(e);
-  };
+    saveImagesToS3(e)
+  }
 
-  const saveImagesToS3 = (e) => {
-    const formData = new FormData();
-    e.files.map((file) => {
-      const renamedFile = onRenameFile(file);
-      return formData.append('avatar', renamedFile);
-    });
-    formData.append('userId', currentUser.id);
-    formData.append('text', JSON.stringify(text));
+  const saveImagesToS3 = e => {
+    const formData = new FormData()
+    e.files.map(file => {
+      const renamedFile = onRenameFile(file)
+      return formData.append('avatar', renamedFile)
+    })
+    formData.append('userId', currentUser.id)
+    formData.append('text', JSON.stringify(text))
 
     API.post(`/uploads/avatar`, formData, {})
-      .then((res) => {
+      .then(res => {
         toast.current.show({
           severity: 'success',
           summary: 'Success',
           detail: 'File Uploaded',
-        });
-        setText([]);
-        fileUploadRef.current.clear();
+        })
+        setText([])
+        fileUploadRef.current.clear()
         setTimeout(() => {
-          onHide();
-          fetchUserPhotos();
-        }, 2000);
+          onHide()
+          fetchUserPhotos()
+        }, 2000)
       })
-      .catch((err) => {
+      .catch(err => {
         toast.current.show({
           severity: 'error',
           summary: 'Greška',
           detail: 'Došlo je do greške prilikom slanja slike.',
-        });
-      });
-  };
+        })
+      })
+  }
 
   const onTemplateRemove = (file, callback) => {
-    setTotalSize(totalSize - file.size);
-    callback();
-  };
+    setTotalSize(totalSize - file.size)
+    callback()
+  }
 
   const onTemplateClear = () => {
-    setTotalSize(0);
-  };
+    setTotalSize(0)
+  }
 
   const onDescriptionChange = (e, file) => {
-    setText((prevState) => {
-      const renamedFile = onRenameFile(file);
-      const newState = [...prevState];
+    setText(prevState => {
+      const renamedFile = onRenameFile(file)
+      const newState = [...prevState]
       const index = newState.findIndex(
-        (item) => item.imageId === renamedFile.name
-      );
+        item => item.imageId === renamedFile.name,
+      )
 
       if (index === -1) {
         newState.push({
           imageId: renamedFile.name,
           description: e.target.value,
-        });
+        })
       } else {
-        newState[index].description = e.target.value;
+        newState[index].description = e.target.value
       }
 
-      return newState;
-    });
-  };
+      return newState
+    })
+  }
 
   return (
     <div>
       <Toast ref={toast}></Toast>
 
-      <Tooltip target=".custom-choose-btn" content="Choose" position="bottom" />
-      <Tooltip target=".custom-upload-btn" content="Upload" position="bottom" />
-      <Tooltip target=".custom-cancel-btn" content="Clear" position="bottom" />
+      <Tooltip target='.custom-choose-btn' content='Choose' position='bottom' />
+      <Tooltip target='.custom-upload-btn' content='Upload' position='bottom' />
+      <Tooltip target='.custom-cancel-btn' content='Clear' position='bottom' />
 
       <FileUpload
         ref={fileUploadRef}
@@ -152,7 +152,7 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
         onSelect={onTemplateSelect}
         onError={onTemplateClear}
         onClear={onTemplateClear}
-        headerTemplate={(options) => (
+        headerTemplate={options => (
           <HeaderTemplate
             options={options}
             fileUploadRef={fileUploadRef}
@@ -174,5 +174,5 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
         uploadHandler={prepareData}
       />
     </div>
-  );
+  )
 }

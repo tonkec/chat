@@ -1,28 +1,28 @@
-import { useState } from "react";
-import { STATES } from "./constants";
-import FlashMessageContext from "./flashMessageContext";
+import { useState } from 'react'
+import { STATES } from './constants'
+import FlashMessageContext from './flashMessageContext'
 
-const FlashMessageProvider = (props) => {
-  const [notification, setNotification] = useState(null);
-  const [notificationText, setNotificationText] = useState(null);
-  const success = (text) => {
-    setNotificationText(text);
-    setNotification(STATES.SUCCESS);
+const FlashMessageProvider = props => {
+  const [notification, setNotification] = useState(null)
+  const [notificationText, setNotificationText] = useState(null)
+  const success = text => {
+    setNotificationText(text)
+    setNotification(STATES.SUCCESS)
     setTimeout(() => {
-      close();
-    }, 5000);
-  };
-  const error = (text) => {
-    setNotificationText(text);
-    setNotification(STATES.ERROR);
+      close()
+    }, 5000)
+  }
+  const error = text => {
+    setNotificationText(text)
+    setNotification(STATES.ERROR)
     setTimeout(() => {
-      close();
-    }, 5000);
-  };
+      close()
+    }, 5000)
+  }
   const close = () => {
-    setNotificationText(null);
-    setNotification(null);
-  };
+    setNotificationText(null)
+    setNotification(null)
+  }
   return (
     <FlashMessageContext.Provider
       value={{
@@ -35,7 +35,7 @@ const FlashMessageProvider = (props) => {
     >
       {props.children}
     </FlashMessageContext.Provider>
-  );
-};
+  )
+}
 
-export default FlashMessageProvider;
+export default FlashMessageProvider

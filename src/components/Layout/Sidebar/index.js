@@ -1,38 +1,38 @@
-import Links from "./Links";
-import Logo from "./Logo";
-import "./Sidebar.scss";
-import "./Logo/Logo.scss";
-import { useState } from "react";
-import { TfiClose } from "react-icons/tfi";
-import { TfiAlignJustify } from "react-icons/tfi";
+import Links from './Links'
+import Logo from './Logo'
+import './Sidebar.scss'
+import './Logo/Logo.scss'
+import { useState } from 'react'
+import { TfiClose } from 'react-icons/tfi'
+import { TfiAlignJustify } from 'react-icons/tfi'
 
 const Sidebar = () => {
-  const [openSidebar, setOpenSidebar] = useState(false);
+  const [openSidebar, setOpenSidebar] = useState(false)
 
   function showLinks(e) {
-    setOpenSidebar(!openSidebar);
+    setOpenSidebar(!openSidebar)
   }
 
   return (
     <div>
-      <aside className={`sidebar  ${openSidebar && "active"}`}>
-        <div className={`logo-nav  ${openSidebar && "active"}`}>
+      <aside className={`sidebar  ${openSidebar && 'active'}`}>
+        <div className={`logo-nav  ${openSidebar && 'active'}`}>
           <Logo />
         </div>
-        <div className="hamburger-icons" onClick={showLinks}>
+        <div className='hamburger-icons' onClick={showLinks}>
           {openSidebar ? (
-            <TfiClose className="x-icon active" />
+            <TfiClose className='x-icon active' />
           ) : (
-            <TfiAlignJustify className="hamburger-icon active" />
+            <TfiAlignJustify className='hamburger-icon active' />
           )}
         </div>
 
-        <div className={`nav-links  ${openSidebar && "active"}`}>
+        <div className={`nav-links  ${openSidebar && 'active'}`}>
           <Links />
         </div>
       </aside>
     </div>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar
