@@ -1,15 +1,15 @@
-import { screen, render, waitFor } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import FlashMessage from '../../../components/FlashMessage';
-import FlashMessageProvider from '../../../context/FlashMessage/flashMessageProvider';
-import appStore from '../../../store/index';
-import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
-import AllProfilesPage from '../../../pages/AllProfilesPage';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
+import { screen, render, waitFor } from '@testing-library/react'
+import { Provider } from 'react-redux'
+import FlashMessage from '../../../components/FlashMessage'
+import FlashMessageProvider from '../../../context/FlashMessage/flashMessageProvider'
+import appStore from '../../../store/index'
+import { MemoryRouter as Router, Route, Routes } from 'react-router-dom'
+import AllProfilesPage from '../../../pages/AllProfilesPage'
+import { rest } from 'msw'
+import { setupServer } from 'msw/node'
 // https://github.com/jestjs/jest/issues/6434
 global.setImmediate =
-  global.setImmediate || ((fn, ...args) => global.setTimeout(fn, 0, ...args));
+  global.setImmediate || ((fn, ...args) => global.setTimeout(fn, 0, ...args))
 
 const usersFromApi = [
   {
@@ -48,7 +48,7 @@ const usersFromApi = [
     createdAt: '2023-03-09T12:33:47.032Z',
     updatedAt: '2023-03-09T12:33:47.032Z',
   },
-];
+]
 
 beforeAll(() => {
   appStore.dispatch({
@@ -59,8 +59,8 @@ beforeAll(() => {
       isLoggedIn: true,
       isVerified: true,
     },
-  });
-});
+  })
+})
 
 const App = () => (
   <Provider store={appStore}>
@@ -68,17 +68,17 @@ const App = () => (
       <FlashMessage />
       <Router initialEntries={['/', '/svi-profili']}>
         <Routes>
-          <Route path="/svi-profili" element={<AllProfilesPage />} />
+          <Route path='/svi-profili' element={<AllProfilesPage />} />
         </Routes>
       </Router>
     </FlashMessageProvider>
   </Provider>
-);
+)
 
 it('should render the page with heading Svi Profili', async () => {
-  render(<App />);
-  expect(await screen.findByText('Svi profili')).toBeInTheDocument();
-});
+  render(<App />)
+  expect(await screen.findByText('Svi profili')).toBeInTheDocument()
+})
 
 it('should get all the users', async () => {
   const server = setupServer(
@@ -91,18 +91,18 @@ it('should get all the users', async () => {
             Authorization: `Bearer sometoken`,
           }),
           ctx.status(200),
-          ctx.json(usersFromApi)
-        );
-      }
-    )
-  );
-  server.listen();
-  render(<App />);
+          ctx.json(usersFromApi),
+        )
+      },
+    ),
+  )
+  server.listen()
+  render(<App />)
   const users = await waitFor(() =>
-    screen.getAllByTestId('user').map((user) => user.textContent)
-  );
+    screen.getAllByTestId('user').map(user => user.textContent),
+  )
   await waitFor(() => {
-    expect(users).toEqual(['antonija', 'veronika', 'petra']);
-  });
-  server.close();
-});
+    expect(users).toEqual(['antonija', 'veronika', 'petra'])
+  })
+  server.close()
+})
