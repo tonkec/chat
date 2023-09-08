@@ -1,15 +1,15 @@
-import { screen, render, waitFor } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import FlashMessage from '../../../components/FlashMessage';
-import FlashMessageProvider from '../../../context/FlashMessage/flashMessageProvider';
-import appStore from '../../../store/index';
-import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
-import UserPage from '../../../pages/UserPage';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
+import { screen, render, waitFor } from '@testing-library/react'
+import { Provider } from 'react-redux'
+import FlashMessage from '../../../components/FlashMessage'
+import FlashMessageProvider from '../../../context/FlashMessage/flashMessageProvider'
+import appStore from '../../../store/index'
+import { MemoryRouter as Router, Route, Routes } from 'react-router-dom'
+import UserPage from '../../../pages/UserPage'
+import { rest } from 'msw'
+import { setupServer } from 'msw/node'
 // https://github.com/jestjs/jest/issues/6434
 global.setImmediate =
-  global.setImmediate || ((fn, ...args) => global.setTimeout(fn, 0, ...args));
+  global.setImmediate || ((fn, ...args) => global.setTimeout(fn, 0, ...args))
 
 const userFromApi = {
   avatar: 'http://placekitten.com/200/300',
@@ -23,7 +23,7 @@ const userFromApi = {
   createdAt: '2023-03-07T18:36:51.806Z',
   updatedAt: '2023-03-28T08:19:29.175Z',
   location: 'Zagreb',
-};
+}
 
 beforeAll(() => {
   appStore.dispatch({
@@ -34,8 +34,8 @@ beforeAll(() => {
       isLoggedIn: true,
       isVerified: true,
     },
-  });
-});
+  })
+})
 
 const App = () => (
   <Provider store={appStore}>
@@ -43,12 +43,12 @@ const App = () => (
       <FlashMessage />
       <Router initialEntries={['/user/1']}>
         <Routes>
-          <Route path="/user/:id" element={<UserPage />} />
+          <Route path='/user/:id' element={<UserPage />} />
         </Routes>
       </Router>
     </FlashMessageProvider>
   </Provider>
-);
+)
 
 it('should render the User page with bio placeholder', async () => {
   const server = setupServer(
@@ -61,16 +61,16 @@ it('should render the User page with bio placeholder', async () => {
             Authorization: `Bearer sometoken`,
           }),
           ctx.status(200),
-          ctx.json(userFromApi)
-        );
-      }
-    )
-  );
-  server.listen();
-  render(<App />);
+          ctx.json(userFromApi),
+        )
+      },
+    ),
+  )
+  server.listen()
+  render(<App />)
 
   // https://stackoverflow.com/a/71955750
   await waitFor(() => {
-    expect(screen.getByText('Bio:')).toBeInTheDocument();
-  });
-});
+    expect(screen.getByText('Bio:')).toBeInTheDocument()
+  })
+})
