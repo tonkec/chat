@@ -9,9 +9,12 @@
     "emoji-mart": "^5.5.2",
     "env-cmd": "^10.1.0",
     "formik": "^2.4.3",
+    "husky": "^8.0.3",
     "jest-transform-css": "^6.0.1",
+    "lint-staged": "^14.0.1",
     "msw": "^1.1.0",
     "node-sass": "^9.0.0",
+    "prettier": "^3.0.3",
     "primeflex": "^3.3.1",
     "primeicons": "^6.0.1",
     "primereact": "^9.6.1",
@@ -67,5 +70,15 @@
   },
   "msw": {
     "workerDirectory": "public"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ]
   }
 }
