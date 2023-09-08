@@ -1,4 +1,4 @@
-import api from './api'
+import api from './api';
 
 const PhotosService = {
   getPhotos: userId => {
@@ -7,20 +7,20 @@ const PhotosService = {
       .then(response => {
         const allImages = response.data.images.filter(
           image => image.isProfilePhoto !== true,
-        )
+        );
         const profilePhoto = response.data.images.filter(
           image => image.isProfilePhoto === true,
-        )
+        );
 
         return {
           profilePhoto,
           allImages,
-        }
+        };
       })
       .catch(e => {
-        console.log(e)
-      })
+        console.log(e);
+      });
   },
-}
+};
 
-export default PhotosService
+export default PhotosService;

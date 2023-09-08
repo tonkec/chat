@@ -1,36 +1,36 @@
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import { getUser } from '../../store/actions/user'
-import './User.scss'
-import PhotosService from '../../services/photosService'
-import PhotoGallery from '../../pages/ProfilePage/PhotoGallery'
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { getUser } from '../../store/actions/user';
+import './User.scss';
+import PhotosService from '../../services/photosService';
+import PhotoGallery from '../../pages/ProfilePage/PhotoGallery';
 
 export const User = () => {
-  const [userPhotos, setUserPhotos] = useState([])
-  const [avatar, setAvatar] = useState('http://placekitten.com/200/200')
-  const dispatch = useDispatch()
-  const userFromDb = useSelector(state => state.userReducer.user)
-  const { id: paramsId } = useParams()
+  const [userPhotos, setUserPhotos] = useState([]);
+  const [avatar, setAvatar] = useState('http://placekitten.com/200/200');
+  const dispatch = useDispatch();
+  const userFromDb = useSelector(state => state.userReducer.user);
+  const { id: paramsId } = useParams();
 
   useEffect(() => {
     PhotosService.getPhotos(paramsId)
       .then(response => {
-        setUserPhotos(response.allImages)
+        setUserPhotos(response.allImages);
         if (response.allImages.length > 0) {
           setAvatar(
             `${process.env.REACT_APP_S3_BUCKET_URL}/${response.profilePhoto[0].url}`,
-          )
+          );
         }
       })
       .catch(e => {
-        console.log(e)
-      })
-  }, [dispatch, paramsId])
+        console.log(e);
+      });
+  }, [dispatch, paramsId]);
 
   useEffect(() => {
-    dispatch(getUser(paramsId))
-  }, [dispatch, paramsId])
+    dispatch(getUser(paramsId));
+  }, [dispatch, paramsId]);
   return (
     userFromDb && (
       <div className='user-wrapper'>
@@ -66,7 +66,7 @@ export const User = () => {
         )}
       </div>
     )
-  )
-}
+  );
+};
 
-export default User
+export default User;

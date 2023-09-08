@@ -1,6 +1,6 @@
-import { Button } from 'primereact/button'
-import { Tag } from 'primereact/tag'
-import { InputText } from 'primereact/inputtext'
+import { Button } from 'primereact/button';
+import { Tag } from 'primereact/tag';
+import { InputText } from 'primereact/inputtext';
 const ItemTemplate = ({
   file,
   options,
@@ -39,7 +39,7 @@ const ItemTemplate = ({
         onClick={() => onTemplateRemove(file, options.onRemove)}
       />
     </div>
-  )
-}
+  );
+};
 
-export default ItemTemplate
+export default ItemTemplate;

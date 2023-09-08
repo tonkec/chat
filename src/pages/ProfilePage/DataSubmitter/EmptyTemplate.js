@@ -17,7 +17,7 @@ const EmptyTemplate = () => {
         Dovuci fotku ovdje
       </span>
     </div>
-  )
-}
+  );
+};
 
-export default EmptyTemplate
+export default EmptyTemplate;

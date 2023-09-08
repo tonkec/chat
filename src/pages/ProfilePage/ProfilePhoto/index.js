@@ -1,6 +1,6 @@
-import { FileUpload } from 'primereact/fileupload'
-import { LazyLoadImage } from 'react-lazy-load-image-component'
-import { ProgressSpinner } from 'primereact/progressspinner'
+import { FileUpload } from 'primereact/fileupload';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { ProgressSpinner } from 'primereact/progressspinner';
 
 const ProfilePhoto = ({ profilePhotoUrl, onUpload }) => {
   return profilePhotoUrl.trim() === '' ? (
@@ -45,7 +45,7 @@ const ProfilePhoto = ({ profilePhotoUrl, onUpload }) => {
         style={{ marginTop: 10 }}
       />
     </div>
-  )
-}
+  );
+};
 
-export default ProfilePhoto
+export default ProfilePhoto;

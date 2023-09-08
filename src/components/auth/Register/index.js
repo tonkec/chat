@@ -1,122 +1,122 @@
-import React, { useContext, useState } from 'react'
-import { register } from '../../../store/actions/auth'
-import { useDispatch } from 'react-redux'
-import { useNavigate, Link } from 'react-router-dom'
-import AuthLayout from '../../Layout/AuthLayout'
-import isEmailValid from '../validators/emailValidator'
-import isPasswordValid from '../validators/passwordValidator'
+import React, { useContext, useState } from 'react';
+import { register } from '../../../store/actions/auth';
+import { useDispatch } from 'react-redux';
+import { useNavigate, Link } from 'react-router-dom';
+import AuthLayout from '../../Layout/AuthLayout';
+import isEmailValid from '../validators/emailValidator';
+import isPasswordValid from '../validators/passwordValidator';
 import {
   EMAIL_INVALID,
   NAME_EMPTY,
   LAST_NAME_EMPTY,
   PASSWORD_MIN_CHARACTERS,
   SOMETHING_WENT_WRONG,
-} from '../constants'
-import isNameValid from '../validators/nameValidator'
-import FlashMessageContext from '../../../context/FlashMessage/flashMessageContext'
-import { InputText } from 'primereact/inputtext'
-import { Button } from 'primereact/button'
-import './../Auth.scss'
+} from '../constants';
+import isNameValid from '../validators/nameValidator';
+import FlashMessageContext from '../../../context/FlashMessage/flashMessageContext';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
+import './../Auth.scss';
 
 const Register = () => {
-  let navigate = useNavigate()
-  const dispatch = useDispatch()
-  const flashMessageContext = useContext(FlashMessageContext)
+  let navigate = useNavigate();
+  const dispatch = useDispatch();
+  const flashMessageContext = useContext(FlashMessageContext);
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [error, setError] = useState('')
-  const [isDisabled, setDisabled] = useState(true)
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [error, setError] = useState('');
+  const [isDisabled, setDisabled] = useState(true);
 
   const handleValidInput = (action, value) => {
     switch (action) {
       case 'email': {
-        setEmail(value)
-        break
+        setEmail(value);
+        break;
       }
       case 'password': {
-        setPassword(value)
-        break
+        setPassword(value);
+        break;
       }
       case 'firstName': {
-        setFirstName(value)
-        break
+        setFirstName(value);
+        break;
       }
       case 'lastName': {
-        setLastName(value)
-        break
+        setLastName(value);
+        break;
       }
 
       default: {
-        console.log('Invalid value for validation type')
+        console.log('Invalid value for validation type');
       }
     }
-    flashMessageContext.close()
-    setError(null)
-    setDisabled(false)
-  }
+    flashMessageContext.close();
+    setError(null);
+    setDisabled(false);
+  };
 
   const handleInvalidInput = error => {
-    flashMessageContext.error(error)
-    setError(error)
-    setDisabled(true)
-  }
+    flashMessageContext.error(error);
+    setError(error);
+    setDisabled(true);
+  };
 
   const onNameChange = e => {
-    const value = e.target.value
-    const validName = isNameValid(value)
+    const value = e.target.value;
+    const validName = isNameValid(value);
     if (validName) {
-      handleValidInput('firstName', value)
-      return
+      handleValidInput('firstName', value);
+      return;
     }
-    handleInvalidInput(NAME_EMPTY)
-  }
+    handleInvalidInput(NAME_EMPTY);
+  };
 
   const onLastNameChange = e => {
-    const value = e.target.value
-    const validLastName = isNameValid(value)
+    const value = e.target.value;
+    const validLastName = isNameValid(value);
     if (validLastName) {
-      handleValidInput('lastName', value)
-      return
+      handleValidInput('lastName', value);
+      return;
     }
-    handleInvalidInput(LAST_NAME_EMPTY)
-  }
+    handleInvalidInput(LAST_NAME_EMPTY);
+  };
 
   const onEmailChange = e => {
-    const value = e.target.value
-    const validEmail = isEmailValid(value)
+    const value = e.target.value;
+    const validEmail = isEmailValid(value);
     if (validEmail) {
-      handleValidInput('email', value)
-      return
+      handleValidInput('email', value);
+      return;
     }
-    handleInvalidInput(EMAIL_INVALID)
-  }
+    handleInvalidInput(EMAIL_INVALID);
+  };
 
   const onPasswordChange = e => {
-    const value = e.target.value
-    const validPassword = isPasswordValid(value)
+    const value = e.target.value;
+    const validPassword = isPasswordValid(value);
     if (validPassword) {
-      handleValidInput('password', value)
-      return
+      handleValidInput('password', value);
+      return;
     }
-    handleInvalidInput(PASSWORD_MIN_CHARACTERS)
-  }
+    handleInvalidInput(PASSWORD_MIN_CHARACTERS);
+  };
 
   const onSubmit = async e => {
-    e.preventDefault()
-    const errorIsEmpty = error === null && !isDisabled
+    e.preventDefault();
+    const errorIsEmpty = error === null && !isDisabled;
     if (errorIsEmpty) {
       try {
-        await dispatch(register({ email, password, firstName, lastName }))
-        navigate('/login')
+        await dispatch(register({ email, password, firstName, lastName }));
+        navigate('/login');
       } catch (e) {
-        flashMessageContext.error(SOMETHING_WENT_WRONG)
+        flashMessageContext.error(SOMETHING_WENT_WRONG);
       }
-      return
+      return;
     }
-  }
+  };
   return (
     <AuthLayout>
       <form onSubmit={onSubmit} className='form-auth'>
@@ -165,7 +165,7 @@ const Register = () => {
         <Link to='/login'>Ulogiraj se</Link>
       </div>
     </AuthLayout>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

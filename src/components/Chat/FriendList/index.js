@@ -1,40 +1,40 @@
-import React, { useState, Fragment } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import Friend from '../Friend'
-import { setCurrentChat } from '../../../store/actions/chat'
-import Modal from '../../Modal'
-import ChatService from '../../../services/chatService'
-import './FriendList.scss'
-import { useNavigate } from 'react-router'
+import React, { useState, Fragment } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import Friend from '../Friend';
+import { setCurrentChat } from '../../../store/actions/chat';
+import Modal from '../../Modal';
+import ChatService from '../../../services/chatService';
+import './FriendList.scss';
+import { useNavigate } from 'react-router';
 
 const FriendList = () => {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const chats = useSelector(state => state.chatReducer.chats)
-  const socket = useSelector(state => state.chatReducer.socket)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const chats = useSelector(state => state.chatReducer.chats);
+  const socket = useSelector(state => state.chatReducer.socket);
 
-  const [showFriendsModal, setShowFriendsModal] = useState(false)
-  const [suggestions, setSuggestions] = useState([])
+  const [showFriendsModal, setShowFriendsModal] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
 
   const openChat = chat => {
-    dispatch(setCurrentChat(chat))
+    dispatch(setCurrentChat(chat));
     navigate(`/poruka/${chat.id}`, {
       state: chat,
-    })
-  }
+    });
+  };
 
   const searchFriends = e => {
-    ChatService.searchUsers(e.target.value).then(res => setSuggestions(res))
-  }
+    ChatService.searchUsers(e.target.value).then(res => setSuggestions(res));
+  };
 
   const addNewFriend = id => {
     ChatService.createChat(id)
       .then(chats => {
-        socket.emit('add-friend', chats)
-        setShowFriendsModal(false)
+        socket.emit('add-friend', chats);
+        setShowFriendsModal(false);
       })
-      .catch(err => console.log(err))
-  }
+      .catch(err => console.log(err));
+  };
 
   return (
     <div className='friend-list'>
@@ -52,7 +52,7 @@ const FriendList = () => {
           chats.map(chat => {
             return (
               <Friend click={() => openChat(chat)} chat={chat} key={chat.id} />
-            )
+            );
           })}
       </div>
       {showFriendsModal && (
@@ -80,14 +80,14 @@ const FriendList = () => {
                       {user.firstName} {user.lastName}
                     </p>
                   </div>
-                )
+                );
               })}
             </div>
           </Fragment>
         </Modal>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default FriendList
+export default FriendList;

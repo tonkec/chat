@@ -1,5 +1,5 @@
 const isNameValid = name => {
-  return name.trim() !== ''
-}
+  return name.trim() !== '';
+};
 
-export default isNameValid
+export default isNameValid;

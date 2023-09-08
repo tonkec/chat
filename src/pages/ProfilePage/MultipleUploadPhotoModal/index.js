@@ -1,5 +1,5 @@
-import { Dialog } from 'primereact/dialog'
-import DataSubmitter from '../DataSubmitter'
+import { Dialog } from 'primereact/dialog';
+import DataSubmitter from '../DataSubmitter';
 
 const MultipleUploadPhotoModal = ({ isOpen, onHide, fetchUserPhotos }) => {
   return (
@@ -10,7 +10,7 @@ const MultipleUploadPhotoModal = ({ isOpen, onHide, fetchUserPhotos }) => {
     >
       <DataSubmitter fetchUserPhotos={fetchUserPhotos} onHide={onHide} />
     </Dialog>
-  )
-}
+  );
+};
 
-export default MultipleUploadPhotoModal
+export default MultipleUploadPhotoModal;

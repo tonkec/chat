@@ -1,12 +1,12 @@
-import { useState } from 'react'
-import { AiOutlineDown } from 'react-icons/ai'
-import './Dropdown.scss'
+import { useState } from 'react';
+import { AiOutlineDown } from 'react-icons/ai';
+import './Dropdown.scss';
 
 const Dropdown = ({ onOfflineClick, onOnlineClick }) => {
-  const [showDropdown, setShowDropdown] = useState(false)
+  const [showDropdown, setShowDropdown] = useState(false);
   const [isOnline, setIsOnline] = useState(
     JSON.parse(localStorage.getItem('online') || false),
-  )
+  );
 
   return (
     <div className='dropdown'>
@@ -21,8 +21,8 @@ const Dropdown = ({ onOfflineClick, onOnlineClick }) => {
             <li
               className='dropdown-list-item'
               onClick={() => {
-                onOfflineClick()
-                setIsOnline(!isOnline)
+                onOfflineClick();
+                setIsOnline(!isOnline);
               }}
             >
               Budi offline
@@ -31,8 +31,8 @@ const Dropdown = ({ onOfflineClick, onOnlineClick }) => {
             <li
               className='dropdown-list-item'
               onClick={() => {
-                onOnlineClick()
-                setIsOnline(!isOnline)
+                onOnlineClick();
+                setIsOnline(!isOnline);
               }}
             >
               Budi online
@@ -41,7 +41,7 @@ const Dropdown = ({ onOfflineClick, onOnlineClick }) => {
         </ul>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Dropdown
+export default Dropdown;

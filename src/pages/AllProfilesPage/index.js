@@ -1,8 +1,8 @@
-import Main from '../../components/Layout/Main'
-import Profiles from '../../components/Profiles'
+import Main from '../../components/Layout/Main';
+import Profiles from '../../components/Profiles';
 
 const AllProfilesPage = () => {
-  return <Main component={Profiles} />
-}
+  return <Main component={Profiles} />;
+};
 
-export default AllProfilesPage
+export default AllProfilesPage;

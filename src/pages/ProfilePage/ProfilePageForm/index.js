@@ -1,15 +1,15 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { updateUser } from '../../../store/actions/user'
-import { useFormik } from 'formik'
-import { UserProfileDetails } from '../../../components/validations/profileValidation'
-import { InputText } from 'primereact/inputtext'
-import { InputTextarea } from 'primereact/inputtextarea'
-import { Button } from 'primereact/button'
-import { Message } from 'primereact/message'
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUser } from '../../../store/actions/user';
+import { useFormik } from 'formik';
+import { UserProfileDetails } from '../../../components/validations/profileValidation';
+import { InputText } from 'primereact/inputtext';
+import { InputTextarea } from 'primereact/inputtextarea';
+import { Button } from 'primereact/button';
+import { Message } from 'primereact/message';
 
 const ProfilePageForm = ({ onSubmit }) => {
-  const dispatch = useDispatch()
-  const currentUser = useSelector(state => state.userReducer.user)
+  const dispatch = useDispatch();
+  const currentUser = useSelector(state => state.userReducer.user);
 
   const { values, handleBlur, handleChange, handleSubmit, errors, touched } =
     useFormik({
@@ -23,8 +23,8 @@ const ProfilePageForm = ({ onSubmit }) => {
       },
       validationSchema: UserProfileDetails,
       onSubmit: values => {
-        const e = window.event
-        e.preventDefault()
+        const e = window.event;
+        e.preventDefault();
 
         const data = {
           username: values.name,
@@ -33,12 +33,12 @@ const ProfilePageForm = ({ onSubmit }) => {
           sexuality: values.rod,
           location: values.lokacija,
           age: values.dob,
-        }
+        };
 
-        dispatch(updateUser(data))
-        onSubmit()
+        dispatch(updateUser(data));
+        onSubmit();
       },
-    })
+    });
 
   return (
     <form
@@ -156,7 +156,7 @@ const ProfilePageForm = ({ onSubmit }) => {
 
       <Button type='submit' label='Izmijeni' />
     </form>
-  )
-}
+  );
+};
 
-export default ProfilePageForm
+export default ProfilePageForm;

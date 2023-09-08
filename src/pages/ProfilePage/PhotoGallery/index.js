@@ -1,41 +1,41 @@
-import { useEffect, useState } from 'react'
-import { Button } from 'primereact/button'
-import API from '../../../services/api'
-import { useSelector } from 'react-redux'
-import { Dialog } from 'primereact/dialog'
-import ViewImageModal from '../ViewImageModal'
-import { LazyLoadImage } from 'react-lazy-load-image-component'
-import { ProgressSpinner } from 'primereact/progressspinner'
+import { useEffect, useState } from 'react';
+import { Button } from 'primereact/button';
+import API from '../../../services/api';
+import { useSelector } from 'react-redux';
+import { Dialog } from 'primereact/dialog';
+import ViewImageModal from '../ViewImageModal';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { ProgressSpinner } from 'primereact/progressspinner';
 
-import './PhotoGallery.scss'
+import './PhotoGallery.scss';
 
 export default function PhotoGallery({ images, userId }) {
-  const [galleryImages, setGalleryImages] = useState(images)
-  const [isWarningModalVisible, setIsWarningModalVisible] = useState(false)
-  const [isImageModalVisible, setIsImageModalVisible] = useState(false)
+  const [galleryImages, setGalleryImages] = useState(images);
+  const [isWarningModalVisible, setIsWarningModalVisible] = useState(false);
+  const [isImageModalVisible, setIsImageModalVisible] = useState(false);
 
-  const [currentImage, setCurrentImage] = useState(null)
-  const userFromDb = useSelector(state => state.userReducer.user)
-  const loggedInUser = useSelector(state => state.authReducer.user)
-  const isEditable = loggedInUser.id === parseInt(userId)
+  const [currentImage, setCurrentImage] = useState(null);
+  const userFromDb = useSelector(state => state.userReducer.user);
+  const loggedInUser = useSelector(state => state.authReducer.user);
+  const isEditable = loggedInUser.id === parseInt(userId);
 
   const onImageDelete = item => {
     API.post(`/uploads/delete-avatar/`, { item, userId: userFromDb.id })
       .then(res => {
         const filteredImages = galleryImages.filter(
           image => image.url !== item.url,
-        )
+        );
 
-        setGalleryImages(filteredImages)
-        setIsWarningModalVisible(false)
+        setGalleryImages(filteredImages);
+        setIsWarningModalVisible(false);
       })
-      .catch(err => console.log(err))
-  }
+      .catch(err => console.log(err));
+  };
 
   useEffect(() => {
-    const initialImages = images.length > 0 ? images : []
-    setGalleryImages(initialImages)
-  }, [images])
+    const initialImages = images.length > 0 ? images : [];
+    setGalleryImages(initialImages);
+  }, [images]);
 
   return (
     <>
@@ -59,8 +59,8 @@ export default function PhotoGallery({ images, userId }) {
                     }
                     style={{ width: '100%', height: '100%' }}
                     onClick={() => {
-                      setCurrentImage(image)
-                      setIsImageModalVisible(true)
+                      setCurrentImage(image);
+                      setIsImageModalVisible(true);
                     }}
                   />
                 </div>
@@ -73,8 +73,8 @@ export default function PhotoGallery({ images, userId }) {
                       icon='pi pi-trash'
                       className='p-button-danger'
                       onClick={() => {
-                        setCurrentImage(image)
-                        setIsWarningModalVisible(true)
+                        setCurrentImage(image);
+                        setIsWarningModalVisible(true);
                       }}
                     />
                   )}
@@ -108,5 +108,5 @@ export default function PhotoGallery({ images, userId }) {
         image={currentImage}
       />
     </>
-  )
+  );
 }

@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 
 const API = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_PORT,
@@ -6,19 +6,19 @@ const API = axios.create({
     Accept: 'application/json',
     Authorization: `Bearer ${localStorage.getItem('token') || ''}`,
   },
-})
+});
 
 API.interceptors.response.use(
   function (config) {
-    return config
+    return config;
   },
   function (error) {
     if (error.response) {
       if (error.response.status === 500) {
-        return Promise.reject(error)
+        return Promise.reject(error);
       }
     }
-    throw error
+    throw error;
   },
-)
-export default API
+);
+export default API;

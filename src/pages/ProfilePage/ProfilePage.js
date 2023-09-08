@@ -1,70 +1,70 @@
-import { useEffect, useState, useContext, useCallback } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getUser } from '../../store/actions/user'
-import FlashMessageContext from '../../context/FlashMessage/flashMessageContext'
-import API from '../../services/api'
-import PhotoGallery from './PhotoGallery'
-import { Button } from 'primereact/button'
-import ProfilePageForm from './ProfilePageForm/'
-import MultipleUploadPhotoModal from './MultipleUploadPhotoModal'
-import './ProfilePage.scss'
-import ProfilePhoto from './ProfilePhoto'
-import PhotosService from '../../services/photosService'
+import { useEffect, useState, useContext, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUser } from '../../store/actions/user';
+import FlashMessageContext from '../../context/FlashMessage/flashMessageContext';
+import API from '../../services/api';
+import PhotoGallery from './PhotoGallery';
+import { Button } from 'primereact/button';
+import ProfilePageForm from './ProfilePageForm/';
+import MultipleUploadPhotoModal from './MultipleUploadPhotoModal';
+import './ProfilePage.scss';
+import ProfilePhoto from './ProfilePhoto';
+import PhotosService from '../../services/photosService';
 
 const ProfilePage = () => {
-  const flashMessageContext = useContext(FlashMessageContext)
-  const dispatch = useDispatch()
-  const authUser = useSelector(state => state.authReducer.user)
-  const currentUser = useSelector(state => state.userReducer.user)
-  const [userPhotos, setUserPhotos] = useState([])
-  const [isEditable, setIsEditable] = useState(false)
-  const [isNewUploadModalVisible, setIsNewUploadModalVisible] = useState(false)
-  const [profilePhotoUrl, setProfilePhotoUrl] = useState('')
+  const flashMessageContext = useContext(FlashMessageContext);
+  const dispatch = useDispatch();
+  const authUser = useSelector(state => state.authReducer.user);
+  const currentUser = useSelector(state => state.userReducer.user);
+  const [userPhotos, setUserPhotos] = useState([]);
+  const [isEditable, setIsEditable] = useState(false);
+  const [isNewUploadModalVisible, setIsNewUploadModalVisible] = useState(false);
+  const [profilePhotoUrl, setProfilePhotoUrl] = useState('');
 
   const fetchUserPhotos = useCallback(async () => {
     PhotosService.getPhotos(authUser.id)
       .then(response => {
-        setUserPhotos(response.allImages)
-        setProfilePhotoUrl(response.profilePhoto[0].url)
+        setUserPhotos(response.allImages);
+        setProfilePhotoUrl(response.profilePhoto[0].url);
       })
       .catch(e => {
-        console.log(e)
-      })
-  }, [authUser.id])
+        console.log(e);
+      });
+  }, [authUser.id]);
 
   const onUploadProfilePhoto = async e => {
-    const file = e.files[0]
-    const formData = new FormData()
-    formData.append('photo', file)
-    formData.append('userId', authUser.id)
-    formData.append('isProfilePhoto', true)
+    const file = e.files[0];
+    const formData = new FormData();
+    formData.append('photo', file);
+    formData.append('userId', authUser.id);
+    formData.append('isProfilePhoto', true);
 
     try {
-      const response = await API.post('/uploads/profile-photo', formData, {})
+      const response = await API.post('/uploads/profile-photo', formData, {});
 
       if (response.status === 200) {
-        flashMessageContext.success('Fotografija uspješno dodana')
-        fetchUserPhotos()
+        flashMessageContext.success('Fotografija uspješno dodana');
+        fetchUserPhotos();
       }
 
       if (response.status !== 200) {
-        flashMessageContext.error('Došlo je do greške')
+        flashMessageContext.error('Došlo je do greške');
       }
 
-      e.files = []
+      e.files = [];
     } catch (error) {
-      flashMessageContext.error('Došlo je do greške')
-      console.log(error)
+      flashMessageContext.error('Došlo je do greške');
+      console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchUserPhotos()
-  }, [authUser.id, flashMessageContext, fetchUserPhotos])
+    fetchUserPhotos();
+  }, [authUser.id, flashMessageContext, fetchUserPhotos]);
 
   useEffect(() => {
-    dispatch(getUser(authUser.id))
-  }, [dispatch, authUser])
+    dispatch(getUser(authUser.id));
+  }, [dispatch, authUser]);
 
   return (
     <>
@@ -125,10 +125,10 @@ const ProfilePage = () => {
                     if (userPhotos.length >= 5) {
                       flashMessageContext.error(
                         'Maksimalan broj fotografija je 5',
-                      )
-                      return
+                      );
+                      return;
                     }
-                    setIsNewUploadModalVisible(true)
+                    setIsNewUploadModalVisible(true);
                   }}
                 />
               </div>
@@ -144,6 +144,6 @@ const ProfilePage = () => {
         />
       )}
     </>
-  )
-}
-export default ProfilePage
+  );
+};
+export default ProfilePage;

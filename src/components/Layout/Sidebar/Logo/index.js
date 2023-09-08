@@ -1,8 +1,8 @@
-import { colors } from './generateFlag'
-import './Logo.scss'
+import { colors } from './generateFlag';
+import './Logo.scss';
 const Logo = () => {
-  const item = colors[Math.floor(Math.random() * colors.length)]
-  const fillInColors = item.split(',').reverse()
+  const item = colors[Math.floor(Math.random() * colors.length)];
+  const fillInColors = item.split(',').reverse();
   return (
     <div className='logo'>
       <svg
@@ -39,7 +39,7 @@ const Logo = () => {
         </g>
       </svg>
     </div>
-  )
-}
+  );
+};
 
-export default Logo
+export default Logo;

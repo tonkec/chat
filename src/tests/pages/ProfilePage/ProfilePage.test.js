@@ -1,12 +1,12 @@
-import { screen, render } from '@testing-library/react'
-import { Provider } from 'react-redux'
-import FlashMessage from '../../../components/FlashMessage'
-import FlashMessageProvider from '../../../context/FlashMessage/flashMessageProvider'
-import appStore from '../../../store/index'
-import { MemoryRouter as Router, Route, Routes } from 'react-router-dom'
-import { rest } from 'msw'
-import { setupServer } from 'msw/node'
-import ProfilePage from '../../../pages/ProfilePage/ProfilePage'
+import { screen, render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import FlashMessage from '../../../components/FlashMessage';
+import FlashMessageProvider from '../../../context/FlashMessage/flashMessageProvider';
+import appStore from '../../../store/index';
+import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
+import { rest } from 'msw';
+import { setupServer } from 'msw/node';
+import ProfilePage from '../../../pages/ProfilePage/ProfilePage';
 
 const userFromApi = {
   avatar: 'http://placekitten.com/200/300',
@@ -21,7 +21,7 @@ const userFromApi = {
   updatedAt: '2023-03-28T08:19:29.175Z',
   location: 'Zagreb',
   username: 'Tonkec',
-}
+};
 
 const App = () => (
   <Provider store={appStore}>
@@ -34,7 +34,7 @@ const App = () => (
       </Router>
     </FlashMessageProvider>
   </Provider>
-)
+);
 
 beforeAll(() => {
   appStore.dispatch({
@@ -45,8 +45,8 @@ beforeAll(() => {
       isLoggedIn: true,
       isVerified: true,
     },
-  })
-})
+  });
+});
 
 it('should render the Profile Page with all editable user data', async () => {
   const server = setupServer(
@@ -60,7 +60,7 @@ it('should render the Profile Page with all editable user data', async () => {
           }),
           ctx.status(200),
           ctx.json(userFromApi),
-        )
+        );
       },
     ),
     rest.get(
@@ -73,13 +73,13 @@ it('should render the Profile Page with all editable user data', async () => {
           }),
           ctx.status(200),
           ctx.json({ images: [] }),
-        )
+        );
       },
     ),
-  )
-  server.listen()
-  render(<App />)
+  );
+  server.listen();
+  render(<App />);
   expect(
     await screen.findByText(`${userFromApi.firstName} ${userFromApi.lastName}`),
-  ).toBeInTheDocument()
-})
+  ).toBeInTheDocument();
+});

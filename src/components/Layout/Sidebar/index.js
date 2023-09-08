@@ -1,16 +1,16 @@
-import Links from './Links'
-import Logo from './Logo'
-import './Sidebar.scss'
-import './Logo/Logo.scss'
-import { useState } from 'react'
-import { TfiClose } from 'react-icons/tfi'
-import { TfiAlignJustify } from 'react-icons/tfi'
+import Links from './Links';
+import Logo from './Logo';
+import './Sidebar.scss';
+import './Logo/Logo.scss';
+import { useState } from 'react';
+import { TfiClose } from 'react-icons/tfi';
+import { TfiAlignJustify } from 'react-icons/tfi';
 
 const Sidebar = () => {
-  const [openSidebar, setOpenSidebar] = useState(false)
+  const [openSidebar, setOpenSidebar] = useState(false);
 
   function showLinks(e) {
-    setOpenSidebar(!openSidebar)
+    setOpenSidebar(!openSidebar);
   }
 
   return (
@@ -32,7 +32,7 @@ const Sidebar = () => {
         </div>
       </aside>
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

@@ -1,20 +1,20 @@
-import { userStatus } from '../../../utlis/helpers'
-import { useSelector } from 'react-redux'
-import ChatService from '../../../services/chatService'
-import { useNavigate } from 'react-router-dom'
-import './ChatHeader.scss'
+import { userStatus } from '../../../utlis/helpers';
+import { useSelector } from 'react-redux';
+import ChatService from '../../../services/chatService';
+import { useNavigate } from 'react-router-dom';
+import './ChatHeader.scss';
 
 const ChatHeader = ({ chat }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const socket = useSelector(state => state.chatReducer.socket)
+  const socket = useSelector(state => state.chatReducer.socket);
 
   const deleteChat = () => {
     ChatService.deleteCurrentChat(chat.id).then(data => {
-      socket.emit('delete-chat', data)
-      navigate('/')
-    })
-  }
+      socket.emit('delete-chat', data);
+      navigate('/');
+    });
+  };
 
   return (
     <>
@@ -41,12 +41,12 @@ const ChatHeader = ({ chat }) => {
                     ></span>
                   </div>
                 </div>
-              )
+              );
             })}
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default ChatHeader
+export default ChatHeader;

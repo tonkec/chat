@@ -1,14 +1,14 @@
-import './Message.scss'
+import './Message.scss';
 
 const Message = ({ user, chat, index, message }) => {
   const determineMargin = () => {
     if (index + 1 === chat.Messages.length) {
-      return 'm-0'
+      return 'm-0';
     }
     return message.fromUserId === chat.Messages[index + 1].fromUserId
       ? 'mb-5'
-      : 'mb-10'
-  }
+      : 'mb-10';
+  };
   return (
     <div
       className={`message ${determineMargin()} ${
@@ -39,7 +39,7 @@ const Message = ({ user, chat, index, message }) => {
         )}
       </div>{' '}
     </div>
-  )
-}
+  );
+};
 
-export default Message
+export default Message;

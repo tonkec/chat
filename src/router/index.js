@@ -1,16 +1,16 @@
-import Login from './../components/auth/Login'
-import Register from './../components/auth/Register'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import NotFound from './../components/NotFound'
-import ProtectedRoute from './ProtectedRoute'
-import ForgotPassword from './../components/auth/ForgotPassword'
-import ResetPassword from '../components/auth/ResetPassword'
-import HomePage from '../pages/HomePage'
-import MessagesPage from '../pages/MessagesPage'
-import MessagePage from '../pages/MessagePage'
-import AllProfilesPage from '../pages/AllProfilesPage'
-import UserPage from '../pages/UserPage'
-import ProfilePage from '../pages/ProfilePage'
+import Login from './../components/auth/Login';
+import Register from './../components/auth/Register';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import NotFound from './../components/NotFound';
+import ProtectedRoute from './ProtectedRoute';
+import ForgotPassword from './../components/auth/ForgotPassword';
+import ResetPassword from '../components/auth/ResetPassword';
+import HomePage from '../pages/HomePage';
+import MessagesPage from '../pages/MessagesPage';
+import MessagePage from '../pages/MessagePage';
+import AllProfilesPage from '../pages/AllProfilesPage';
+import UserPage from '../pages/UserPage';
+import ProfilePage from '../pages/ProfilePage';
 
 const RoutesComponent = () => (
   <Router>
@@ -40,6 +40,6 @@ const RoutesComponent = () => (
       <Route path='*' element={<NotFound />} />
     </Routes>
   </Router>
-)
+);
 
-export default RoutesComponent
+export default RoutesComponent;

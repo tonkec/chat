@@ -1,6 +1,6 @@
-import * as yup from 'yup'
+import * as yup from 'yup';
 
-const rodRules = /^[a-zA-Z]+$/
+const rodRules = /^[a-zA-Z]+$/;
 
 export const UserProfileDetails = yup.object().shape({
   name: yup
@@ -25,4 +25,4 @@ export const UserProfileDetails = yup.object().shape({
     .required('Morate unijeti starosnu dob')
     .positive()
     .integer(),
-})
+});
