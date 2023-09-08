@@ -41,7 +41,8 @@
     "eject": "react-scripts eject",
     "build:production": "env-cmd -f .env.production npm run build",
     "start:dev": "env-cmd -f .env.development npm start",
-    "ci:test": "npm test -- --watchAll=false"
+    "ci:test": "npm test -- --watchAll=false",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
