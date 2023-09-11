@@ -29,7 +29,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const [isDisabled, setDisabled] = useState(false);
   const flashMessageContext = useContext(FlashMessageContext);
-  const isVerified = useSelector((state) => {
+  const isVerified = useSelector(state => {
     return state.authReducer.isVerified;
   });
 
@@ -53,13 +53,13 @@ const Login = () => {
     setDisabled(false);
   };
 
-  const handleInvalidInput = (error) => {
+  const handleInvalidInput = error => {
     flashMessageContext.error(error);
     setError(error);
     setDisabled(true);
   };
 
-  const onEmailChange = (e) => {
+  const onEmailChange = e => {
     const value = e.target.value;
     const validEmail = isEmailValid(value);
     if (validEmail) {
@@ -69,7 +69,7 @@ const Login = () => {
     handleInvalidInput(EMAIL_INVALID);
   };
 
-  const onPasswordChange = (e) => {
+  const onPasswordChange = e => {
     const value = e.target.value;
     const validPassword = isPasswordValid(value);
     if (validPassword) {
@@ -94,7 +94,7 @@ const Login = () => {
     }
   };
 
-  const onFormSubmit = (e) => {
+  const onFormSubmit = e => {
     e.preventDefault();
     const formHasError = error;
     const isFormValid = !formHasError || formHasError === '';
@@ -125,32 +125,32 @@ const Login = () => {
   return (
     <AuthLayout>
       {process.env.NODE_ENV === 'test' && (
-        <p data-testid="location-display">{location.pathname}</p>
+        <p data-testid='location-display'>{location.pathname}</p>
       )}
-      <form onSubmit={onFormSubmit} className="form-auth">
-        <h3 className="form-heading">Ulogiraj se!</h3>
+      <form onSubmit={onFormSubmit} className='form-auth'>
+        <h3 className='form-heading'>Ulogiraj se!</h3>
         <InputText
           onChange={onEmailChange}
           required
-          type="email"
-          placeholder="Email"
-          className="p-inputtext-lg"
+          type='email'
+          placeholder='Email'
+          className='p-inputtext-lg'
         />
 
         <InputText
           onChange={onPasswordChange}
           required
-          type="password"
-          placeholder="Lozinka"
-          className="p-inputtext-lg"
+          type='password'
+          placeholder='Lozinka'
+          className='p-inputtext-lg'
         />
 
-        <Button style={{ width: '100%' }} label="Login" disabled={isDisabled} />
+        <Button style={{ width: '100%' }} label='Login' disabled={isDisabled} />
       </form>
 
-      <div className="links-auth">
-        <Link to="/register">Registriraj se</Link> {'  '}
-        <Link to="/forgot-password">Zaboravljena lozinka?</Link>
+      <div className='links-auth'>
+        <Link to='/register'>Registriraj se</Link> {'  '}
+        <Link to='/forgot-password'>Zaboravljena lozinka?</Link>
       </div>
     </AuthLayout>
   );

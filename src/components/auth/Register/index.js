@@ -58,13 +58,13 @@ const Register = () => {
     setDisabled(false);
   };
 
-  const handleInvalidInput = (error) => {
+  const handleInvalidInput = error => {
     flashMessageContext.error(error);
     setError(error);
     setDisabled(true);
   };
 
-  const onNameChange = (e) => {
+  const onNameChange = e => {
     const value = e.target.value;
     const validName = isNameValid(value);
     if (validName) {
@@ -74,7 +74,7 @@ const Register = () => {
     handleInvalidInput(NAME_EMPTY);
   };
 
-  const onLastNameChange = (e) => {
+  const onLastNameChange = e => {
     const value = e.target.value;
     const validLastName = isNameValid(value);
     if (validLastName) {
@@ -84,7 +84,7 @@ const Register = () => {
     handleInvalidInput(LAST_NAME_EMPTY);
   };
 
-  const onEmailChange = (e) => {
+  const onEmailChange = e => {
     const value = e.target.value;
     const validEmail = isEmailValid(value);
     if (validEmail) {
@@ -94,7 +94,7 @@ const Register = () => {
     handleInvalidInput(EMAIL_INVALID);
   };
 
-  const onPasswordChange = (e) => {
+  const onPasswordChange = e => {
     const value = e.target.value;
     const validPassword = isPasswordValid(value);
     if (validPassword) {
@@ -104,7 +104,7 @@ const Register = () => {
     handleInvalidInput(PASSWORD_MIN_CHARACTERS);
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = async e => {
     e.preventDefault();
     const errorIsEmpty = error === null && !isDisabled;
     if (errorIsEmpty) {
@@ -112,7 +112,6 @@ const Register = () => {
         await dispatch(register({ email, password, firstName, lastName }));
         navigate('/login');
       } catch (e) {
-        
         flashMessageContext.error(SOMETHING_WENT_WRONG);
       }
       return;
@@ -120,50 +119,50 @@ const Register = () => {
   };
   return (
     <AuthLayout>
-      <form onSubmit={onSubmit} className="form-auth">
-        <h2 className="form-heading">Pridruži se</h2>
+      <form onSubmit={onSubmit} className='form-auth'>
+        <h2 className='form-heading'>Pridruži se</h2>
         <InputText
           onChange={onNameChange}
           required
-          type="text"
-          placeholder="Tvoje ime"
-          data-testid="name"
+          type='text'
+          placeholder='Tvoje ime'
+          data-testid='name'
         />
 
         <InputText
           onChange={onLastNameChange}
           required
-          type="text"
-          placeholder="Tvoje prezime"
-          data-testid="lastName"
+          type='text'
+          placeholder='Tvoje prezime'
+          data-testid='lastName'
         />
 
         <InputText
           onChange={onEmailChange}
           onKeyDown={onEmailChange}
           required
-          type="email"
-          placeholder="Tvoj mail"
-          data-testid="email"
+          type='email'
+          placeholder='Tvoj mail'
+          data-testid='email'
         />
 
         <InputText
           onChange={onPasswordChange}
           required
-          type="password"
-          placeholder="Tvoja lozinka"
-          data-testid="password"
+          type='password'
+          placeholder='Tvoja lozinka'
+          data-testid='password'
         />
 
         <Button
           style={{ width: '100%' }}
-          label="Pridruži se"
+          label='Pridruži se'
           disabled={isDisabled}
         />
       </form>
 
-      <div className="links-auth">
-        <Link to="/login">Ulogiraj se</Link>
+      <div className='links-auth'>
+        <Link to='/login'>Ulogiraj se</Link>
       </div>
     </AuthLayout>
   );

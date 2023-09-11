@@ -1,4 +1,4 @@
-@import "../../../assets/variables.scss";
+@import '../../../assets/variables.scss';
 .content {
   width: calc(100% - #{$sidebarWidth});
   margin-left: $sidebarWidth;

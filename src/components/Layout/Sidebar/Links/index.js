@@ -19,8 +19,8 @@ const links = [
 ];
 
 const Links = () => {
-  const socket = useSelector((state) => state.chatReducer.socket);
-  const currentUser = useSelector((state) => state.authReducer.user);
+  const socket = useSelector(state => state.chatReducer.socket);
+  const currentUser = useSelector(state => state.authReducer.user);
 
   const dispatch = useDispatch();
   const onLogoutClick = () => {

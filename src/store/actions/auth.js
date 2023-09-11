@@ -8,9 +8,9 @@ import {
   GET_RESET_PASSWORD_TOKEN,
   EMAIL_NOT_VERIFIED,
 } from '../types';
-export const login = (params) => async (dispatch) => {
+export const login = params => async dispatch => {
   return AuthService.login(params)
-    .then((data) => {
+    .then(data => {
       let isUserVerified;
       if (data) {
         isUserVerified = data.data.isVerified;
@@ -26,47 +26,47 @@ export const login = (params) => async (dispatch) => {
         }
       }
     })
-    .catch((e) => {
+    .catch(e => {
       throw e;
     });
 };
 
-export const register = (params) => (dispatch) => {
+export const register = params => dispatch => {
   return AuthService.register(params)
-    .then((data) => {
+    .then(data => {
       dispatch({ type: REGISTER, payload: data.data });
     })
-    .catch((e) => {
+    .catch(e => {
       throw e;
     });
 };
 
-export const logout = () => (dispatch) => {
+export const logout = () => dispatch => {
   AuthService.logout();
   dispatch({ type: LOGOUT });
 };
 
-export const forgotPassword = (email, navigate) => (dispatch) => {
+export const forgotPassword = (email, navigate) => dispatch => {
   return AuthService.forgotPassword(email)
-    .then((res) => {
+    .then(res => {
       dispatch({ type: FORGOT_PASSWORD, payload: res.data });
       navigate('/login');
     })
-    .catch((e) => console.log(e));
+    .catch(e => console.log(e));
 };
 
-export const resetPassword = (password, email) => (dispatch) => {
+export const resetPassword = (password, email) => dispatch => {
   return AuthService.resetPassword(password, email)
-    .then((res) => {
+    .then(res => {
       dispatch({ type: RESET_PASSWORD, payload: res.data });
     })
-    .catch((e) => console.log(e));
+    .catch(e => console.log(e));
 };
 
-export const getResetPasswordToken = (email, token) => (dispatch) => {
+export const getResetPasswordToken = (email, token) => dispatch => {
   return AuthService.getResetPasswordToken(email, token)
-    .then((res) => {
+    .then(res => {
       dispatch({ type: GET_RESET_PASSWORD_TOKEN, payload: res.data });
     })
-    .catch((e) => e);
+    .catch(e => e);
 };

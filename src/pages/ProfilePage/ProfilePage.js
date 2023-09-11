@@ -14,8 +14,8 @@ import PhotosService from '../../services/photosService';
 const ProfilePage = () => {
   const flashMessageContext = useContext(FlashMessageContext);
   const dispatch = useDispatch();
-  const authUser = useSelector((state) => state.authReducer.user);
-  const currentUser = useSelector((state) => state.userReducer.user);
+  const authUser = useSelector(state => state.authReducer.user);
+  const currentUser = useSelector(state => state.userReducer.user);
   const [userPhotos, setUserPhotos] = useState([]);
   const [isEditable, setIsEditable] = useState(false);
   const [isNewUploadModalVisible, setIsNewUploadModalVisible] = useState(false);
@@ -23,16 +23,16 @@ const ProfilePage = () => {
 
   const fetchUserPhotos = useCallback(async () => {
     PhotosService.getPhotos(authUser.id)
-      .then((response) => {
+      .then(response => {
         setUserPhotos(response.allImages);
         setProfilePhotoUrl(response.profilePhoto[0].url);
       })
-      .catch((e) => {
+      .catch(e => {
         console.log(e);
       });
   }, [authUser.id]);
 
-  const onUploadProfilePhoto = async (e) => {
+  const onUploadProfilePhoto = async e => {
     const file = e.files[0];
     const formData = new FormData();
     formData.append('photo', file);
@@ -69,26 +69,26 @@ const ProfilePage = () => {
   return (
     <>
       {currentUser && (
-        <div className="profile">
-          <div className="grid" style={{ marginBottom: 50 }}>
-            <div className="col-6 col-offset-6 flex justify-content-end">
+        <div className='profile'>
+          <div className='grid' style={{ marginBottom: 50 }}>
+            <div className='col-6 col-offset-6 flex justify-content-end'>
               <Button
-                severity="info"
-                label="Izmijeni"
+                severity='info'
+                label='Izmijeni'
                 onClick={() => setIsEditable(!isEditable)}
               ></Button>
             </div>
           </div>
-          <div className="grid">
-            <div className="sm:col-8 lg:col-6">
-              <div className="card">
-                <div className="grid">
+          <div className='grid'>
+            <div className='sm:col-8 lg:col-6'>
+              <div className='card'>
+                <div className='grid'>
                   <ProfilePhoto
                     profilePhotoUrl={profilePhotoUrl}
                     onUpload={onUploadProfilePhoto}
                   />
 
-                  <div className="md:col-8">
+                  <div className='md:col-8'>
                     <h3 style={{ marginLeft: 20 }}>
                       {currentUser.firstName} {currentUser.lastName}
                     </h3>
@@ -101,30 +101,30 @@ const ProfilePage = () => {
               </div>
 
               {isEditable ? (
-                <div className="card">
+                <div className='card'>
                   <ProfilePageForm
                     onSubmit={() => setIsEditable(!isEditable)}
                   />
                 </div>
               ) : (
                 <>
-                  <div className="card">
+                  <div className='card'>
                     <h4>About me</h4>
                     {currentUser.bio}
                   </div>
                 </>
               )}
             </div>
-            <div className="sm:col-8 lg:col-6">
-              <div className="card" style={{ padding: 0 }}>
+            <div className='sm:col-8 lg:col-6'>
+              <div className='card' style={{ padding: 0 }}>
                 <PhotoGallery userId={currentUser.id} images={userPhotos} />
                 <Button
                   style={{ marginTop: 20 }}
-                  label="Dodaj novu fotku"
+                  label='Dodaj novu fotku'
                   onClick={() => {
                     if (userPhotos.length >= 5) {
                       flashMessageContext.error(
-                        'Maksimalan broj fotografija je 5'
+                        'Maksimalan broj fotografija je 5',
                       );
                       return;
                     }

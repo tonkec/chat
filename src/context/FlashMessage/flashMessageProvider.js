@@ -1,18 +1,18 @@
-import { useState } from "react";
-import { STATES } from "./constants";
-import FlashMessageContext from "./flashMessageContext";
+import { useState } from 'react';
+import { STATES } from './constants';
+import FlashMessageContext from './flashMessageContext';
 
-const FlashMessageProvider = (props) => {
+const FlashMessageProvider = props => {
   const [notification, setNotification] = useState(null);
   const [notificationText, setNotificationText] = useState(null);
-  const success = (text) => {
+  const success = text => {
     setNotificationText(text);
     setNotification(STATES.SUCCESS);
     setTimeout(() => {
       close();
     }, 5000);
   };
-  const error = (text) => {
+  const error = text => {
     setNotificationText(text);
     setNotification(STATES.ERROR);
     setTimeout(() => {

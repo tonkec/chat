@@ -16,12 +16,12 @@ function isEmpty(obj) {
 
 const Navbar = () => {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector((state) => state.authReducer.isLoggedIn);
-  const currentUser = useSelector((state) => state.authReducer.user);
-  const socket = useSelector((state) => state.chatReducer.socket);
+  const isLoggedIn = useSelector(state => state.authReducer.isLoggedIn);
+  const currentUser = useSelector(state => state.authReducer.user);
+  const socket = useSelector(state => state.chatReducer.socket);
   useSocket(dispatch, currentUser);
   const isCurrentUserOnline = JSON.parse(
-    localStorage.getItem('online') || false
+    localStorage.getItem('online') || false,
   );
 
   const shouldConnectToSocket = isLoggedIn && currentUser;
@@ -55,7 +55,7 @@ const Navbar = () => {
   ]);
 
   return (
-    <nav className="navbar">
+    <nav className='navbar'>
       <Dropdown onOfflineClick={onOffline} onOnlineClick={onOnline} />
     </nav>
   );

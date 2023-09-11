@@ -7,39 +7,39 @@ const MessageBox = ({ chat }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [scrollUp, setScrollUp] = useState(0);
-  const user = useSelector((state) => state.authReducer.user);
-  const scrollBottom = useSelector((state) => state.chatReducer.scrollBottom);
-  const senderTyping = useSelector((state) => state.chatReducer.senderTyping);
+  const user = useSelector(state => state.authReducer.user);
+  const scrollBottom = useSelector(state => state.chatReducer.scrollBottom);
+  const senderTyping = useSelector(state => state.chatReducer.senderTyping);
   useEffect(() => {
     setTimeout(() => {
       scrollManual(document.documentElement.scrollHeight);
     }, 100);
   }, [scrollBottom]);
 
-  const scrollManual = (value) => {
+  const scrollManual = value => {
     document.documentElement.scrollTop = value;
   };
 
-  const handeInfiniteScroll = (e) => {
+  const handeInfiniteScroll = e => {
     if (e.target.scrollTop === 0) {
       setLoading(true);
       const pagination = chat.Pagination;
       const page = typeof pagination === 'undefined' ? 1 : pagination.page;
       dispatch(paginateMessages(chat.id, parseInt(page) + 1))
-        .then((res) => {
+        .then(res => {
           if (res) {
             setScrollUp(scrollUp + 1);
           }
           setLoading(false);
         })
-        .catch((err) => {
+        .catch(err => {
           setLoading(false);
         });
     }
   };
 
   return (
-    <div className="msg-box" id="msg-box" onScroll={handeInfiniteScroll}>
+    <div className='msg-box' id='msg-box' onScroll={handeInfiniteScroll}>
       {loading ? <p>Loading</p> : null}
       {chat.Messages.map((message, index) => (
         <Message
@@ -51,8 +51,8 @@ const MessageBox = ({ chat }) => {
         />
       ))}
       {senderTyping.typing && senderTyping.chatId === chat.id ? (
-        <div className="message">
-          <div className="other-person">
+        <div className='message'>
+          <div className='other-person'>
             <p>
               {senderTyping.fromUser.firstName}
               {senderTyping.fromUser.lasttName}...

@@ -38,10 +38,10 @@ const chatReducer = (state = initilState, action) => {
         currentChat: payload,
       };
     case FRIENDS_ONLINE:
-      const chatCopy = state.chats.map((chat) => {
+      const chatCopy = state.chats.map(chat => {
         return {
           ...chat,
-          Users: chat.Users.map((user) => {
+          Users: chat.Users.map(user => {
             if (payload.includes(user.id)) {
               return {
                 ...user,
@@ -60,8 +60,8 @@ const chatReducer = (state = initilState, action) => {
       };
     case FRIEND_ONLINE: {
       let currentChatCopy = { ...state.currentChat };
-      const chatsCopy = state.chats.map((chat) => {
-        const Users = chat.Users.map((user) => {
+      const chatsCopy = state.chats.map(chat => {
+        const Users = chat.Users.map(user => {
           if (user.id === parseInt(payload.id)) {
             return {
               ...user,
@@ -93,8 +93,8 @@ const chatReducer = (state = initilState, action) => {
 
     case FRIEND_OFFLINE: {
       let currentChatCopy = { ...state.currentChat };
-      const chatsCopy = state.chats.map((chat) => {
-        const Users = chat.Users.map((user) => {
+      const chatsCopy = state.chats.map(chat => {
+        const Users = chat.Users.map(user => {
           if (user.id === parseInt(payload.id)) {
             return {
               ...user,
@@ -137,7 +137,7 @@ const chatReducer = (state = initilState, action) => {
       let newMessage = { ...state.newMessage };
       let scrollBottom = state.scrollBottom;
 
-      const chatsCopy = state.chats.map((chat) => {
+      const chatsCopy = state.chats.map(chat => {
         if (message.chatId === chat.id) {
           if (message.User.id === userId) {
             scrollBottom++;
@@ -204,7 +204,7 @@ const chatReducer = (state = initilState, action) => {
 
       let currentChatCopy = { ...state.currentChat };
 
-      const chatsCopy = state.chats.map((chat) => {
+      const chatsCopy = state.chats.map(chat => {
         if (chat.id === id) {
           const shifted = [...messages, ...chat.Messages];
 
@@ -250,7 +250,7 @@ const chatReducer = (state = initilState, action) => {
 
       let exists = false;
 
-      const chatsCopy = state.chats.map((chatState) => {
+      const chatsCopy = state.chats.map(chatState => {
         if (chat.id === chatState.id) {
           exists = true;
 
@@ -287,7 +287,7 @@ const chatReducer = (state = initilState, action) => {
       const { chatId, userId, currentUserId } = payload;
 
       if (userId === currentUserId) {
-        const chatsCopy = state.chats.filter((chat) => chat.id !== chatId);
+        const chatsCopy = state.chats.filter(chat => chat.id !== chatId);
 
         return {
           ...state,
@@ -295,11 +295,11 @@ const chatReducer = (state = initilState, action) => {
           currentChat: state.currentChat.id === chatId ? {} : state.currentChat,
         };
       } else {
-        const chatsCopy = state.chats.map((chat) => {
+        const chatsCopy = state.chats.map(chat => {
           if (chatId === chat.id) {
             return {
               ...chat,
-              Users: chat.Users.filter((user) => user.id !== userId),
+              Users: chat.Users.filter(user => user.id !== userId),
             };
           }
 
@@ -310,7 +310,7 @@ const chatReducer = (state = initilState, action) => {
         if (currentChatCopy.id === chatId) {
           currentChatCopy = {
             ...currentChatCopy,
-            Users: currentChatCopy.Users.filter((user) => user.id !== userId),
+            Users: currentChatCopy.Users.filter(user => user.id !== userId),
           };
         }
 
@@ -325,7 +325,7 @@ const chatReducer = (state = initilState, action) => {
     case DELETE_CURRENT_CHAT: {
       return {
         ...state,
-        chats: state.chats.filter((chat) => chat.id !== payload),
+        chats: state.chats.filter(chat => chat.id !== payload),
         currentChat: state.currentChat.id === payload ? {} : state.currentChat,
       };
     }

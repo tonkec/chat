@@ -1,15 +1,15 @@
 import api from './api';
 
 const PhotosService = {
-  getPhotos: (userId) => {
+  getPhotos: userId => {
     return api
       .get(`/uploads/avatar/${userId}`)
-      .then((response) => {
+      .then(response => {
         const allImages = response.data.images.filter(
-          (image) => image.isProfilePhoto !== true
+          image => image.isProfilePhoto !== true,
         );
         const profilePhoto = response.data.images.filter(
-          (image) => image.isProfilePhoto === true
+          image => image.isProfilePhoto === true,
         );
 
         return {
@@ -17,7 +17,7 @@ const PhotosService = {
           allImages,
         };
       })
-      .catch((e) => {
+      .catch(e => {
         console.log(e);
       });
   },

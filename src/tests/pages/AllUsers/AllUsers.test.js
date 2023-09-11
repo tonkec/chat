@@ -68,7 +68,7 @@ const App = () => (
       <FlashMessage />
       <Router initialEntries={['/', '/svi-profili']}>
         <Routes>
-          <Route path="/svi-profili" element={<AllProfilesPage />} />
+          <Route path='/svi-profili' element={<AllProfilesPage />} />
         </Routes>
       </Router>
     </FlashMessageProvider>
@@ -91,15 +91,15 @@ it('should get all the users', async () => {
             Authorization: `Bearer sometoken`,
           }),
           ctx.status(200),
-          ctx.json(usersFromApi)
+          ctx.json(usersFromApi),
         );
-      }
-    )
+      },
+    ),
   );
   server.listen();
   render(<App />);
   const users = await waitFor(() =>
-    screen.getAllByTestId('user').map((user) => user.textContent)
+    screen.getAllByTestId('user').map(user => user.textContent),
   );
   await waitFor(() => {
     expect(users).toEqual(['antonija', 'veronika', 'petra']);

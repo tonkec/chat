@@ -5,21 +5,21 @@ import './Dropdown.scss';
 const Dropdown = ({ onOfflineClick, onOnlineClick }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [isOnline, setIsOnline] = useState(
-    JSON.parse(localStorage.getItem('online') || false)
+    JSON.parse(localStorage.getItem('online') || false),
   );
 
   return (
-    <div className="dropdown">
+    <div className='dropdown'>
       <button onClick={() => setShowDropdown(!showDropdown)}>
         <span>
           Tvoj status <AiOutlineDown />
         </span>
       </button>
       {showDropdown && (
-        <ul className="dropdown-list">
+        <ul className='dropdown-list'>
           {isOnline ? (
             <li
-              className="dropdown-list-item"
+              className='dropdown-list-item'
               onClick={() => {
                 onOfflineClick();
                 setIsOnline(!isOnline);
@@ -29,7 +29,7 @@ const Dropdown = ({ onOfflineClick, onOnlineClick }) => {
             </li>
           ) : (
             <li
-              className="dropdown-list-item"
+              className='dropdown-list-item'
               onClick={() => {
                 onOnlineClick();
                 setIsOnline(!isOnline);

@@ -18,8 +18,8 @@ const Message = ({ user, chat, index, message }) => {
       {message.fromUserId !== user.id && (
         <img
           src={message.User.avatar}
-          alt="user-avatar"
-          className="user-avatar"
+          alt='user-avatar'
+          className='user-avatar'
         />
       )}
       <div
@@ -27,7 +27,7 @@ const Message = ({ user, chat, index, message }) => {
       >
         {message.fromUserId !== user.id ? (
           <>
-            <h6 className="m-0">
+            <h6 className='m-0'>
               {message.User.firstName} {message.User.lastName}{' '}
             </h6>
           </>
@@ -35,7 +35,7 @@ const Message = ({ user, chat, index, message }) => {
         {message.type === 'text' ? (
           <p>{message.message}</p>
         ) : (
-          <img src={message.message} alt="user upload" />
+          <img src={message.message} alt='user upload' />
         )}
       </div>{' '}
     </div>

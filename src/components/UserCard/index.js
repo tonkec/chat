@@ -6,20 +6,20 @@ const UserCard = ({ user }) => {
   const firstName = user.firstName ?? 'default nickname';
   useEffect(() => {
     PhotosService.getPhotos(user.id)
-      .then((response) => {
+      .then(response => {
         if (response.profilePhoto.length > 0) {
           setAvatar(
-            `${process.env.REACT_APP_S3_BUCKET_URL}/${response.profilePhoto[0].url}`
+            `${process.env.REACT_APP_S3_BUCKET_URL}/${response.profilePhoto[0].url}`,
           );
         }
       })
-      .catch((e) => {
+      .catch(e => {
         console.log(e);
       });
   });
   return (
-    <div className="user-card" data-testid="user">
-      <img src={avatar} alt="user avatar" />
+    <div className='user-card' data-testid='user'>
+      <img src={avatar} alt='user avatar' />
       <p>{firstName}</p>
     </div>
   );
