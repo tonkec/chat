@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button } from 'primereact/button';
 import followersService from '../../services/followersService';
 import { useSelector } from 'react-redux';
-import NumberOfFollowers from '../NumberOfFollowers';
+import FollowersCount from '../FollowersCount';
 
 const FollowButton = ({ userId }) => {
   const [isAlreadyFollowed, setIsAlreadyFollowed] = useState(false);
@@ -64,7 +64,7 @@ const FollowButton = ({ userId }) => {
           }
         }}
       ></Button>
-      <NumberOfFollowers followers={followers} />
+      <FollowersCount followers={followers} />
     </>
   );
 };
