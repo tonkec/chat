@@ -1,4 +1,4 @@
-import api from './api';
+import api from "./api";
 
 const PhotoLikesService = {
   getAllLikes: (photoId) => {
@@ -7,19 +7,27 @@ const PhotoLikesService = {
       .then((res) => {
         return res;
       })
-      .catch((e) => console.log(e));
+      .catch((e) => e);
   },
   like: (data) => {
     return api
-      .post('/likes/upvote', data)
-      .then((res) => console.log(res))
-      .catch((e) => console.log(e));
+      .post("/likes/upvote", data)
+      .then((res) => {
+        return res;
+      })
+      .catch((e) => {
+        throw e;
+      });
   },
   dislike: (data) => {
     return api
-      .post('/likes/downvote', data)
-      .then((res) => console.log(res))
-      .catch((e) => console.log(e));
+      .post("/likes/downvote", data)
+      .then((res) => {
+        return res.data;
+      })
+      .catch((e) => {
+        throw e;
+      });
   },
 };
 

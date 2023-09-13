@@ -1,27 +1,23 @@
-import { useEffect, useContext } from 'react';
-import { Button } from 'primereact/button';
-import PhotoLikesService from '../../../services/photolikesService';
-import { RealTimeDataTrackerContext } from '../../../context/realTimeDataTrackerContext';
+import { useEffect, useContext } from "react";
+import { Button } from "primereact/button";
+import PhotoLikesService from "../../../services/photolikesService";
 
-const DownvoteButton = ({ photo, userId }) => {
-  
-  const {setLikesCount, likesCount} = useContext(RealTimeDataTrackerContext);
-  
+const DownvoteButton = ({ photo, userId, setData, disabled }) => {
   return (
     <Button
       icon="pi pi-thumbs-down"
       value="upvote"
+      disabled={!disabled}
       onClick={() => {
         PhotoLikesService.dislike({ userId, uploadId: photo.id })
-          .then((res) => console.log(res.data))
-          .catch((e) => console.log(e));
-          
-          PhotoLikesService.getAllLikes(photo.id)
-          .then((res) => {
-            console.log(res.data);
-            setLikesCount(res.data);
-          })
-          .catch((e) => console.log(e));
+          .then((res) =>
+            PhotoLikesService.getAllLikes(photo.id)
+              .then((res) => {
+                setData(res.data);
+              })
+              .catch((e) => e),
+          )
+          .catch((e) => e);
       }}
     />
   );

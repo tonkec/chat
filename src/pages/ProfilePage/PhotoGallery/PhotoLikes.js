@@ -1,19 +1,15 @@
-import { useEffect, useState, useContext } from 'react';
-import PhotoLikesService from '../../../services/photolikesService';
-import { RealTimeDataTrackerContext } from '../../../context/realTimeDataTrackerContext';
+import { useEffect, useState, useContext } from "react";
+import PhotoLikesService from "../../../services/photolikesService";
 
-const PhotoLikes = ({ photo }) => {
-
-  const {likesCount, setLikesCount} = useContext(RealTimeDataTrackerContext);
+const PhotoLikes = ({ photo, data, setData }) => {
   useEffect(() => {
     PhotoLikesService.getAllLikes(photo.id)
       .then((res) => {
-        console.log(res.data);
-        setLikesCount(res.data);
+        setData(res.data);
       })
-      .catch((e) => console.log(e));
+      .catch((e) => e);
   }, []);
-  return <p>{likesCount.length} lajkova</p>;
+  return <p>{data.length} lajkova</p>;
 };
 
 export default PhotoLikes;
