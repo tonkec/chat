@@ -1,8 +1,8 @@
-import API from './api';
+import API from "./api";
 
 const ChatService = {
   fetchChats: () => {
-    return API.get('/chats')
+    return API.get("/chats")
       .then((res) => res.data)
       .catch((e) => {
         throw e;
@@ -10,16 +10,16 @@ const ChatService = {
   },
   uploadImage: (data) => {
     const headers = {
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
     };
-    return API.post('/chats/upload-image', data, headers)
+    return API.post("/chats/upload-image", data, headers)
       .then((res) => res.data.url)
       .catch((e) => {
         throw e;
       });
   },
   paginateMessages: (id, page) => {
-    return API.get('/chats/messages', {
+    return API.get("/chats/messages", {
       params: {
         id,
         page,
@@ -31,7 +31,7 @@ const ChatService = {
       });
   },
   searchUsers: (term) => {
-    return API.get('/users/search-users', {
+    return API.get("/users/search-users", {
       params: {
         term,
       },
@@ -44,7 +44,7 @@ const ChatService = {
       });
   },
   createChat: (partnerId) => {
-    return API.post('/chats/create', { partnerId })
+    return API.post("/chats/create", { partnerId })
       .then(({ data }) => {
         return data;
       })
@@ -54,7 +54,7 @@ const ChatService = {
   },
 
   leaveCurrentChat: (chatId) => {
-    return API.post('/chats/leave-current-chat', { chatId })
+    return API.post("/chats/leave-current-chat", { chatId })
       .then(({ data }) => {
         return data;
       })
@@ -64,7 +64,7 @@ const ChatService = {
   },
 
   addFriendToGroupChat: (userId, chatId) => {
-    return API.post('/chats/add-user-to-group', { userId, chatId })
+    return API.post("/chats/add-user-to-group", { userId, chatId })
       .then(({ data }) => {
         return data;
       })

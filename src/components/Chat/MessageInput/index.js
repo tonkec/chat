@@ -1,17 +1,17 @@
-import { useState, useRef, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import data from '@emoji-mart/data';
-import Picker from '@emoji-mart/react';
-import { incrementScroll } from '../../../store/actions/chat';
-import { AiFillBell } from 'react-icons/ai';
-import './MessageInput.scss';
+import { useState, useRef, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
+import { incrementScroll } from "../../../store/actions/chat";
+import { AiFillBell } from "react-icons/ai";
+import "./MessageInput.scss";
 const MessageInput = ({ chat }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.authReducer.user);
   const socket = useSelector((state) => state.chatReducer.socket);
   const newMessage = useSelector((state) => state.chatReducer.newMessage);
 
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [showNewMessageNotification, setShowNewMessageNotification] =
     useState(false);
@@ -28,17 +28,17 @@ const MessageInput = ({ chat }) => {
 
     if (value.length === 1) {
       receiver.typing = true;
-      socket.emit('typing', receiver);
+      socket.emit("typing", receiver);
     }
 
     if (value.length === 0) {
       receiver.typing = false;
-      socket.emit('typing', receiver);
+      socket.emit("typing", receiver);
     }
   };
 
   const handleKeyDown = (e, imageUpload) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       sendMessage(imageUpload);
     }
   };
@@ -49,16 +49,16 @@ const MessageInput = ({ chat }) => {
     }
 
     const msg = {
-      type: imageUpload ? 'image' : 'text',
+      type: imageUpload ? "image" : "text",
       fromUser: user,
       toUserId: chat.Users && chat.Users.map((user) => user.id),
       chatId: chat.id,
       message: imageUpload ? imageUpload : message,
     };
 
-    setMessage('');
+    setMessage("");
     setShowEmojiPicker(false);
-    socket.emit('message', msg);
+    socket.emit("message", msg);
   };
 
   const selectEmoji = (emoji) => {
@@ -69,7 +69,7 @@ const MessageInput = ({ chat }) => {
     setMessage(
       value.substring(0, startPosition) +
         emoji.native +
-        value.substring(endPosition, value.length)
+        value.substring(endPosition, value.length),
     );
     msgInput.current.focus();
     msgInput.current.selectionEnd = endPosition + emojiLength;
@@ -83,8 +83,8 @@ const MessageInput = ({ chat }) => {
       document.documentElement.clientHeight;
 
     const isScrolled = () => {
-      console.log(document.documentElement.scrollTop, 'scrollt top');
-      console.log(document.documentElement.scrollHeight, 'height');
+      console.log(document.documentElement.scrollTop, "scrollt top");
+      console.log(document.documentElement.scrollHeight, "height");
       return (
         document.documentElement.scrollTop >
         document.documentElement.scrollHeight
@@ -139,7 +139,7 @@ const MessageInput = ({ chat }) => {
           data={data}
           title="Pick your emoji..."
           emoji="point_up"
-          style={{ position: 'absolute', bottom: '20px', right: '0px' }}
+          style={{ position: "absolute", bottom: "20px", right: "0px" }}
           onEmojiSelect={selectEmoji}
         />
       ) : null}

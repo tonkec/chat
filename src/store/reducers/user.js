@@ -3,7 +3,7 @@ import {
   GET_USER,
   SET_ONLINE_USERS,
   UPDATE_USER,
-} from '../types';
+} from "../types";
 
 export const initialState = {
   onlineUsers: [],

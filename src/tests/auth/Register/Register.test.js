@@ -27,16 +27,15 @@ const user = {
 
 const App = () => (
   <Provider store={appStore}>
-    
-      <Router initialEntries={["/", "/login", "/register"]}>
-        <Routes>
-          <Route exact path="/" element={<ProtectedRoute />}>
-            <Route exact path="/" element={<HomePage />} />
-          </Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
-      </Router>
+    <Router initialEntries={["/", "/login", "/register"]}>
+      <Routes>
+        <Route exact path="/" element={<ProtectedRoute />}>
+          <Route exact path="/" element={<HomePage />} />
+        </Route>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </Router>
   </Provider>
 );
 
@@ -54,7 +53,7 @@ test("show error message when email is not valid", async () => {
   expect(
     screen.getByRole("button", {
       name: /Pridruži se/i,
-    })
+    }),
   ).toHaveAttribute("disabled");
 });
 
@@ -67,7 +66,7 @@ test("show error message when email is empty", async () => {
   expect(
     screen.getByRole("button", {
       name: /Pridruži se/i,
-    })
+    }),
   ).toHaveAttribute("disabled");
 });
 
@@ -80,7 +79,7 @@ test("show error message when first name is not valid", async () => {
   expect(
     screen.getByRole("button", {
       name: /Pridruži se/i,
-    })
+    }),
   ).toHaveAttribute("disabled");
 });
 
@@ -93,7 +92,7 @@ test("show error message when last name is not valid", async () => {
   expect(
     screen.getByRole("button", {
       name: /Pridruži se/i,
-    })
+    }),
   ).toHaveAttribute("disabled");
 });
 
@@ -105,7 +104,7 @@ test("show error message when password is not valid", async () => {
   expect(
     screen.getByRole("button", {
       name: /Pridruži se/i,
-    })
+    }),
   ).toHaveAttribute("disabled");
 });
 
@@ -115,8 +114,8 @@ test("should show error message when email is taken", async () => {
       `${process.env.REACT_APP_BACKEND_PORT}/register`,
       (req, res, ctx) => {
         return res(ctx.status(401), ctx.json({ message: "Validation error" }));
-      }
-    )
+      },
+    ),
   );
   server.listen();
   render(<App />);
@@ -149,10 +148,10 @@ test("redirects to the login page after successful signup", async () => {
             lastName,
             avatar: null,
             isVerified: null,
-          })
+          }),
         );
-      }
-    )
+      },
+    ),
   );
   server.listen();
   render(<App />);

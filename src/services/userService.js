@@ -1,9 +1,9 @@
-import api from './api';
+import api from "./api";
 
 const UserService = {
   getAllUsers: () => {
     return api
-      .get('/users/get-users')
+      .get("/users/get-users")
       .then((res) => {
         return res;
       })
@@ -23,7 +23,7 @@ const UserService = {
   },
   updateUser: (data) => {
     return api
-      .post('/users/update-user', { data })
+      .post("/users/update-user", { data })
       .then((res) => {
         return res;
       })

@@ -1,5 +1,5 @@
-import './App.scss';
-import RoutesComponent from './router';
+import "./App.scss";
+import RoutesComponent from "./router";
 
 const App = () => {
   return <RoutesComponent />;

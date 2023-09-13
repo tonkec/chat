@@ -1,13 +1,13 @@
-import { useEffect, useState, useContext, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../../store/actions/user';
-import API from '../../services/api';
-import PhotoGallery from './PhotoGallery';
-import { Button } from 'primereact/button';
-import ProfilePageForm from './ProfilePageForm/';
-import MultipleUploadPhotoModal from './MultipleUploadPhotoModal';
-import './ProfilePage.scss';
-import ProfilePhoto from './ProfilePhoto';
+import { useEffect, useState, useContext, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser } from "../../store/actions/user";
+import API from "../../services/api";
+import PhotoGallery from "./PhotoGallery";
+import { Button } from "primereact/button";
+import ProfilePageForm from "./ProfilePageForm/";
+import MultipleUploadPhotoModal from "./MultipleUploadPhotoModal";
+import "./ProfilePage.scss";
+import ProfilePhoto from "./ProfilePhoto";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -16,16 +16,16 @@ const ProfilePage = () => {
   const [userPhotos, setUserPhotos] = useState([]);
   const [isEditable, setIsEditable] = useState(false);
   const [isNewUploadModalVisible, setIsNewUploadModalVisible] = useState(false);
-  const [profilePhotoUrl, setProfilePhotoUrl] = useState('');
+  const [profilePhotoUrl, setProfilePhotoUrl] = useState("");
 
   const fetchUserPhotos = useCallback(async () => {
     try {
       const response = await API.get(`/uploads/avatar/${authUser.id}`);
       const withoutProfilePhoto = response.data.images.filter(
-        (image) => image.isProfilePhoto !== true
+        (image) => image.isProfilePhoto !== true,
       );
       const profilePhoto = response.data.images.filter(
-        (image) => image.isProfilePhoto === true
+        (image) => image.isProfilePhoto === true,
       );
 
       if (profilePhoto.length > 0) {
@@ -40,15 +40,14 @@ const ProfilePage = () => {
   const onUploadProfilePhoto = async (e) => {
     const file = e.files[0];
     const formData = new FormData();
-    formData.append('photo', file);
-    formData.append('userId', authUser.id);
-    formData.append('isProfilePhoto', true);
+    formData.append("photo", file);
+    formData.append("userId", authUser.id);
+    formData.append("isProfilePhoto", true);
 
     try {
-      const response = await API.post('/uploads/profile-photo', formData, {});
+      const response = await API.post("/uploads/profile-photo", formData, {});
 
       if (response.status === 200) {
-        
         fetchUserPhotos();
       }
 
@@ -96,7 +95,7 @@ const ProfilePage = () => {
                       {currentUser.firstName} {currentUser.lastName}
                     </h3>
                     <p style={{ marginLeft: 20 }}>
-                      {currentUser.age} {currentUser.sexuality}{' '}
+                      {currentUser.age} {currentUser.sexuality}{" "}
                       {currentUser.gender} {currentUser.location}
                     </p>
                   </div>

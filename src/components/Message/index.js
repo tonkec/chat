@@ -1,7 +1,7 @@
-import Messenger from '../Chat/Messenger';
-import { useDispatch } from 'react-redux';
-import { setCurrentChat } from '../../store/actions/chat';
-import { useEffect } from 'react';
+import Messenger from "../Chat/Messenger";
+import { useDispatch } from "react-redux";
+import { setCurrentChat } from "../../store/actions/chat";
+import { useEffect } from "react";
 const Message = ({ options }) => {
   const dispatch = useDispatch();
 

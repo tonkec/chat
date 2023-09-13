@@ -3,9 +3,9 @@ import {
   GET_ALL_USERS,
   GET_USER,
   UPDATE_USER,
-} from '../types';
+} from "../types";
 
-import UserService from '../../services/userService';
+import UserService from "../../services/userService";
 
 export const setOnlineUsers = (users) => (dispatch) => {
   dispatch({ type: SET_ONLINE_USERS, payload: users });

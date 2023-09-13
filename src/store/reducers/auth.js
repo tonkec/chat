@@ -7,21 +7,21 @@ import {
   RESET_PASSWORD,
   GET_RESET_PASSWORD_TOKEN,
   EMAIL_NOT_VERIFIED,
-} from '../types';
+} from "../types";
 
 const getIsVerified = () => {
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(localStorage.getItem("user"));
   if (user) {
     return user.isVerified;
   }
 
-  return 'initial';
+  return "initial";
 };
 
 export const initialState = {
-  user: JSON.parse(localStorage.getItem('user')) || {},
-  token: localStorage.getItem('token') || '',
-  isLoggedIn: !!localStorage.getItem('user'),
+  user: JSON.parse(localStorage.getItem("user")) || {},
+  token: localStorage.getItem("token") || "",
+  isLoggedIn: !!localStorage.getItem("user"),
   isVerified: getIsVerified(),
 };
 
@@ -48,7 +48,7 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         user: {},
-        token: '',
+        token: "",
         isLoggedIn: false,
       };
     case UPDATE_PROFILE:

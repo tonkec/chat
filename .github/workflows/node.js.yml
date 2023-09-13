@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: ['master', 'feature/*', 'component/*', 'test/*']
+    branches: ["master", "feature/*", "component/*", "test/*"]
   pull_request:
-    branches: ['master', 'feature/*', 'component/*', 'test/*']
+    branches: ["master", "feature/*", "component/*", "test/*"]
 
 jobs:
   build:
@@ -24,12 +24,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: "npm"
       - run: npm ci
       - run: npm install
       - run: npm run build --if-present
         env:
-          CI: ''
+          CI: ""
       - run: npm run ci:test
         env:
-          REACT_APP_BACKEND_PORT: 'https://duga-backend.herokuapp.com'
+          REACT_APP_BACKEND_PORT: "https://duga-backend.herokuapp.com"

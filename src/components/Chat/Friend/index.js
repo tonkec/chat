@@ -1,20 +1,20 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { userStatus } from '../../../utlis/helpers';
-import './index.scss';
+import React from "react";
+import { useSelector } from "react-redux";
+import { userStatus } from "../../../utlis/helpers";
+import "./index.scss";
 
 const Friend = ({ chat, click }) => {
   const currentChat = useSelector((state) => state.chatReducer.currentChat);
 
   const isChatOpened = () => {
-    return currentChat.id === chat.id ? 'opened' : '';
+    return currentChat.id === chat.id ? "opened" : "";
   };
 
   const lastMessage = () => {
-    if (chat.Messages.length === 0) return '';
+    if (chat.Messages.length === 0) return "";
 
     const message = chat.Messages[chat.Messages.length - 1];
-    return message.type === 'image' ? 'image uploaded' : message.message;
+    return message.type === "image" ? "image uploaded" : message.message;
   };
 
   return (

@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { AiOutlineDown } from 'react-icons/ai';
-import './Dropdown.scss';
+import { useState } from "react";
+import { AiOutlineDown } from "react-icons/ai";
+import "./Dropdown.scss";
 
 const Dropdown = ({ onOfflineClick, onOnlineClick }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [isOnline, setIsOnline] = useState(
-    JSON.parse(localStorage.getItem('online') || false)
+    JSON.parse(localStorage.getItem("online") || false),
   );
 
   return (

@@ -1,13 +1,13 @@
-import React, { useRef, useState } from 'react';
-import { Toast } from 'primereact/toast';
-import { FileUpload } from 'primereact/fileupload';
-import { Tooltip } from 'primereact/tooltip';
-import API from '../../../services/api';
-import { useSelector } from 'react-redux';
-import { chooseOptions, uploadOptions, cancelOptions } from './options';
-import HeaderTemplate from './HeaderTemplate';
-import EmptyTemplate from './EmptyTemplate';
-import ItemTemplate from './ItemTemplate';
+import React, { useRef, useState } from "react";
+import { Toast } from "primereact/toast";
+import { FileUpload } from "primereact/fileupload";
+import { Tooltip } from "primereact/tooltip";
+import API from "../../../services/api";
+import { useSelector } from "react-redux";
+import { chooseOptions, uploadOptions, cancelOptions } from "./options";
+import HeaderTemplate from "./HeaderTemplate";
+import EmptyTemplate from "./EmptyTemplate";
+import ItemTemplate from "./ItemTemplate";
 
 export default function DataSubmitter({ onHide, fetchUserPhotos }) {
   const currentUser = useSelector((state) => state.userReducer.user);
@@ -15,7 +15,7 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
   const fileUploadRef = useRef(null);
   const [text, setText] = useState([]);
   const [totalSize, setTotalSize] = useState(0);
-  const [errObj, setErrObj] = useState({err: false, errText: ''})
+  const [errObj, setErrObj] = useState({ err: false, errText: "" });
 
   const onRenameFile = (file) => {
     return new File([file], `user-photo-${currentUser.id}`, {
@@ -40,19 +40,19 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
     e.files.forEach((file) => {
       _totalSize += file.size || 0;
     });
-   
+
     setTotalSize(_totalSize);
     toast.current.show({
-      severity: 'info',
-      summary: 'Success',
-      detail: 'File Uploaded',
+      severity: "info",
+      summary: "Success",
+      detail: "File Uploaded",
     });
   };
 
   const prepareData = (e) => {
     const invalidDescriptions = text.filter((item) => {
       if (
-        item.description === '' ||
+        item.description === "" ||
         item.description === null ||
         item.description.length > 150
       ) {
@@ -63,11 +63,14 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
     });
 
     if (invalidDescriptions.length > 0 || text.length === 0) {
-      setErrObj({err: true, errText: 'Opis slike mora imati izmedju 1 i 150 karaktera.'})
+      setErrObj({
+        err: true,
+        errText: "Opis slike mora imati izmedju 1 i 150 karaktera.",
+      });
       toast.current.show({
-        severity: 'error',
-        summary: 'Greška',
-        detail: 'Opis slike mora imati izmedju 1 i 150 karaktera.',
+        severity: "error",
+        summary: "Greška",
+        detail: "Opis slike mora imati izmedju 1 i 150 karaktera.",
       });
       return;
     }
@@ -79,14 +82,13 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
     const formData = new FormData();
     e.files.map((file) => {
       const renamedFile = onRenameFile(file);
-      return formData.append('avatar', renamedFile);
+      return formData.append("avatar", renamedFile);
     });
-    formData.append('userId', currentUser.id);
-    formData.append('text', JSON.stringify(text));
+    formData.append("userId", currentUser.id);
+    formData.append("text", JSON.stringify(text));
 
     API.post(`/uploads/avatar`, formData, {})
       .then((res) => {
-        
         setText([]);
         fileUploadRef.current.clear();
         setTimeout(() => {
@@ -95,18 +97,17 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
         }, 2000);
       })
       .catch((err) => {
-        
         toast.current.show({
-          severity: 'error',
-          summary: 'Greška',
-          detail: 'Došlo je do greške prilikom slanja slike.',
+          severity: "error",
+          summary: "Greška",
+          detail: "Došlo je do greške prilikom slanja slike.",
         });
       });
   };
 
   const onTemplateRemove = (file, callback) => {
     setTotalSize(totalSize - file.size);
-    setErrObj({err: false, errText: ''})
+    setErrObj({ err: false, errText: "" });
     callback();
   };
 
@@ -119,7 +120,7 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
       const renamedFile = onRenameFile(file);
       const newState = [...prevState];
       const index = newState.findIndex(
-        (item) => item.imageId === renamedFile.name
+        (item) => item.imageId === renamedFile.name,
       );
 
       if (index === -1) {
@@ -142,8 +143,7 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
       <Tooltip target=".custom-choose-btn" content="Choose" position="bottom" />
       <Tooltip target=".custom-upload-btn" content="Upload" position="bottom" />
       <Tooltip target=".custom-cancel-btn" content="Clear" position="bottom" />
-      <h1 style={{fontSize: '10vw'}}>Krcina</h1>
-      
+
       <FileUpload
         ref={fileUploadRef}
         maxFileSize={1000000}

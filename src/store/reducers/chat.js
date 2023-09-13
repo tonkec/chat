@@ -13,7 +13,7 @@ import {
   ADD_USER_TO_GROUP,
   LEAVE_CURRENT_CHAT,
   DELETE_CURRENT_CHAT,
-} from '../actions/chat';
+} from "../actions/chat";
 const initilState = {
   chats: [],
   currentChat: {},
@@ -45,7 +45,7 @@ const chatReducer = (state = initilState, action) => {
             if (payload.includes(user.id)) {
               return {
                 ...user,
-                status: 'online',
+                status: "online",
               };
             }
 
@@ -65,7 +65,7 @@ const chatReducer = (state = initilState, action) => {
           if (user.id === parseInt(payload.id)) {
             return {
               ...user,
-              status: 'online',
+              status: "online",
             };
           }
           return user;
@@ -98,7 +98,7 @@ const chatReducer = (state = initilState, action) => {
           if (user.id === parseInt(payload.id)) {
             return {
               ...user,
-              status: 'offline',
+              status: "offline",
             };
           }
           return user;

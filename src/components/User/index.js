@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { getUser } from '../../store/actions/user';
-import './User.scss';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { getUser } from "../../store/actions/user";
+import "./User.scss";
 
 export const User = () => {
   const dispatch = useDispatch();

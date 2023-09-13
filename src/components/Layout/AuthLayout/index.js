@@ -1,4 +1,4 @@
-import './AuthLayout.scss';
+import "./AuthLayout.scss";
 
 const AuthLayout = ({ children }) => {
   return <main className="main-auth">{children}</main>;

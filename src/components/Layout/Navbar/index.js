@@ -1,8 +1,8 @@
-import { useEffect } from 'react';
-import './Navbar.scss';
-import Dropdown from '../../Dropdown';
-import { useSelector, useDispatch } from 'react-redux';
-import useSocket from '../../../hooks/socketConnect';
+import { useEffect } from "react";
+import "./Navbar.scss";
+import Dropdown from "../../Dropdown";
+import { useSelector, useDispatch } from "react-redux";
+import useSocket from "../../../hooks/socketConnect";
 
 function isEmpty(obj) {
   for (const prop in obj) {
@@ -21,28 +21,28 @@ const Navbar = () => {
   const socket = useSelector((state) => state.chatReducer.socket);
   useSocket(dispatch, currentUser);
   const isCurrentUserOnline = JSON.parse(
-    localStorage.getItem('online') || false
+    localStorage.getItem("online") || false,
   );
 
   const shouldConnectToSocket = isLoggedIn && currentUser;
 
   const onOnline = () => {
-    localStorage.setItem('online', true);
-    socket.emit('has-gone-online', currentUser);
+    localStorage.setItem("online", true);
+    socket.emit("has-gone-online", currentUser);
   };
 
   const onOffline = () => {
-    localStorage.setItem('online', false);
-    socket.emit('has-gone-offline', currentUser);
+    localStorage.setItem("online", false);
+    socket.emit("has-gone-offline", currentUser);
   };
 
   useEffect(() => {
     if (shouldConnectToSocket) {
       if (!isEmpty(socket)) {
         if (isCurrentUserOnline) {
-          socket.emit('has-gone-online', currentUser);
+          socket.emit("has-gone-online", currentUser);
         } else {
-          socket.emit('has-gone-offline', currentUser);
+          socket.emit("has-gone-offline", currentUser);
         }
       }
     }

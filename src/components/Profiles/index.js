@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllUsers } from '../../store/actions/user';
-import UserCard from '../UserCard';
-import '../Dashboard/Dashboard.scss';
-import { Link } from 'react-router-dom';
-import './Profiles.scss';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllUsers } from "../../store/actions/user";
+import UserCard from "../UserCard";
+import "../Dashboard/Dashboard.scss";
+import { Link } from "react-router-dom";
+import "./Profiles.scss";
 const Profiles = () => {
   const dispatch = useDispatch();
   const usersFromStore = useSelector((state) => state.userReducer.allUsers);

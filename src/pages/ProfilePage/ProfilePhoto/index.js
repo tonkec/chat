@@ -1,14 +1,14 @@
-import { FileUpload } from 'primereact/fileupload';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { ProgressSpinner } from 'primereact/progressspinner';
+import { FileUpload } from "primereact/fileupload";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 const ProfilePhoto = ({ profilePhotoUrl, onUpload }) => {
-  return profilePhotoUrl.trim() === '' ? (
+  return profilePhotoUrl.trim() === "" ? (
     <div className="col-12 md:col-4">
       <LazyLoadImage
         src={`url(http://placekitten.com/g/200/300)`}
         alt="profile photo"
-        style={{ width: '100%' }}
+        style={{ width: "100%" }}
         placeholder={
           <div>
             <ProgressSpinner />
@@ -29,7 +29,7 @@ const ProfilePhoto = ({ profilePhotoUrl, onUpload }) => {
       <LazyLoadImage
         src={`https://duga-user-photo.s3.eu-north-1.amazonaws.com/${profilePhotoUrl}`}
         alt="profile photo"
-        style={{ width: '100%' }}
+        style={{ width: "100%" }}
         placeholder={
           <div>
             <ProgressSpinner />

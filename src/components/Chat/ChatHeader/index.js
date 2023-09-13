@@ -1,8 +1,8 @@
-import { userStatus } from '../../../utlis/helpers';
-import { useSelector } from 'react-redux';
-import ChatService from '../../../services/chatService';
-import { useNavigate } from 'react-router-dom';
-import './ChatHeader.scss';
+import { userStatus } from "../../../utlis/helpers";
+import { useSelector } from "react-redux";
+import ChatService from "../../../services/chatService";
+import { useNavigate } from "react-router-dom";
+import "./ChatHeader.scss";
 
 const ChatHeader = ({ chat }) => {
   const navigate = useNavigate();
@@ -11,14 +11,14 @@ const ChatHeader = ({ chat }) => {
 
   const deleteChat = () => {
     ChatService.deleteCurrentChat(chat.id).then((data) => {
-      socket.emit('delete-chat', data);
-      navigate('/');
+      socket.emit("delete-chat", data);
+      navigate("/");
     });
   };
 
   return (
     <>
-      {chat.type === 'dual' ? (
+      {chat.type === "dual" ? (
         <div onClick={() => deleteChat()} className="delete-chat">
           <p>Obriši razgovor</p>
         </div>

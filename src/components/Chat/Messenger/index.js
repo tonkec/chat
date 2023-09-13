@@ -1,10 +1,10 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import ChatHeader from '../ChatHeader/';
-import MessageBox from '../MessageBox/';
-import MessageInput from '../MessageInput';
-import useSocket from '../../../hooks/socketConnect';
-import './Messenger.scss';
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import ChatHeader from "../ChatHeader/";
+import MessageBox from "../MessageBox/";
+import MessageInput from "../MessageInput";
+import useSocket from "../../../hooks/socketConnect";
+import "./Messenger.scss";
 
 const Messenger = ({ chat: chatFromProps }) => {
   const dispatch = useDispatch();

@@ -1,7 +1,7 @@
-import { useSelector } from 'react-redux';
-import UserCard from '../UserCard';
+import { useSelector } from "react-redux";
+import UserCard from "../UserCard";
 
-import './Dashboard.scss';
+import "./Dashboard.scss";
 
 const Dashboard = () => {
   const currentUser = useSelector((state) => state.authReducer.user);

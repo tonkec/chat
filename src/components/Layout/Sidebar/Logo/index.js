@@ -1,8 +1,8 @@
-import { colors } from './generateFlag';
-import './Logo.scss';
+import { colors } from "./generateFlag";
+import "./Logo.scss";
 const Logo = () => {
   const item = colors[Math.floor(Math.random() * colors.length)];
-  const fillInColors = item.split(',').reverse();
+  const fillInColors = item.split(",").reverse();
   return (
     <div className="logo">
       <svg
@@ -21,7 +21,7 @@ const Logo = () => {
               fill="#f00"
               imageRendering="auto"
               shapeRendering="auto"
-              style={{ isolation: 'auto', mixBlendMode: 'normal' }}
+              style={{ isolation: "auto", mixBlendMode: "normal" }}
             />
           </clipPath>
         </defs>
