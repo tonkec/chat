@@ -10,6 +10,8 @@ import MultipleUploadPhotoModal from './MultipleUploadPhotoModal';
 import './ProfilePage.scss';
 import ProfilePhoto from './ProfilePhoto';
 import PhotosService from '../../services/photosService';
+import FollowersCount from '../../components/FollowersCount';
+import followersService from '../../services/followersService';
 
 const ProfilePage = () => {
   const flashMessageContext = useContext(FlashMessageContext);
@@ -20,6 +22,7 @@ const ProfilePage = () => {
   const [isEditable, setIsEditable] = useState(false);
   const [isNewUploadModalVisible, setIsNewUploadModalVisible] = useState(false);
   const [profilePhotoUrl, setProfilePhotoUrl] = useState('');
+  const [followers, setFollowers] = useState([]);
 
   const fetchUserPhotos = useCallback(async () => {
     PhotosService.getPhotos(authUser.id)
@@ -66,10 +69,22 @@ const ProfilePage = () => {
     dispatch(getUser(authUser.id));
   }, [dispatch, authUser]);
 
+  useEffect(() => {
+    followersService
+      .getFollowers(authUser.id)
+      .then(response => {
+        setFollowers(response.followers);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }, [authUser]);
+
   return (
     <>
       {currentUser && (
         <div className='profile'>
+          <FollowersCount followers={followers} />
           <div className='grid' style={{ marginBottom: 50 }}>
             <div className='col-6 col-offset-6 flex justify-content-end'>
               <Button

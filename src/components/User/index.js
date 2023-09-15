@@ -5,6 +5,7 @@ import { getUser } from '../../store/actions/user';
 import './User.scss';
 import PhotosService from '../../services/photosService';
 import PhotoGallery from '../../pages/ProfilePage/PhotoGallery';
+import FollowButton from '../FollowButton';
 
 export const User = () => {
   const [userPhotos, setUserPhotos] = useState([]);
@@ -31,10 +32,12 @@ export const User = () => {
   useEffect(() => {
     dispatch(getUser(paramsId));
   }, [dispatch, paramsId]);
+
   return (
     userFromDb && (
       <div className='user-wrapper'>
         <div className='user'>
+          <FollowButton userId={paramsId} />
           <div className='user-name'>
             <img src={avatar} alt='user avatar' />
             <div>
@@ -44,7 +47,6 @@ export const User = () => {
               </p>
             </div>
           </div>
-
           <div className='user-identity'>
             <div>
               Sexuality:<span>{userFromDb.sexuality}</span>, Gender:{' '}
