@@ -1,9 +1,9 @@
-import { useEffect, useContext, useState } from "react";
-import PhotoLikes from "./PhotoLikes";
-import UpvoteButton from "./Upvote";
-import DownvoteButton from "./Downvote";
+import { useEffect, useState } from 'react';
+import PhotoLikes from './PhotoLikes';
+import UpvoteButton from './Upvote';
+import DownvoteButton from './Downvote';
 
-const ImageLogic = ({ photo, userId }) => {
+const Image = ({ photo, userId }) => {
   const [data, setData] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
 
@@ -13,7 +13,7 @@ const ImageLogic = ({ photo, userId }) => {
     } else {
       setIsLiked(false);
     }
-  }, [data]);
+  }, [data, userId]);
   return (
     <>
       <PhotoLikes photo={photo} data={data} setData={setData} />
@@ -33,4 +33,4 @@ const ImageLogic = ({ photo, userId }) => {
   );
 };
 
-export default ImageLogic;
+export default Image;

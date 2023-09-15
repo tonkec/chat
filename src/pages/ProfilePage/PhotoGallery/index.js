@@ -1,14 +1,13 @@
-import { useEffect, useState, useContext } from "react";
-import { Button } from "primereact/button";
-import API from "../../../services/api";
-import { useSelector } from "react-redux";
-import { Dialog } from "primereact/dialog";
-import ViewImageModal from "../ViewImageModal";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import { ProgressSpinner } from "primereact/progressspinner";
-
-import "./PhotoGallery.scss";
-import ImageLogic from "./ImageLogic";
+import { useEffect, useState } from 'react';
+import { Button } from 'primereact/button';
+import API from '../../../services/api';
+import { useSelector } from 'react-redux';
+import { Dialog } from 'primereact/dialog';
+import ViewImageModal from '../ViewImageModal';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { ProgressSpinner } from 'primereact/progressspinner';
+import Image from './Image';
+import './PhotoGallery.scss';
 
 export default function PhotoGallery({ images, userId }) {
   const [galleryImages, setGalleryImages] = useState(images);
@@ -24,7 +23,7 @@ export default function PhotoGallery({ images, userId }) {
     API.post(`/uploads/delete-avatar/`, { item, userId: userFromDb.id })
       .then((res) => {
         const filteredImages = galleryImages.filter(
-          (image) => image.url !== item.url,
+          (image) => image.url !== item.url
         );
 
         setGalleryImages(filteredImages);
@@ -54,7 +53,7 @@ export default function PhotoGallery({ images, userId }) {
                         <ProgressSpinner />
                       </div>
                     }
-                    style={{ width: "100%", height: "100%" }}
+                    style={{ width: '100%', height: '100%' }}
                     onClick={() => {
                       setCurrentImage(image);
                       setIsImageModalVisible(true);
@@ -65,7 +64,7 @@ export default function PhotoGallery({ images, userId }) {
                   <p>{image.description}</p>
                 </div>
 
-                {!isEditable && <ImageLogic photo={image} userId={userId} />}
+                {!isEditable && <Image photo={image} userId={userId} />}
                 <div className="card-actions">
                   {isEditable && (
                     <Button
@@ -85,7 +84,7 @@ export default function PhotoGallery({ images, userId }) {
       <Dialog
         header="Jesi li siguran_na"
         visible={isWarningModalVisible}
-        style={{ width: "50vw" }}
+        style={{ width: '50vw' }}
         onHide={() => setIsWarningModalVisible(false)}
       >
         <p className="m-0">

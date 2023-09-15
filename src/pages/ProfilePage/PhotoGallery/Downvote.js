@@ -1,6 +1,5 @@
-import { useEffect, useContext } from "react";
-import { Button } from "primereact/button";
-import PhotoLikesService from "../../../services/photolikesService";
+import { Button } from 'primereact/button';
+import PhotoLikesService from '../../../services/photolikesService';
 
 const DownvoteButton = ({ photo, userId, setData, disabled }) => {
   return (
@@ -15,7 +14,7 @@ const DownvoteButton = ({ photo, userId, setData, disabled }) => {
               .then((res) => {
                 setData(res.data);
               })
-              .catch((e) => e),
+              .catch((e) => e)
           )
           .catch((e) => e);
       }}

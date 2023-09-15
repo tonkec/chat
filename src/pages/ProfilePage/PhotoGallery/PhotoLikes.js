@@ -1,5 +1,5 @@
-import { useEffect, useState, useContext } from "react";
-import PhotoLikesService from "../../../services/photolikesService";
+import { useEffect } from 'react';
+import PhotoLikesService from '../../../services/photolikesService';
 
 const PhotoLikes = ({ photo, data, setData }) => {
   useEffect(() => {
@@ -8,7 +8,7 @@ const PhotoLikes = ({ photo, data, setData }) => {
         setData(res.data);
       })
       .catch((e) => e);
-  }, []);
+  }, [photo.id, setData]);
   return <p>{data.length} lajkova</p>;
 };
 
