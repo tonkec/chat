@@ -36,19 +36,14 @@ const FollowButton = ({ userId }) => {
   };
 
   useEffect(() => {
-    followersService
-      .getFollowers(userId)
-      .then(response => {
-        setFollowers(response.followers);
-        const isAlreadyFollowed = response.followers.some(
-          follower => follower.userId === currentUser.id,
-        );
+    followersService.getFollowers(userId).then(response => {
+      setFollowers(response.followers);
+      const isAlreadyFollowed = response.followers.some(
+        follower => follower.userId === currentUser.id,
+      );
 
-        setIsAlreadyFollowed(isAlreadyFollowed);
-      })
-      .catch(e => {
-        console.log(e);
-      });
+      setIsAlreadyFollowed(isAlreadyFollowed);
+    });
   }, [userId, currentUser]);
 
   return (

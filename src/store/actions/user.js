@@ -20,11 +20,9 @@ export const getAllUsers = () => dispatch => {
 };
 
 export const getUser = id => dispatch => {
-  return UserService.getUser(id)
-    .then(res => {
-      dispatch({ type: GET_USER, payload: res.data });
-    })
-    .catch(e => console.log(e));
+  return UserService.getUser(id).then(res => {
+    dispatch({ type: GET_USER, payload: res.data });
+  });
 };
 
 export const updateUser = data => dispatch => {
