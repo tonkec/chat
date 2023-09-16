@@ -43,7 +43,7 @@ const App = () => (
       <FlashMessage />
       <Router initialEntries={['/user/1']}>
         <Routes>
-          <Route path="/user/:id" element={<UserPage />} />
+          <Route path='/user/:id' element={<UserPage />} />
         </Routes>
       </Router>
     </FlashMessageProvider>
@@ -61,10 +61,10 @@ it('should render the User page with bio placeholder', async () => {
             Authorization: `Bearer sometoken`,
           }),
           ctx.status(200),
-          ctx.json(userFromApi)
+          ctx.json(userFromApi),
         );
-      }
-    )
+      },
+    ),
   );
   server.listen();
   render(<App />);

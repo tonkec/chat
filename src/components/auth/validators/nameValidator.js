@@ -1,4 +1,4 @@
-const isNameValid = (name) => {
+const isNameValid = name => {
   return name.trim() !== '';
 };
 

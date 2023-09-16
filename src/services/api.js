@@ -19,6 +19,6 @@ API.interceptors.response.use(
       }
     }
     throw error;
-  }
+  },
 );
 export default API;

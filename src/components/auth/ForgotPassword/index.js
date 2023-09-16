@@ -16,18 +16,18 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [isDisabled, setDisabled] = useState(false);
   const flashMessageContext = useContext(FlashMessageContext);
-  const handleValidInput = (value) => {
+  const handleValidInput = value => {
     setEmail(value);
     flashMessageContext.close();
     setDisabled(false);
   };
 
-  const handleInvalidInput = (error) => {
+  const handleInvalidInput = error => {
     flashMessageContext.error(error);
     setDisabled(true);
   };
 
-  const onEmailChange = (e) => {
+  const onEmailChange = e => {
     const value = e.target.value;
     const validEmail = isEmailValid(value);
     if (validEmail) {
@@ -36,7 +36,7 @@ const ForgotPassword = () => {
     }
     handleInvalidInput(EMAIL_INVALID);
   };
-  const onHandleSubmit = (e) => {
+  const onHandleSubmit = e => {
     e.preventDefault();
     try {
       dispatch(forgotPassword(email, navigate));
@@ -46,21 +46,21 @@ const ForgotPassword = () => {
   };
   return (
     <AuthLayout>
-      <form className="form-auth">
-        <h3 className="form-heading">Zaboravljena lozinka</h3>
+      <form className='form-auth'>
+        <h3 className='form-heading'>Zaboravljena lozinka</h3>
         <InputText
-          type="email"
-          placeholder="Tvoj email"
+          type='email'
+          placeholder='Tvoj email'
           required
           onChange={onEmailChange}
-          data-testid="email"
+          data-testid='email'
         />
 
         <Button
           style={{ width: '100%' }}
           disabled={isDisabled}
           onClick={onHandleSubmit}
-          label="Zatraži novu lozinku"
+          label='Zatraži novu lozinku'
         />
       </form>
     </AuthLayout>

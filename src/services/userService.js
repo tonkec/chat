@@ -4,30 +4,30 @@ const UserService = {
   getAllUsers: () => {
     return api
       .get('/users/get-users')
-      .then((res) => {
+      .then(res => {
         return res;
       })
-      .catch((err) => {
+      .catch(err => {
         throw err;
       });
   },
-  getUser: (id) => {
+  getUser: id => {
     return api
       .get(`/users/${id}`)
-      .then((res) => {
+      .then(res => {
         return res;
       })
-      .catch((err) => {
+      .catch(err => {
         throw err;
       });
   },
-  updateUser: (data) => {
+  updateUser: data => {
     return api
       .post('/users/update-user', { data })
-      .then((res) => {
+      .then(res => {
         return res;
       })
-      .catch((err) => {
+      .catch(err => {
         throw err;
       });
   },

@@ -7,10 +7,10 @@ import './ChatHeader.scss';
 const ChatHeader = ({ chat }) => {
   const navigate = useNavigate();
 
-  const socket = useSelector((state) => state.chatReducer.socket);
+  const socket = useSelector(state => state.chatReducer.socket);
 
   const deleteChat = () => {
-    ChatService.deleteCurrentChat(chat.id).then((data) => {
+    ChatService.deleteCurrentChat(chat.id).then(data => {
       socket.emit('delete-chat', data);
       navigate('/');
     });
@@ -19,23 +19,23 @@ const ChatHeader = ({ chat }) => {
   return (
     <>
       {chat.type === 'dual' ? (
-        <div onClick={() => deleteChat()} className="delete-chat">
+        <div onClick={() => deleteChat()} className='delete-chat'>
           <p>Obriši razgovor</p>
         </div>
       ) : null}
-      <div className="chat-header">
+      <div className='chat-header'>
         <div>
           {chat.Users &&
-            chat.Users.map((user) => {
+            chat.Users.map(user => {
               return (
-                <div className="chatter-info" key={user.id}>
+                <div className='chatter-info' key={user.id}>
                   <img
                     src={user.avatar}
-                    alt="user avatar"
-                    className="user-avatar"
+                    alt='user avatar'
+                    className='user-avatar'
                   />
                   <h3>{user.firstName}</h3>
-                  <div className="chatter-status">
+                  <div className='chatter-status'>
                     <span
                       className={`online-status ${userStatus(user)}`}
                     ></span>

@@ -48,12 +48,12 @@ const ResetPassword = () => {
     setDisabled(false);
   };
 
-  const handleInvalidInput = (error) => {
+  const handleInvalidInput = error => {
     flashMessageContext.error(error);
     setDisabled(true);
   };
 
-  const onPasswordChange = (e) => {
+  const onPasswordChange = e => {
     const value = e.target.value;
     const validPassword = isPasswordValid(value);
     if (validPassword) {
@@ -63,7 +63,7 @@ const ResetPassword = () => {
     handleInvalidInput(PASSWORD_MIN_CHARACTERS);
   };
 
-  const onConfirmationPasswordChange = (e) => {
+  const onConfirmationPasswordChange = e => {
     const value = e.target.value;
     const validPassword = isPasswordValid(value);
     if (value !== password) {
@@ -77,7 +77,7 @@ const ResetPassword = () => {
     }
   };
 
-  const onHandleSubmit = (e) => {
+  const onHandleSubmit = e => {
     e.preventDefault();
     const hasToken = token !== null && token.trim() !== '';
     const message = !hasToken && WRONG_TOKEN;
@@ -98,32 +98,32 @@ const ResetPassword = () => {
   return (
     <AuthLayout>
       {process.env.NODE_ENV === 'test' && (
-        <p data-testid="params">
+        <p data-testid='params'>
           {email}
           {token}
         </p>
       )}
-      <form className="form-auth">
-        <h3 className="form-heading">Promjena lozinke </h3>
+      <form className='form-auth'>
+        <h3 className='form-heading'>Promjena lozinke </h3>
         <InputText
-          type="password"
-          placeholder="Tvoja nova lozinka"
+          type='password'
+          placeholder='Tvoja nova lozinka'
           onChange={onPasswordChange}
           required
-          data-testid="password"
+          data-testid='password'
         />
 
         <InputText
-          type="password"
-          placeholder="Ponovi svoju novu lozinku"
+          type='password'
+          placeholder='Ponovi svoju novu lozinku'
           onChange={onConfirmationPasswordChange}
           required
-          data-testid="confirmationPassword"
+          data-testid='confirmationPassword'
         />
 
         <Button
           style={{ width: '100%' }}
-          label="Promijeni lozinku"
+          label='Promijeni lozinku'
           onClick={onHandleSubmit}
           disabled={isDisabled}
         />

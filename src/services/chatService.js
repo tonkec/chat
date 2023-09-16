@@ -3,18 +3,18 @@ import API from './api';
 const ChatService = {
   fetchChats: () => {
     return API.get('/chats')
-      .then((res) => res.data)
-      .catch((e) => {
+      .then(res => res.data)
+      .catch(e => {
         throw e;
       });
   },
-  uploadImage: (data) => {
+  uploadImage: data => {
     const headers = {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     };
     return API.post('/chats/upload-image', data, headers)
-      .then((res) => res.data.url)
-      .catch((e) => {
+      .then(res => res.data.url)
+      .catch(e => {
         throw e;
       });
   },
@@ -25,12 +25,12 @@ const ChatService = {
         page,
       },
     })
-      .then((res) => res.data)
-      .catch((e) => {
+      .then(res => res.data)
+      .catch(e => {
         throw e;
       });
   },
-  searchUsers: (term) => {
+  searchUsers: term => {
     return API.get('/users/search-users', {
       params: {
         term,
@@ -39,26 +39,26 @@ const ChatService = {
       .then(({ data }) => {
         return data;
       })
-      .catch((err) => {
+      .catch(err => {
         throw err;
       });
   },
-  createChat: (partnerId) => {
+  createChat: partnerId => {
     return API.post('/chats/create', { partnerId })
       .then(({ data }) => {
         return data;
       })
-      .catch((err) => {
+      .catch(err => {
         throw err;
       });
   },
 
-  leaveCurrentChat: (chatId) => {
+  leaveCurrentChat: chatId => {
     return API.post('/chats/leave-current-chat', { chatId })
       .then(({ data }) => {
         return data;
       })
-      .catch((err) => {
+      .catch(err => {
         throw err;
       });
   },
@@ -68,16 +68,16 @@ const ChatService = {
       .then(({ data }) => {
         return data;
       })
-      .catch((err) => {
+      .catch(err => {
         throw err;
       });
   },
-  deleteCurrentChat: (chatId) => {
+  deleteCurrentChat: chatId => {
     return API.delete(`/chats/${chatId}`)
       .then(({ data }) => {
         return data;
       })
-      .catch((err) => {
+      .catch(err => {
         throw err;
       });
   },

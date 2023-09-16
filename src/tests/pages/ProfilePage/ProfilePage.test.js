@@ -29,7 +29,7 @@ const App = () => (
       <FlashMessage />
       <Router initialEntries={['/profil']}>
         <Routes>
-          <Route path="/profil" element={<ProfilePage />} />
+          <Route path='/profil' element={<ProfilePage />} />
         </Routes>
       </Router>
     </FlashMessageProvider>
@@ -59,9 +59,9 @@ it('should render the Profile Page with all editable user data', async () => {
             Authorization: `Bearer sometoken`,
           }),
           ctx.status(200),
-          ctx.json(userFromApi)
+          ctx.json(userFromApi),
         );
-      }
+      },
     ),
     rest.get(
       `${process.env.REACT_APP_BACKEND_PORT}/uploads/avatar/1`,
@@ -72,14 +72,14 @@ it('should render the Profile Page with all editable user data', async () => {
             Authorization: `Bearer sometoken`,
           }),
           ctx.status(200),
-          ctx.json({ images: [] })
+          ctx.json({ images: [] }),
         );
-      }
-    )
+      },
+    ),
   );
   server.listen();
   render(<App />);
   expect(
-    await screen.findByText(`${userFromApi.firstName} ${userFromApi.lastName}`)
+    await screen.findByText(`${userFromApi.firstName} ${userFromApi.lastName}`),
   ).toBeInTheDocument();
 });

@@ -7,9 +7,9 @@ import { AiFillBell } from 'react-icons/ai';
 import './MessageInput.scss';
 const MessageInput = ({ chat }) => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.authReducer.user);
-  const socket = useSelector((state) => state.chatReducer.socket);
-  const newMessage = useSelector((state) => state.chatReducer.newMessage);
+  const user = useSelector(state => state.authReducer.user);
+  const socket = useSelector(state => state.chatReducer.socket);
+  const newMessage = useSelector(state => state.chatReducer.newMessage);
 
   const [message, setMessage] = useState('');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -17,13 +17,13 @@ const MessageInput = ({ chat }) => {
     useState(false);
 
   const msgInput = useRef();
-  const handleMessage = (e) => {
+  const handleMessage = e => {
     const value = e.target.value;
     setMessage(value);
     const receiver = {
       chatId: chat.id,
       fromUser: user,
-      toUserId: chat.Users.map((user) => user.id),
+      toUserId: chat.Users.map(user => user.id),
     };
 
     if (value.length === 1) {
@@ -43,7 +43,7 @@ const MessageInput = ({ chat }) => {
     }
   };
 
-  const sendMessage = (imageUpload) => {
+  const sendMessage = imageUpload => {
     if (message.length < 1 && !imageUpload) {
       return;
     }
@@ -51,7 +51,7 @@ const MessageInput = ({ chat }) => {
     const msg = {
       type: imageUpload ? 'image' : 'text',
       fromUser: user,
-      toUserId: chat.Users && chat.Users.map((user) => user.id),
+      toUserId: chat.Users && chat.Users.map(user => user.id),
       chatId: chat.id,
       message: imageUpload ? imageUpload : message,
     };
@@ -61,7 +61,7 @@ const MessageInput = ({ chat }) => {
     socket.emit('message', msg);
   };
 
-  const selectEmoji = (emoji) => {
+  const selectEmoji = emoji => {
     const startPosition = msgInput.current.selectionStart;
     const endPosition = msgInput.current.selectionEnd;
     const emojiLength = emoji.native.length;
@@ -69,7 +69,7 @@ const MessageInput = ({ chat }) => {
     setMessage(
       value.substring(0, startPosition) +
         emoji.native +
-        value.substring(endPosition, value.length)
+        value.substring(endPosition, value.length),
     );
     msgInput.current.focus();
     msgInput.current.selectionEnd = endPosition + emojiLength;
@@ -107,27 +107,27 @@ const MessageInput = ({ chat }) => {
     setShowNewMessageNotification(false);
   };
   return (
-    <div className="input-container">
-      <div className="message-input">
-        <div className="image-upload-container">
+    <div className='input-container'>
+      <div className='message-input'>
+        <div className='image-upload-container'>
           <div>
             {showNewMessageNotification ? (
-              <div className="message-notification" onClick={showNewMessage}>
+              <div className='message-notification' onClick={showNewMessage}>
                 <AiFillBell />
               </div>
             ) : null}
           </div>
         </div>
         <input
-          type="text"
-          placeholder="Stisni enter da pošalješ poruku..."
-          onChange={(e) => handleMessage(e)}
-          onKeyDown={(e) => handleKeyDown(e, false)}
+          type='text'
+          placeholder='Stisni enter da pošalješ poruku...'
+          onChange={e => handleMessage(e)}
+          onKeyDown={e => handleKeyDown(e, false)}
           value={message}
           ref={msgInput}
         />
         <button
-          className="button-inline-block button-emoji"
+          className='button-inline-block button-emoji'
           onClick={() => setShowEmojiPicker(!showEmojiPicker)}
         >
           🙂
@@ -137,8 +137,8 @@ const MessageInput = ({ chat }) => {
       {showEmojiPicker ? (
         <Picker
           data={data}
-          title="Pick your emoji..."
-          emoji="point_up"
+          title='Pick your emoji...'
+          emoji='point_up'
           style={{ position: 'absolute', bottom: '20px', right: '0px' }}
           onEmojiSelect={selectEmoji}
         />

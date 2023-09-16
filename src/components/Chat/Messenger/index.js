@@ -8,9 +8,9 @@ import './Messenger.scss';
 
 const Messenger = ({ chat: chatFromProps }) => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.authReducer.user);
+  const user = useSelector(state => state.authReducer.user);
   useSocket(dispatch, user);
-  const chatFromState = useSelector((state) => {
+  const chatFromState = useSelector(state => {
     return state.chatReducer.currentChat;
   });
 
@@ -26,7 +26,7 @@ const Messenger = ({ chat: chatFromProps }) => {
 
   const chat = chatFromState || chatFromProps;
   return (
-    <div className="messenger">
+    <div className='messenger'>
       {activeChat() && (
         <div>
           <ChatHeader chat={chat} />
