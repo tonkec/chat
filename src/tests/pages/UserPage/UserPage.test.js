@@ -93,6 +93,12 @@ it("should render the user's photos", async () => {
   await waitFor(() => {
     expect(screen.getByText('Fotografije')).toBeInTheDocument();
   });
+
+  await waitFor(() => {
+    expect(
+      screen.getByRole('img', { name: 'user avatar' }),
+    ).toBeInTheDocument();
+  });
 });
 
 it('should render the user name', async () => {

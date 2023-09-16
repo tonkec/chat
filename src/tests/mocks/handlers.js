@@ -78,19 +78,6 @@ export const handlersForUserPage = [
       );
     },
   ),
-  rest.post(
-    `${process.env.REACT_APP_BACKEND_PORT}/uploads/avatar`,
-    (req, res, ctx) => {
-      return res(
-        ctx.set({
-          Accept: 'application/json',
-          Authorization: `Bearer sometoken`,
-        }),
-        ctx.status(200),
-        ctx.json({ message: 'Upload successful' }),
-      );
-    },
-  ),
   rest.get(
     `${process.env.REACT_APP_BACKEND_PORT}/uploads/avatar/1`,
     (req, res, ctx) => {
@@ -124,6 +111,22 @@ export const handlersForUserPage = [
             },
           ],
         }),
+      );
+    },
+  ),
+];
+
+export const handlersForProfilePage = [
+  rest.post(
+    `${process.env.REACT_APP_BACKEND_PORT}/uploads/avatar`,
+    (req, res, ctx) => {
+      return res(
+        ctx.set({
+          Accept: 'application/json',
+          Authorization: `Bearer sometoken`,
+        }),
+        ctx.status(200),
+        ctx.json({ message: 'Upload successful' }),
       );
     },
   ),
