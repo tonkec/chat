@@ -64,7 +64,7 @@ export default function PhotoGallery({ images, userId }) {
                   <p>{image.description}</p>
                 </div>
 
-                {!isEditable && <Image photo={image} userId={userId} />}
+                {!isEditable && <Image photo={image} userId={userId} currentUserId={loggedInUser} />}
                 <div className="card-actions">
                   {isEditable && (
                     <Button
