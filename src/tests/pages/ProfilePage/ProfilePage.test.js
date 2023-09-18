@@ -23,11 +23,22 @@ const userFromApi = {
 
 const App = () => (
   <Provider store={appStore}>
+<<<<<<< HEAD
     <Router initialEntries={["/profil"]}>
       <Routes>
         <Route path="/profil" element={<ProfilePage />} />
       </Routes>
     </Router>
+=======
+    <FlashMessageProvider>
+      <FlashMessage />
+      <Router initialEntries={['/profil']}>
+        <Routes>
+          <Route path='/profil' element={<ProfilePage />} />
+        </Routes>
+      </Router>
+    </FlashMessageProvider>
+>>>>>>> master
   </Provider>
 );
 

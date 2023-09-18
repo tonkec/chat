@@ -62,11 +62,22 @@ beforeAll(() => {
 
 const App = () => (
   <Provider store={appStore}>
+<<<<<<< HEAD
     <Router initialEntries={["/", "/svi-profili"]}>
       <Routes>
         <Route path="/svi-profili" element={<AllProfilesPage />} />
       </Routes>
     </Router>
+=======
+    <FlashMessageProvider>
+      <FlashMessage />
+      <Router initialEntries={['/', '/svi-profili']}>
+        <Routes>
+          <Route path='/svi-profili' element={<AllProfilesPage />} />
+        </Routes>
+      </Router>
+    </FlashMessageProvider>
+>>>>>>> master
   </Provider>
 );
 
@@ -94,7 +105,11 @@ it("should get all the users", async () => {
   server.listen();
   render(<App />);
   const users = await waitFor(() =>
+<<<<<<< HEAD
     screen.getAllByTestId("user").map((user) => user.textContent),
+=======
+    screen.getAllByTestId('user').map(user => user.textContent),
+>>>>>>> master
   );
   await waitFor(() => {
     expect(users).toEqual(["antonija", "veronika", "petra"]);

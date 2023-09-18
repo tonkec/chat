@@ -5,38 +5,64 @@ import { getUser } from "../../store/actions/user";
 import "./User.scss";
 
 export const User = () => {
+  const [userPhotos, setUserPhotos] = useState([]);
+  const [avatar, setAvatar] = useState('http://placekitten.com/200/200');
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.userReducer.user);
-  let { id: userId } = useParams();
+  const userFromDb = useSelector(state => state.userReducer.user);
+  const { id: paramsId } = useParams();
 
   useEffect(() => {
-    dispatch(getUser(userId));
-  }, [dispatch, userId]);
+    PhotosService.getPhotos(paramsId)
+      .then(response => {
+        setUserPhotos(response.allImages);
+        if (response.allImages.length > 0) {
+          setAvatar(
+            `${process.env.REACT_APP_S3_BUCKET_URL}/${response.profilePhoto[0].url}`,
+          );
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  }, [dispatch, paramsId]);
+
+  useEffect(() => {
+    dispatch(getUser(paramsId));
+  }, [dispatch, paramsId]);
+
   return (
-    user && (
-      <div className="user-wrapper">
-        <div className="user">
-          <div className="user-name">
-            <img src={user.avatar} alt="user avatar" />
+    userFromDb && (
+      <div className='user-wrapper'>
+        <div className='user'>
+          <FollowButton userId={paramsId} />
+          <div className='user-name'>
+            <img src={avatar} alt='user avatar' />
             <div>
-              <h4>{user.firstName}</h4>
+              <h4>{userFromDb.firstName}</h4>
               <p>
-                {user.location}, {user.age}
+                {userFromDb.location}, {userFromDb.age}
               </p>
             </div>
           </div>
-
-          <div className="user-identity">
+          <div className='user-identity'>
             <div>
-              <span>{user.sexuality}</span>, <span>{user.gender}</span>
+              Sexuality:<span>{userFromDb.sexuality}</span>, Gender:{' '}
+              <span>{userFromDb.gender}</span>
             </div>
           </div>
-          <p className="user-bio">
-            <b>Bio:</b> <br /> {user.bio}
+          <p className='user-bio'>
+            <b>Bio:</b> <br /> {userFromDb.bio}
           </p>
         </div>
 
-        <div>Photo album</div>
+        {userPhotos.length > 0 && (
+          <div className='user-photos'>
+            <h3>Fotografije</h3>
+            <div className='user-photos-wrapper'>
+              <PhotoGallery userId={paramsId} images={userPhotos} />
+            </div>
+          </div>
+        )}
       </div>
     )
   );

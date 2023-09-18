@@ -37,11 +37,22 @@ beforeAll(() => {
 
 const App = () => (
   <Provider store={appStore}>
+<<<<<<< HEAD
     <Router initialEntries={["/user/1"]}>
       <Routes>
         <Route path="/user/:id" element={<UserPage />} />
       </Routes>
     </Router>
+=======
+    <FlashMessageProvider>
+      <FlashMessage />
+      <Router initialEntries={['/user/1']}>
+        <Routes>
+          <Route path='/user/:id' element={<UserPage />} />
+        </Routes>
+      </Router>
+    </FlashMessageProvider>
+>>>>>>> master
   </Provider>
 );
 

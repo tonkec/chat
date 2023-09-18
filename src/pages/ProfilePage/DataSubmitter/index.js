@@ -10,34 +10,34 @@ import EmptyTemplate from "./EmptyTemplate";
 import ItemTemplate from "./ItemTemplate";
 
 export default function DataSubmitter({ onHide, fetchUserPhotos }) {
-  const currentUser = useSelector((state) => state.userReducer.user);
+  const currentUser = useSelector(state => state.userReducer.user);
   const toast = useRef(null);
   const fileUploadRef = useRef(null);
   const [text, setText] = useState([]);
   const [totalSize, setTotalSize] = useState(0);
   const [errObj, setErrObj] = useState({ err: false, errText: "" });
 
-  const onRenameFile = (file) => {
+  const onRenameFile = file => {
     return new File([file], `user-photo-${currentUser.id}`, {
       type: file.type,
     });
   };
 
-  const onTemplateSelect = (e) => {
+  const onTemplateSelect = e => {
     let _totalSize = totalSize;
     let files = e.files;
 
-    Object.keys(files).forEach((key) => {
+    Object.keys(files).forEach(key => {
       _totalSize += files[key].size || 0;
     });
 
     setTotalSize(_totalSize);
   };
 
-  const onTemplateUpload = (e) => {
+  const onTemplateUpload = e => {
     let _totalSize = 0;
 
-    e.files.forEach((file) => {
+    e.files.forEach(file => {
       _totalSize += file.size || 0;
     });
 
@@ -49,8 +49,8 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
     });
   };
 
-  const prepareData = (e) => {
-    const invalidDescriptions = text.filter((item) => {
+  const prepareData = e => {
+    const invalidDescriptions = text.filter(item => {
       if (
         item.description === "" ||
         item.description === null ||
@@ -78,9 +78,9 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
     saveImagesToS3(e);
   };
 
-  const saveImagesToS3 = (e) => {
+  const saveImagesToS3 = e => {
     const formData = new FormData();
-    e.files.map((file) => {
+    e.files.map(file => {
       const renamedFile = onRenameFile(file);
       return formData.append("avatar", renamedFile);
     });
@@ -96,7 +96,7 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
           fetchUserPhotos();
         }, 2000);
       })
-      .catch((err) => {
+      .catch(err => {
         toast.current.show({
           severity: "error",
           summary: "Greška",
@@ -116,11 +116,12 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
   };
 
   const onDescriptionChange = (e, file) => {
-    setText((prevState) => {
+    setText(prevState => {
       const renamedFile = onRenameFile(file);
       const newState = [...prevState];
       const index = newState.findIndex(
         (item) => item.imageId === renamedFile.name,
+        item => item.imageId === renamedFile.name,
       );
 
       if (index === -1) {
@@ -140,9 +141,9 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
     <div>
       <Toast ref={toast}></Toast>
 
-      <Tooltip target=".custom-choose-btn" content="Choose" position="bottom" />
-      <Tooltip target=".custom-upload-btn" content="Upload" position="bottom" />
-      <Tooltip target=".custom-cancel-btn" content="Clear" position="bottom" />
+      <Tooltip target='.custom-choose-btn' content='Choose' position='bottom' />
+      <Tooltip target='.custom-upload-btn' content='Upload' position='bottom' />
+      <Tooltip target='.custom-cancel-btn' content='Clear' position='bottom' />
 
       <FileUpload
         ref={fileUploadRef}
@@ -153,7 +154,7 @@ export default function DataSubmitter({ onHide, fetchUserPhotos }) {
         onSelect={onTemplateSelect}
         onError={onTemplateClear}
         onClear={onTemplateClear}
-        headerTemplate={(options) => (
+        headerTemplate={options => (
           <HeaderTemplate
             options={options}
             fileUploadRef={fileUploadRef}

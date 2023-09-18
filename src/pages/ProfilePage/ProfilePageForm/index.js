@@ -26,6 +26,7 @@ const ProfilePageForm = ({ onSubmit }) => {
         const e = window.event;
         e.preventDefault();
 
+
         const data = {
           username: values.name,
           bio: values.bio,
@@ -34,128 +35,132 @@ const ProfilePageForm = ({ onSubmit }) => {
           location: values.lokacija,
           age: values.dob,
         };
+          age: values.dob,
+        };
 
         dispatch(updateUser(data));
         onSubmit();
       },
+        dispatch(updateUser(data));
+        onSubmit();
+      },
     });
-  console.log(errors);
+
   return (
     <form
       onSubmit={handleSubmit}
-      autoComplete="off"
-      style={{ display: "flex", flexDirection: "column" }}
+      autoComplete='off'
+      style={{ display: 'flex', flexDirection: 'column' }}
     >
-      <label htmlFor="name">Username</label>
+      <label htmlFor='name'>Username</label>
       <InputText
-        type="text"
+        type='text'
         style={
           errors.name && touched.name
-            ? { borderColor: "#fc8181", width: "100%", marginBottom: "0.1vw" }
-            : { width: "100%", marginBottom: 15, borderolor: "" }
+            ? { borderColor: '#fc8181', width: '100%', marginBottom: '0.1vw' }
+            : { width: '100%', marginBottom: 15, borderolor: '' }
         }
-        placeholder="tvoj username"
+        placeholder='tvoj username'
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.name}
-        id="name"
+        id='name'
       />
-      {/* {errors.name && touched.name && <p style={{ color: '#fc8181', fontSize: '1vw',textAlign: 'left', marginTop: '0.25rem'}}>{errors.name}</p>}
-        <label htmlFor="bio">Bio</label> */}
+
       {errors.name && touched.name && (
-        <Message severity="error" text={errors.name.message} />
+        <Message severity='error' text={errors.name.message} />
       )}
-      <label htmlFor="bio">Bio</label>
+      <label htmlFor='bio'>Bio</label>
       <InputTextarea
         style={
           errors.bio && touched.bio
-            ? { borderColor: "#fc8181", width: "100%", marginBottom: "0.1vw" }
-            : { width: "100%", marginBottom: 15 }
+            ? { borderColor: '#fc8181', width: '100%', marginBottom: '0.1vw' }
+            : { width: '100%', marginBottom: 15 }
         }
-        placeholder="tvoj bio"
+        placeholder='tvoj bio'
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.bio}
         rows={10}
-        id="bio"
+        id='bio'
       />
       {errors.bio && touched.bio && (
-        <Message severity="error" text={errors.bio.message} />
+        <Message severity='error' text={errors.bio.message} />
       )}
 
-      <label htmlFor="sex">Seksualnost</label>
+      <label htmlFor='sex'>Seksualnost</label>
       <InputText
-        type="text"
+        type='text'
         style={
           errors.sex && touched.sex
-            ? { borderColor: "#fc8181", width: "100%", marginBottom: "0.1vw" }
-            : { width: "100%", marginBottom: 15 }
+            ? { borderColor: '#fc8181', width: '100%', marginBottom: '0.1vw' }
+            : { width: '100%', marginBottom: 15 }
         }
-        placeholder="tvoja seksualnost"
+        placeholder='tvoja seksualnost'
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.sex}
-        id="sex"
+        id='sex'
       />
       {errors.sex && touched.sex && (
-        <Message severity="error" text={errors.sex} />
+        <Message severity='error' text={errors.sex} />
       )}
 
-      <label htmlFor="rod">Rod</label>
+      <label htmlFor='rod'>Rod</label>
       <InputText
-        type="text"
+        type='text'
         style={
           errors.rod && touched.rod
-            ? { borderColor: "#fc8181", width: "100%", marginBottom: "0.1vw" }
-            : { width: "100%", marginBottom: 15 }
+            ? { borderColor: '#fc8181', width: '100%', marginBottom: '0.1vw' }
+            : { width: '100%', marginBottom: 15 }
         }
-        placeholder="tvoj rod"
+        placeholder='tvoj rod'
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.rod}
-        id="rod"
+        id='rod'
       />
       {errors.rod && touched.rod && (
-        <Message severity="error" text={errors.rod} />
+        <Message severity='error' text={errors.rod} />
       )}
 
-      <label htmlFor="lokacija">Lokacija</label>
+      <label htmlFor='lokacija'>Lokacija</label>
       <InputText
-        type="text"
+        type='text'
         style={
           errors.lokacija && touched.lokacija
-            ? { borderColor: "#fc8181", width: "100%", marginBottom: "0.1vw" }
-            : { width: "100%", marginBottom: 15 }
+            ? { borderColor: '#fc8181', width: '100%', marginBottom: '0.1vw' }
+            : { width: '100%', marginBottom: 15 }
         }
-        placeholder="Tvoja lokacija"
+        placeholder='Tvoja lokacija'
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.lokacija}
-        id="lokacija"
+        id='lokacija'
       />
       {errors.lokacija && touched.lokacija && (
-        <Message severity="error" text={errors.lokacija} />
+        <Message severity='error' text={errors.lokacija} />
       )}
 
-      <label htmlFor="dob">Dob</label>
+      <label htmlFor='dob'>Dob</label>
       <InputText
-        type="number"
+        type='number'
         style={
           errors.dob && touched.dob
-            ? { borderColor: "#fc8181", width: "100%", marginBottom: "0.1vw" }
-            : { width: "100%", marginBottom: 15 }
+            ? { borderColor: '#fc8181', width: '100%', marginBottom: '0.1vw' }
+            : { width: '100%', marginBottom: 15 }
         }
-        placeholder="Tvoja dob"
+        placeholder='Tvoja dob'
         onChange={handleChange}
         onBlur={handleBlur}
         value={values.dob}
-        id="dob"
+        id='dob'
       />
       {errors.dob && touched.dob && (
-        <Message severity="error" text={errors.dob} />
+        <Message severity='error' text={errors.dob} />
       )}
 
-      <Button type="submit" label="Izmijeni" />
+      <Button type='submit' label='Izmijeni' />
     </form>
   );
 };

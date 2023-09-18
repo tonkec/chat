@@ -34,8 +34,8 @@ const ForgotPassword = () => {
       <form onSubmit={handleSubmit} className="form-auth">
         <h3 className="form-heading">Zaboravljena lozinka</h3>
         <InputText
-          type="email"
-          placeholder="Tvoj email"
+          type='email'
+          placeholder='Tvoj email'
           required
           onChange={handleChange}
           onBlur={handleBlur}

@@ -1,8 +1,8 @@
 const EmptyTemplate = () => {
   return (
-    <div className="flex align-items-center flex-column">
+    <div className='flex align-items-center flex-column'>
       <i
-        className="pi pi-image mt-3 p-5"
+        className='pi pi-image mt-3 p-5'
         style={{
           fontSize: "5em",
           borderRadius: "50%",

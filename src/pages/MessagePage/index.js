@@ -13,7 +13,11 @@ const MessagesPage = () => {
   const getAllChats = useCallback(async () => {
     const allChats = await dispatch(fetchChats());
     const filteredChat = allChats.filter(
+<<<<<<< HEAD
       (chatFromAllChats) => parseInt(id) === chatFromAllChats.id,
+=======
+      chatFromAllChats => parseInt(id) === chatFromAllChats.id,
+>>>>>>> master
     );
 
     if (filteredChat.length > 0) {

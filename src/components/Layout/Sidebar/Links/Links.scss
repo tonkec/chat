@@ -1,4 +1,4 @@
-@import "../../../../assets/variables.scss";
+@import '../../../../assets/variables.scss';
 
 .sidebar ul {
   list-style-type: none;
@@ -30,7 +30,7 @@
 }
 
 .sidebar li a:before {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   top: 0;

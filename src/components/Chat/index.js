@@ -5,7 +5,7 @@ import "./Chat.scss";
 import useSocket from "../../hooks/socketConnect";
 const Chat = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.authReducer.user);
+  const user = useSelector(state => state.authReducer.user);
   useSocket(dispatch, user);
 
   return <FriendList />;

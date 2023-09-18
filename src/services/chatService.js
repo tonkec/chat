@@ -2,19 +2,31 @@ import API from "./api";
 
 const ChatService = {
   fetchChats: () => {
+<<<<<<< HEAD
     return API.get("/chats")
       .then((res) => res.data)
       .catch((e) => {
+=======
+    return API.get('/chats')
+      .then(res => res.data)
+      .catch(e => {
+>>>>>>> master
         throw e;
       });
   },
-  uploadImage: (data) => {
+  uploadImage: data => {
     const headers = {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
     };
+<<<<<<< HEAD
     return API.post("/chats/upload-image", data, headers)
       .then((res) => res.data.url)
       .catch((e) => {
+=======
+    return API.post('/chats/upload-image', data, headers)
+      .then(res => res.data.url)
+      .catch(e => {
+>>>>>>> master
         throw e;
       });
   },
@@ -25,13 +37,18 @@ const ChatService = {
         page,
       },
     })
-      .then((res) => res.data)
-      .catch((e) => {
+      .then(res => res.data)
+      .catch(e => {
         throw e;
       });
   },
+<<<<<<< HEAD
   searchUsers: (term) => {
     return API.get("/users/search-users", {
+=======
+  searchUsers: term => {
+    return API.get('/users/search-users', {
+>>>>>>> master
       params: {
         term,
       },
@@ -39,26 +56,36 @@ const ChatService = {
       .then(({ data }) => {
         return data;
       })
-      .catch((err) => {
+      .catch(err => {
         throw err;
       });
   },
+<<<<<<< HEAD
   createChat: (partnerId) => {
     return API.post("/chats/create", { partnerId })
+=======
+  createChat: partnerId => {
+    return API.post('/chats/create', { partnerId })
+>>>>>>> master
       .then(({ data }) => {
         return data;
       })
-      .catch((err) => {
+      .catch(err => {
         throw err;
       });
   },
 
+<<<<<<< HEAD
   leaveCurrentChat: (chatId) => {
     return API.post("/chats/leave-current-chat", { chatId })
+=======
+  leaveCurrentChat: chatId => {
+    return API.post('/chats/leave-current-chat', { chatId })
+>>>>>>> master
       .then(({ data }) => {
         return data;
       })
-      .catch((err) => {
+      .catch(err => {
         throw err;
       });
   },
@@ -68,16 +95,16 @@ const ChatService = {
       .then(({ data }) => {
         return data;
       })
-      .catch((err) => {
+      .catch(err => {
         throw err;
       });
   },
-  deleteCurrentChat: (chatId) => {
+  deleteCurrentChat: chatId => {
     return API.delete(`/chats/${chatId}`)
       .then(({ data }) => {
         return data;
       })
-      .catch((err) => {
+      .catch(err => {
         throw err;
       });
   },

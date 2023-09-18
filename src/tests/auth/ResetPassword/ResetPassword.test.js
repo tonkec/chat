@@ -12,6 +12,7 @@ import { setupServer } from "msw/node";
 const renderApp = (token, email) => {
   const App = () => (
     <Provider store={appStore}>
+<<<<<<< HEAD
       <Router
         initialEntries={[
           "/",
@@ -27,6 +28,26 @@ const renderApp = (token, email) => {
           <Route path="/reset-password" element={<ResetPassword />} />
         </Routes>
       </Router>
+=======
+      <FlashMessageProvider>
+        <FlashMessage />
+        <Router
+          initialEntries={[
+            '/',
+            '/login',
+            `/reset-password?token=${token}&email=${email}`,
+          ]}
+        >
+          <Routes>
+            <Route exact path='/' element={<ProtectedRoute />}>
+              <Route exact path='/' element={<HomePage />} />
+            </Route>
+            <Route path='/login' element={<Login />} />
+            <Route path='/reset-password' element={<ResetPassword />} />
+          </Routes>
+        </Router>
+      </FlashMessageProvider>
+>>>>>>> master
     </Provider>
   );
   render(<App />);
@@ -37,10 +58,17 @@ test("renders the reset password page", () => {
   expect(screen.getByText("Promjena lozinke")).toBeTruthy();
 });
 
+<<<<<<< HEAD
 test("it should get the correct email param", () => {
   renderApp(123, "antonija1023@gmail.com");
   expect(screen.getByTestId("params")).toHaveTextContent(
     "antonija1023@gmail.com",
+=======
+test('it should get the correct email param', () => {
+  renderApp(123, 'antonija1023@gmail.com');
+  expect(screen.getByTestId('params')).toHaveTextContent(
+    'antonija1023@gmail.com',
+>>>>>>> master
   );
 });
 
@@ -60,7 +88,11 @@ test("it should not submit the form if passwords are mismatched", () => {
     screen.getByRole("button", {
       name: /Promijeni lozinku/i,
     }),
+<<<<<<< HEAD
   ).toHaveAttribute("disabled");
+=======
+  ).toHaveAttribute('disabled');
+>>>>>>> master
 });
 
 test("it should show an error message if there are params missing", async () => {
@@ -70,7 +102,11 @@ test("it should show an error message if there are params missing", async () => 
   await userEvent.type(inputPassword, "123456");
   await userEvent.type(inputPasswordConfirmation, "123456");
   await userEvent.click(
+<<<<<<< HEAD
     screen.getByRole("button", { name: "Promijeni lozinku" }),
+=======
+    screen.getByRole('button', { name: 'Promijeni lozinku' }),
+>>>>>>> master
   );
   screen.getByText("Something is wrong with the token");
 });
@@ -84,7 +120,11 @@ test("it should submit the form if it is valid and all params exist", async () =
           ctx.status(200),
           ctx.json({
             token:
+<<<<<<< HEAD
               "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdmF0YXIiOm51bGwsImlkIjo0NSwiZmlyc3ROYW1lIjoiYSIsImxhc3ROYW1lIjoidiIsImVtYWlsIjoiYW50b25pamExMDIzQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJE5pVjRMN2k3S25zVGxQLktyU3pYZ09xV3hycWxTTWZRaTVFOGpCTzhpSGRzWXozeC9udDYyIiwiZ2VuZGVyIjoiZmVtYWxlIiwiaXNWZXJpZmllZCI6dHJ1ZSwiY3JlYXRlZEF0IjoiMjAyMy0wMy0wN1QxODozNjo1MS44MDZaIiwidXBkYXRlZEF0IjoiMjAyMy0wMy0wOVQxMjoxMjo0Ny44NDNaIiwiaWF0IjoxNjc4ODA2ODYyLCJleHAiOjE3NjUyMDY4NjJ9.T7KGQrRVNRr7-hEDuFSinW9az72fTkoOGdI1JSQo5Ng",
+=======
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdmF0YXIiOm51bGwsImlkIjo0NSwiZmlyc3ROYW1lIjoiYSIsImxhc3ROYW1lIjoidiIsImVtYWlsIjoiYW50b25pamExMDIzQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJE5pVjRMN2k3S25zVGxQLktyU3pYZ09xV3hycWxTTWZRaTVFOGpCTzhpSGRzWXozeC9udDYyIiwiZ2VuZGVyIjoiZmVtYWxlIiwiaXNWZXJpZmllZCI6dHJ1ZSwiY3JlYXRlZEF0IjoiMjAyMy0wMy0wN1QxODozNjo1MS44MDZaIiwidXBkYXRlZEF0IjoiMjAyMy0wMy0wOVQxMjoxMjo0Ny44NDNaIiwiaWF0IjoxNjc4ODA2ODYyLCJleHAiOjE3NjUyMDY4NjJ9.T7KGQrRVNRr7-hEDuFSinW9az72fTkoOGdI1JSQo5Ng',
+>>>>>>> master
           }),
         );
       },
@@ -96,7 +136,11 @@ test("it should submit the form if it is valid and all params exist", async () =
           ctx.status(200),
           ctx.json({
             token:
+<<<<<<< HEAD
               "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdmF0YXIiOm51bGwsImlkIjo0NSwiZmlyc3ROYW1lIjoiYSIsImxhc3ROYW1lIjoidiIsImVtYWlsIjoiYW50b25pamExMDIzQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJE5pVjRMN2k3S25zVGxQLktyU3pYZ09xV3hycWxTTWZRaTVFOGpCTzhpSGRzWXozeC9udDYyIiwiZ2VuZGVyIjoiZmVtYWxlIiwiaXNWZXJpZmllZCI6dHJ1ZSwiY3JlYXRlZEF0IjoiMjAyMy0wMy0wN1QxODozNjo1MS44MDZaIiwidXBkYXRlZEF0IjoiMjAyMy0wMy0wOVQxMjoxMjo0Ny44NDNaIiwiaWF0IjoxNjc4ODA2ODYyLCJleHAiOjE3NjUyMDY4NjJ9.T7KGQrRVNRr7-hEDuFSinW9az72fTkoOGdI1JSQo5Ng",
+=======
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdmF0YXIiOm51bGwsImlkIjo0NSwiZmlyc3ROYW1lIjoiYSIsImxhc3ROYW1lIjoidiIsImVtYWlsIjoiYW50b25pamExMDIzQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJE5pVjRMN2k3S25zVGxQLktyU3pYZ09xV3hycWxTTWZRaTVFOGpCTzhpSGRzWXozeC9udDYyIiwiZ2VuZGVyIjoiZmVtYWxlIiwiaXNWZXJpZmllZCI6dHJ1ZSwiY3JlYXRlZEF0IjoiMjAyMy0wMy0wN1QxODozNjo1MS44MDZaIiwidXBkYXRlZEF0IjoiMjAyMy0wMy0wOVQxMjoxMjo0Ny44NDNaIiwiaWF0IjoxNjc4ODA2ODYyLCJleHAiOjE3NjUyMDY4NjJ9.T7KGQrRVNRr7-hEDuFSinW9az72fTkoOGdI1JSQo5Ng',
+>>>>>>> master
           }),
         );
       },
@@ -111,7 +155,11 @@ test("it should submit the form if it is valid and all params exist", async () =
   await userEvent.type(inputPassword, "123456");
   await userEvent.type(inputPasswordConfirmation, "123456");
   await userEvent.click(
+<<<<<<< HEAD
     screen.getByRole("button", { name: "Promijeni lozinku" }),
+=======
+    screen.getByRole('button', { name: 'Promijeni lozinku' }),
+>>>>>>> master
   );
   screen.getByText("Ulogiraj se!");
   server.close();

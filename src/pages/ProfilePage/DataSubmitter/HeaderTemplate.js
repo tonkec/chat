@@ -19,7 +19,7 @@ const HeaderTemplate = ({ options, totalSize, fileUploadRef }) => {
       {chooseButton}
       {uploadButton}
       {cancelButton}
-      <div className="flex align-items-center gap-3 ml-auto">
+      <div className='flex align-items-center gap-3 ml-auto'>
         <span>{formatedValue} / 1 MB</span>
         <ProgressBar
           value={value}

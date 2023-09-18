@@ -18,12 +18,17 @@ import { setOnlineUsers } from "../store/actions/user";
 function useSocket(dispatch, user) {
   useEffect(() => {
     const socket = socketIOClient.connect(process.env.REACT_APP_BACKEND_PORT);
+<<<<<<< HEAD
     socket.on("save-users-to-store", (users) => {
+=======
+    socket.on('save-users-to-store', users => {
+>>>>>>> master
       dispatch(setOnlineUsers(users));
     });
     dispatch(fetchChats())
-      .then((res) => {
+      .then(res => {
         dispatch(setSocket(socket));
+<<<<<<< HEAD
         socket.emit("join", user);
         socket.on("typing", (sender) => {
           console.log("Typing", sender);
@@ -58,17 +63,57 @@ function useSocket(dispatch, user) {
         });
 
         socket.on("remove-user-from-chat", (data) => {
+=======
+        socket.emit('join', user);
+        socket.on('typing', sender => {
+          console.log('Typing', sender);
+          dispatch(senderTyping(sender));
+        });
+
+        socket.on('friends', friends => {
+          console.log('Friends', friends);
+          dispatch(onlineFriends(friends));
+        });
+
+        socket.on('online', user => {
+          console.log('Online Friend', user);
+          dispatch(onlineFriend(user));
+        });
+
+        socket.on('offline', user => {
+          console.log('Offline', user);
+          dispatch(offlineFriend(user));
+        });
+
+        socket.on('received', message => {
+          dispatch(receivedMessage(message, user.id));
+        });
+
+        socket.on('new-chat', chat => {
+          dispatch(createChat(chat));
+        });
+
+        socket.on('added-user-to-group', group => {
+          dispatch(addUserToGroup(group));
+        });
+
+        socket.on('remove-user-from-chat', data => {
+>>>>>>> master
           data.currentUserId = user.id;
           dispatch(leaveCurrentChat(data));
         });
 
+<<<<<<< HEAD
         socket.on("delete-chat", (chatId) => {
+=======
+        socket.on('delete-chat', chatId => {
+>>>>>>> master
           dispatch(deleteCurrentChat(chatId));
         });
 
         // console.log(res);
       })
-      .catch((err) => err);
+      .catch(err => err);
   }, [dispatch, user]);
 }
 
