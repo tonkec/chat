@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { useEffect, useState, useContext, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "../../store/actions/user";
@@ -9,22 +8,6 @@ import ProfilePageForm from "./ProfilePageForm/";
 import MultipleUploadPhotoModal from "./MultipleUploadPhotoModal";
 import "./ProfilePage.scss";
 import ProfilePhoto from "./ProfilePhoto";
-=======
-import { useEffect, useState, useContext, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getUser } from '../../store/actions/user';
-import FlashMessageContext from '../../context/FlashMessage/flashMessageContext';
-import API from '../../services/api';
-import PhotoGallery from './PhotoGallery';
-import { Button } from 'primereact/button';
-import ProfilePageForm from './ProfilePageForm/';
-import MultipleUploadPhotoModal from './MultipleUploadPhotoModal';
-import './ProfilePage.scss';
-import ProfilePhoto from './ProfilePhoto';
-import PhotosService from '../../services/photosService';
-import FollowersCount from '../../components/FollowersCount';
-import followersService from '../../services/followersService';
->>>>>>> master
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
@@ -33,17 +16,16 @@ const ProfilePage = () => {
   const [userPhotos, setUserPhotos] = useState([]);
   const [isEditable, setIsEditable] = useState(false);
   const [isNewUploadModalVisible, setIsNewUploadModalVisible] = useState(false);
-<<<<<<< HEAD
-  const [profilePhotoUrl, setProfilePhotoUrl] = useState("");
+  const [profilePhotoUrl, setProfilePhotoUrl] = useState('');
 
   const fetchUserPhotos = useCallback(async () => {
     try {
       const response = await API.get(`/uploads/avatar/${authUser.id}`);
       const withoutProfilePhoto = response.data.images.filter(
-        (image) => image.isProfilePhoto !== true,
+        (image) => image.isProfilePhoto !== true
       );
       const profilePhoto = response.data.images.filter(
-        (image) => image.isProfilePhoto === true,
+        (image) => image.isProfilePhoto === true
       );
 
       if (profilePhoto.length > 0) {
@@ -53,20 +35,6 @@ const ProfilePage = () => {
     } catch (error) {
       console.log(error);
     }
-=======
-  const [profilePhotoUrl, setProfilePhotoUrl] = useState('');
-  const [followers, setFollowers] = useState([]);
-
-  const fetchUserPhotos = useCallback(async () => {
-    PhotosService.getPhotos(authUser.id)
-      .then(response => {
-        setUserPhotos(response.allImages);
-        setProfilePhotoUrl(response.profilePhoto[0].url);
-      })
-      .catch(e => {
-        console.log(e);
-      });
->>>>>>> master
   }, [authUser.id]);
 
   const onUploadProfilePhoto = async e => {
@@ -169,12 +137,9 @@ const ProfilePage = () => {
                   label='Dodaj novu fotku'
                   onClick={() => {
                     if (userPhotos.length >= 5) {
-<<<<<<< HEAD
-=======
                       flashMessageContext.error(
-                        'Maksimalan broj fotografija je 5',
+                        'Maksimalan broj fotografija je 5'
                       );
->>>>>>> master
                       return;
                     }
                     setIsNewUploadModalVisible(true);
