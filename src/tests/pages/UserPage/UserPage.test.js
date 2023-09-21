@@ -73,19 +73,15 @@ it('should increase the number of followers on the button click', async () => {
   });
 });
 
-// it('should decrease the number of followers on the button click', async () => {
-//   render(<App />);
+it('should decrease the number of followers on the button click', async () => {
+  render(<App />);
 
-//   await userEvent.click(screen.getByRole('button', { name: 'Follow' }));
-//   await waitFor(() => {
-//     expect(screen.getByText('Followers: 1')).toBeInTheDocument();
-//   });
+  await userEvent.click(screen.getByRole('button', { name: 'Follow' }));
+  expect(await screen.findByText('Followers: 1')).toBeInTheDocument();
 
-//   await userEvent.click(screen.getByRole('button', { name: 'Unfollow' }));
-//   await waitFor(() => {
-//     expect(screen.getByText('Followers: 0')).toBeInTheDocument();
-//   });
-// });
+  await userEvent.click(screen.getByRole('button', { name: 'Unfollow' }));
+  expect(await screen.findByText('Followers: 0')).toBeInTheDocument();
+});
 
 it("should render the user's photos", async () => {
   render(<App />);

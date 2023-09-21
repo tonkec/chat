@@ -73,7 +73,7 @@ export const handlersForUserPage = [
         }),
         ctx.status(200),
         ctx.json({
-          follower: [],
+          followers: [],
         }),
       );
     },

@@ -26,9 +26,7 @@ const FollowButton = ({ userId }) => {
       .removeFollower(currentUser.id, userId)
       .then(response => {
         setIsAlreadyFollowed(false);
-        setFollowers(
-          followers.filter(follower => follower.userId !== currentUser.id),
-        );
+        setFollowers(response.followers);
       })
       .catch(e => {
         console.log(e);
