@@ -5,8 +5,8 @@ import FlashMessageProvider from '../../../context/FlashMessage/flashMessageProv
 import appStore from '../../../store/index';
 import { MemoryRouter as Router, Route, Routes } from 'react-router-dom';
 import UserPage from '../../../pages/UserPage';
-import { rest } from 'msw';
-import { setupServer } from 'msw/node';
+import userEvent from '@testing-library/user-event';
+import { server } from '../../../tests/mocks/server';
 // https://github.com/jestjs/jest/issues/6434
 global.setImmediate =
   global.setImmediate || ((fn, ...args) => global.setTimeout(fn, 0, ...args));
@@ -35,7 +35,12 @@ beforeAll(() => {
       isVerified: true,
     },
   });
+
+  server.listen();
 });
+
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
 
 const App = () => (
   <Provider store={appStore}>
@@ -51,26 +56,51 @@ const App = () => (
 );
 
 it('should render the User page with bio placeholder', async () => {
-  const server = setupServer(
-    rest.get(
-      `${process.env.REACT_APP_BACKEND_PORT}/users/1`,
-      (req, res, ctx) => {
-        return res(
-          ctx.set({
-            Accept: 'application/json',
-            Authorization: `Bearer sometoken`,
-          }),
-          ctx.status(200),
-          ctx.json(userFromApi),
-        );
-      },
-    ),
-  );
-  server.listen();
   render(<App />);
-
   // https://stackoverflow.com/a/71955750
   await waitFor(() => {
     expect(screen.getByText('Bio:')).toBeInTheDocument();
+  });
+});
+
+it('should increase the number of followers on the button click', async () => {
+  render(<App />);
+
+  expect(screen.getByText('Followers: 0')).toBeInTheDocument();
+  await userEvent.click(screen.getByRole('button', { name: 'Follow' }));
+  await waitFor(() => {
+    expect(screen.getByText('Followers: 1')).toBeInTheDocument();
+  });
+});
+
+it('should decrease the number of followers on the button click', async () => {
+  render(<App />);
+
+  await userEvent.click(screen.getByRole('button', { name: 'Follow' }));
+  expect(await screen.findByText('Followers: 1')).toBeInTheDocument();
+
+  await userEvent.click(screen.getByRole('button', { name: 'Unfollow' }));
+  expect(await screen.findByText('Followers: 0')).toBeInTheDocument();
+});
+
+it("should render the user's photos", async () => {
+  render(<App />);
+
+  await waitFor(() => {
+    expect(screen.getByText('Fotografije')).toBeInTheDocument();
+  });
+
+  await waitFor(() => {
+    expect(
+      screen.getByRole('img', { name: 'user avatar' }),
+    ).toBeInTheDocument();
+  });
+});
+
+it('should render the user name', async () => {
+  render(<App />);
+
+  await waitFor(() => {
+    expect(screen.getByText('antonija')).toBeInTheDocument();
   });
 });

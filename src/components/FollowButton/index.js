@@ -26,9 +26,7 @@ const FollowButton = ({ userId }) => {
       .removeFollower(currentUser.id, userId)
       .then(response => {
         setIsAlreadyFollowed(false);
-        setFollowers(
-          followers.filter(follower => follower.userId !== currentUser.id),
-        );
+        setFollowers(response.followers);
       })
       .catch(e => {
         console.log(e);
@@ -36,19 +34,14 @@ const FollowButton = ({ userId }) => {
   };
 
   useEffect(() => {
-    followersService
-      .getFollowers(userId)
-      .then(response => {
-        setFollowers(response.followers);
-        const isAlreadyFollowed = response.followers.some(
-          follower => follower.userId === currentUser.id,
-        );
+    followersService.getFollowers(userId).then(response => {
+      setFollowers(response.followers);
+      const isAlreadyFollowed = response.followers.some(
+        follower => follower.userId === currentUser.id,
+      );
 
-        setIsAlreadyFollowed(isAlreadyFollowed);
-      })
-      .catch(e => {
-        console.log(e);
-      });
+      setIsAlreadyFollowed(isAlreadyFollowed);
+    });
   }, [userId, currentUser]);
 
   return (
