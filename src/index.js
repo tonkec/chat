@@ -16,7 +16,9 @@ root.render(
       <PrimeReactProvider>
         <FlashMessageProvider>
           <FlashMessage />
+
           <App />
+
         </FlashMessageProvider>
       </PrimeReactProvider>
     </Provider>

@@ -6,7 +6,7 @@ import { Dialog } from 'primereact/dialog';
 import ViewImageModal from '../ViewImageModal';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { ProgressSpinner } from 'primereact/progressspinner';
-
+import Image from './Image';
 import './PhotoGallery.scss';
 
 export default function PhotoGallery({ images, userId }) {
@@ -41,6 +41,7 @@ export default function PhotoGallery({ images, userId }) {
     <>
       <div className='grid'>
         {galleryImages.length > 0 &&
+
           galleryImages.map(image => (
             <div
               className='col-12 lg:col-6'
@@ -49,6 +50,7 @@ export default function PhotoGallery({ images, userId }) {
             >
               <div className='card'>
                 <div className='card-image'>
+
                   <LazyLoadImage
                     src={`${process.env.REACT_APP_S3_BUCKET_URL}/${image.url}`}
                     alt={image.description}
@@ -67,7 +69,11 @@ export default function PhotoGallery({ images, userId }) {
                 <div className='card-content'>
                   <p>{image.description}</p>
                 </div>
-                <div className='card-actions'>
+
+
+                {!isEditable && <Image photo={image} userId={userId} currentUserId={loggedInUser} />}
+                <div className="card-actions">
+
                   {isEditable && (
                     <Button
                       icon='pi pi-trash'

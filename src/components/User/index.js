@@ -18,7 +18,7 @@ export const User = () => {
     PhotosService.getPhotos(paramsId)
       .then(response => {
         setUserPhotos(response.allImages);
-        if (response.allImages.length > 0) {
+        if (response.profilePhoto.length > 0) {
           setAvatar(
             `${process.env.REACT_APP_S3_BUCKET_URL}/${response.profilePhoto[0].url}`,
           );
