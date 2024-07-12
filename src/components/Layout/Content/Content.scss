@@ -1,8 +1,5 @@
 @import '../../../assets/variables.scss';
 
-#root > div {
-  height: 100%;
-}
 .content {
   width: calc(100% - #{$sidebarWidth});
   margin-left: $sidebarWidth;

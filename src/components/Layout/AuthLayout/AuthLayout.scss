@@ -1,9 +1,43 @@
 @import '../../../assets/variables.scss';
 .main-auth {
   height: 100vh;
-  background-color: $authMainBackground;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+
+  &-left {
+    background-color: #0078d4;
+    padding: 20px 30px;
+  }
+
+  &-right {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #f1faff;
+  }
+
+  .logo {
+    padding-bottom: 0;
+  }
+
+  h1 {
+    margin-bottom: 0;
+    color: #f1faff;
+  }
+
+  h4 {
+    line-height: 1.6;
+    margin: 0;
+    color: #f1faff;
+  }
+
+  p {
+    margin: 0;
+    color: #f1faff;
+  }
+
+  a {
+    color: #f1faff;
+  }
 }
