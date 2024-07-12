@@ -41,16 +41,14 @@ export default function PhotoGallery({ images, userId }) {
     <>
       <div className='grid'>
         {galleryImages.length > 0 &&
-
           galleryImages.map(image => (
             <div
-              className='col-12 lg:col-6'
+              className='col-6 lg:col-3'
               key={image.url}
               style={{ padding: 0 }}
             >
               <div className='card'>
                 <div className='card-image'>
-
                   <LazyLoadImage
                     src={`${process.env.REACT_APP_S3_BUCKET_URL}/${image.url}`}
                     alt={image.description}
@@ -70,10 +68,14 @@ export default function PhotoGallery({ images, userId }) {
                   <p>{image.description}</p>
                 </div>
 
-
-                {!isEditable && <Image photo={image} userId={userId} currentUserId={loggedInUser} />}
-                <div className="card-actions">
-
+                {!isEditable && (
+                  <Image
+                    photo={image}
+                    userId={userId}
+                    currentUserId={loggedInUser}
+                  />
+                )}
+                <div className='card-actions'>
                   {isEditable && (
                     <Button
                       icon='pi pi-trash'
