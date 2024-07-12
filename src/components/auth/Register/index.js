@@ -125,16 +125,18 @@ const Register = () => {
           onChange={onNameChange}
           required
           type='text'
-          placeholder='Tvoje ime'
+          placeholder='Ime'
           data-testid='name'
+          className='p-inputtext-lg'
         />
 
         <InputText
           onChange={onLastNameChange}
           required
           type='text'
-          placeholder='Tvoje prezime'
+          placeholder='Prezime'
           data-testid='lastName'
+          className='p-inputtext-lg'
         />
 
         <InputText
@@ -142,16 +144,18 @@ const Register = () => {
           onKeyDown={onEmailChange}
           required
           type='email'
-          placeholder='Tvoj mail'
+          placeholder='Email'
           data-testid='email'
+          className='p-inputtext-lg'
         />
 
         <InputText
           onChange={onPasswordChange}
           required
           type='password'
-          placeholder='Tvoja lozinka'
+          placeholder='Lozinka'
           data-testid='password'
+          className='p-inputtext-lg'
         />
 
         <Button

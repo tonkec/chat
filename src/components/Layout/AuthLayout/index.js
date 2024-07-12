@@ -5,8 +5,8 @@ const AuthLayout = ({ children }) => {
   return (
     <main className='main-auth'>
       <div className='main-auth-left'>
-        <div className='flex flex-column justify-content-between h-full'>
-          <div className='flex align-items-center'>
+        <div className='flex flex-column justify-content-end h-full'>
+          <div className='flex align-items-center my-4'>
             <h1>Duga</h1>
             <Logo />
           </div>
@@ -23,7 +23,7 @@ const AuthLayout = ({ children }) => {
               >
                 tonkec
               </a>
-              . Contributaj ovdje.
+              . Tražim contributore!
             </p>
           </div>
         </div>
