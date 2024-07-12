@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import './UserCard.scss';
 import PhotosService from '../../services/photosService';
+import UserAvatar from '../UserAvatar/UserAvatar';
 const UserCard = ({ user }) => {
-  const [avatar, setAvatar] = useState('http://placekitten.com/200/200');
+  const [avatar, setAvatar] = useState('');
   const firstName = user.firstName ?? 'default nickname';
   useEffect(() => {
     PhotosService.getPhotos(user.id)
@@ -19,7 +20,7 @@ const UserCard = ({ user }) => {
   });
   return (
     <div className='user-card' data-testid='user'>
-      <img src={avatar} alt='user avatar' />
+      <UserAvatar avatar={avatar} />
       <p>{firstName}</p>
     </div>
   );

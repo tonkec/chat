@@ -1,20 +1,12 @@
 import { FileUpload } from 'primereact/fileupload';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import UserAvatar from '../../../components/UserAvatar/UserAvatar';
 
 const ProfilePhoto = ({ profilePhotoUrl, onUpload }) => {
   return profilePhotoUrl.trim() === '' ? (
     <div className='col-12 md:col-4'>
-      <LazyLoadImage
-        src={`http://placekitten.com/g/200/300`}
-        alt='profile photo'
-        style={{ width: '100%' }}
-        placeholder={
-          <div>
-            <ProgressSpinner />
-          </div>
-        }
-      />
+      <UserAvatar avatar={profilePhotoUrl} />
       <FileUpload
         mode='basic'
         accept='image/*'

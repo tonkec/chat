@@ -1,0 +1,23 @@
+@import '../../assets/colors.scss';
+
+.profile-photo {
+  background-color: #fff;
+  height: 200px;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  span {
+    font-size: 2rem;
+  }
+}
+
+.user-name {
+  .profile-photo {
+    width: 100px;
+    height: 100px;
+    background-color: #f5f5f5;
+    border-radius: 100%;
+  }
+}

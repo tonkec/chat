@@ -1,9 +1,4 @@
-.user-wrapper {
-  display: flex;
-}
-
 .user {
-  max-width: 800px;
   margin-right: 60px;
   img {
     border-radius: 100%;
@@ -18,14 +13,12 @@
   }
   &-name {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     background-color: #fff;
-    margin-bottom: 30px;
     padding: 20px;
+    max-width: fit-content;
 
     h4 {
-      margin-top: 10px;
-      margin-bottom: 0;
       margin-left: 10px;
     }
 

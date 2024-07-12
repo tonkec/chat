@@ -6,10 +6,11 @@ import './User.scss';
 import PhotosService from '../../services/photosService';
 import PhotoGallery from '../../pages/ProfilePage/PhotoGallery';
 import FollowButton from '../FollowButton';
+import UserAvatar from '../UserAvatar/UserAvatar';
 
 export const User = () => {
   const [userPhotos, setUserPhotos] = useState([]);
-  const [avatar, setAvatar] = useState('http://placekitten.com/200/200');
+  const [avatar, setAvatar] = useState('');
   const dispatch = useDispatch();
   const userFromDb = useSelector(state => state.userReducer.user);
   const { id: paramsId } = useParams();
@@ -33,29 +34,41 @@ export const User = () => {
     dispatch(getUser(paramsId));
   }, [dispatch, paramsId]);
 
+  if (!userFromDb) {
+    return <div>Loading...</div>;
+  }
+
+  const { sexuality, gender, bio, location, age, firstName } = userFromDb;
+
+  const shouldShowUserIdentityBox = sexuality || gender;
+  const shouldShowLocationOrAge = location || age;
+
   return (
     userFromDb && (
       <div className='user-wrapper'>
         <div className='user'>
           <FollowButton userId={paramsId} />
           <div className='user-name'>
-            <img src={avatar} alt='user avatar' />
+            <UserAvatar avatar={avatar} />
             <div>
-              <h4>{userFromDb.firstName}</h4>
-              <p>
-                {userFromDb.location}, {userFromDb.age}
-              </p>
+              <h4>{firstName}</h4>
+              {shouldShowLocationOrAge && (
+                <p>
+                  {location && <span>{location}</span>}
+                  {age && <span>{age}</span>}
+                </p>
+              )}
             </div>
           </div>
-          <div className='user-identity'>
-            <div>
-              Sexuality:<span>{userFromDb.sexuality}</span>, Gender:{' '}
-              <span>{userFromDb.gender}</span>
+          {shouldShowUserIdentityBox && (
+            <div className='user-identity'>
+              <div>
+                {sexuality && <p>Sexuality: {sexuality}</p>}
+                {gender && <p>Gender: {gender}</p>}
+              </div>
             </div>
-          </div>
-          <p className='user-bio'>
-            <b>Bio:</b> <br /> {userFromDb.bio}
-          </p>
+          )}
+          {bio && <p>{bio}</p>}
         </div>
 
         {userPhotos.length > 0 && (
